@@ -16,15 +16,19 @@
     </b-row>
 
     <b-row>
-      <b-col cols="2">
-        <AmiServers/>
-      </b-col>
+      <transition>
+        <b-col cols="2" v-show="toggleAmiSrv">
+          <AmiServers/>
+        </b-col>
+      </transition>
       <b-col>
         <QueuesList/>
       </b-col>
-      <b-col cols="3">
-        <QueueData/>
-      </b-col>
+      <transition>
+        <b-col cols="3" v-show="toggleQData">
+          <QueueData/>
+        </b-col>
+      </transition>
     </b-row>
 
   </b-container>
@@ -38,6 +42,14 @@ import QueueData from './components/QueueData'
 
 export default {
   name: 'app',
+
+  data () {
+    return {
+      toggleQData: true,
+      toggleAmiSrv: true
+    }
+  },
+
   components: {
     TopStats,
     AmiServers,

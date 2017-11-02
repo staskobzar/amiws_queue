@@ -7,14 +7,21 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/dist/css/bootstrap.css'
 
 import App from './App'
+import WebSock from './websock'
+import store from './store'
 
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
+Vue.use(WebSock, store)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   template: '<App/>',
-  components: { App }
+  store,
+  components: { App },
+  mounted () {
+    console.log('===> Created App')
+  }
 })
