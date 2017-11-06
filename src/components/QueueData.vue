@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="queue-data">
     <div class="members">
       <h3>Queue agents</h3>
       <b-card no-body v-for="i in 3" :key="i">
@@ -23,15 +23,6 @@ export default {
   data () {
     return {
       msg: 'Members and Callers'
-    }
-  },
-  mounted () {
-    console.log(`---> created QueueData`)
-    this.$store.commit('FOO')
-    this.$wsSend()
-  },
-  methods: {
-    foobar () {
     }
   }
 }

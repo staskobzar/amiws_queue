@@ -1,32 +1,54 @@
 <template>
   <b-card-group deck>
-    <b-card>
-      Active calls
+    <b-card class="stats-card active-calls">
+      Active calls: <span class="calls-num">{{ totalActiveCalls }}</span>
     </b-card>
 
-    <b-card>
-      Answered / Abondoned Calls
+    <b-card class="stats-card calls-processed">
+      <div>
+        Comleted calls: <span class="calls-completed">{{ totalCompletedCalls }}</span>
+      </div>
+      <div>
+        Abandoned calls: <span class="calls-abandoned">{{ totalAbandonedCalls }}</span>
+      </div>
     </b-card>
 
-    <b-card>
-      Service Level %
+    <b-card class="stats-card service-level">
+      Service Level <span class="level">{{ totalServiceLevel }}</span>%
     </b-card>
 
-    <b-card>
-      Total paused/unpaused agents
+    <b-card class="stats-card members">
+      <div>Total: <span class="total">{{ totalMembers }}</span></div>
+      <div>Paused: <span class="paused">{{ totalPausedMembers }}</span></div>
+      <div>Unpaused: <span class="unpaused">{{ totalUnpausedMembers }}</span></div>
     </b-card>
 
   </b-card-group>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'TopStats',
   data () {
     return {
       title: 'Statistics Boxes'
     }
+  },
+  computed: {
+    ...mapGetters({
+      totalActiveCalls: 'getTotalActiveCalls',
+      totalCompletedCalls: 'getTotalCompletedCalls',
+      totalAbandonedCalls: 'getTotalAbandonedCalls',
+      totalServiceLevel: 'getTotalServiceLevel',
+      totalPausedMembers: 'getTotalPausedMembers',
+      totalUnpausedMembers: 'getTotalUnpausedMembers'
+    }),
+    totalMembers: function () {
+      return this.totalPausedMembers + this.totalUnpausedMembers
+    }
   }
+
 }
 </script>
 

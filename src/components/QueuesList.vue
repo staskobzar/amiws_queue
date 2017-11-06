@@ -1,19 +1,24 @@
 <template>
   <b-card-group columns>
-    <b-card v-for="i in 50" :key="i" header="Queue">
-      {{ 'Queue #' + i }}
+    <b-card v-for="(queue, index) in queues"
+      :key="index"
+      :header="queue.name"
+      class="queue-card">
+      {{ 'Queue #' + index }}
     </b-card>
   </b-card-group>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'QueuesList',
   data () {
     return {
       title: 'Queues Grid'
     }
-  }
+  },
+  computed: mapGetters({ queues: 'getQueues' })
 }
 </script>
 

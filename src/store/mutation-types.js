@@ -1,0 +1,6 @@
+export const NEW_AMI_SERVER = 'NEW_AMI_SERVER'
+export const CLEAR_AMISRV_LIST = 'CLEAR_AMISRV_LIST'
+
+export const ADD_QUEUE = 'ADD_QUEUE'
+export const ADD_QUEUE_MEMBER = 'ADD_QUEUE_MEMBER'
+export const CLEAR_QUEUES_LIST = 'CLEAR_QUEUES_LIST'

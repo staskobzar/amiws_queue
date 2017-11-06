@@ -15,8 +15,7 @@ WS.install = function (Vue, store) {
   }
 
   this.sock.onmessage = (ev) => {
-    // print.log(ev.data)
-    this.store.commit('FOO', ev.data)
+    this.store.dispatch('newMessage', ev.data)
   }
 
 // public method
