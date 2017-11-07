@@ -2,29 +2,33 @@
   <div class="queue-data">
     <div class="members">
       <h3>Queue agents</h3>
-      <b-card no-body v-for="i in 3" :key="i">
-        Agent {{i}}
+      <b-card no-body v-for="(member, i) in members" :key="i" class="member-card">
+        {{ member.name }}
       </b-card>
     </div>
 
     <div class="callers">
       <h3>Queue callers</h3>
-      <b-card no-body v-for="i in 8" :key="i">
-        Caller {{i}}
+      <b-card no-body v-for="(caller, i) in callers" :key="i" class="caller-card">
+        {{ caller.clidName }} {{ caller.clidNum }}
       </b-card>
     </div>
   </div>
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'QueueData',
   data () {
     return {
       msg: 'Members and Callers'
     }
-  }
+  },
+  computed: mapGetters({
+    members: 'getSelectedMembers',
+    callers: 'getSelectedCallers'
+  })
 }
 </script>
 

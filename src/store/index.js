@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 const state = {
   servers: [],
-  queues: []
+  queues: [],
+  selectedQueue: ''
 }
 
 const mutations = {
@@ -67,6 +68,7 @@ const mutations = {
         queue.SLPerf = +data.ServicelevelPerf
         queue.weight = +data.Weight
         queue.members = []
+        queue.callers = []
         state.queues.push(queue)
       }
     }
@@ -105,6 +107,29 @@ const mutations = {
       member.pausedReason = data.PausedReason
       queue.members.push(member)
     }
+  },
+
+  [mtype.ADD_QUEUE_CALLER] (state, { msg }) {
+    const data = msg.data
+    const queue = state.queues.find(q => q.name === data.Queue)
+    if (!queue) {
+      return false // no queue found
+    }
+    const caller = {
+      position: +data.Position,
+      chan: data.Channel,
+      uid: data.Uniqueid,
+      clidNum: data.CallerIDNum,
+      clidName: data.CallerIDName,
+      lineNum: data.ConnectedLineNum,
+      lineName: data.ConnectedLineName,
+      wait: +data.Wait
+    }
+    queue.callers.push(caller)
+  },
+
+  [mtype.SET_SELECTED_QUEUE] (state, { queueName }) {
+    state.selectedQueue = queueName
   }
 }
 
@@ -124,8 +149,13 @@ const actions = {
         commit(mtype.ADD_QUEUE, { msg })
       } else if (msg.data.Event === 'QueueMember') {
         commit(mtype.ADD_QUEUE_MEMBER, { msg })
+      } else if (msg.data.Event === 'QueueEntry') {
+        commit(mtype.ADD_QUEUE_CALLER, { msg })
       }
     }
+  },
+  selectedQueue ({ commit }, queueName) {
+    commit(mtype.SET_SELECTED_QUEUE, { queueName })
   }
 }
 
@@ -146,6 +176,18 @@ const getters = {
   getTotalUnpausedMembers: state => {
     return state.queues.map(e => e.members.filter(m => !m.paused).length)
       .reduce((t, m) => t + m, 0)
+  },
+  getSelectedMembers: state => {
+    const queue = state.queues.find(q => q.name === state.selectedQueue)
+    if (queue) {
+      return queue.members
+    }
+  },
+  getSelectedCallers: state => {
+    const queue = state.queues.find(q => q.name === state.selectedQueue)
+    if (queue) {
+      return queue.callers
+    }
   }
 }
 

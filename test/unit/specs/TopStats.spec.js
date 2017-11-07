@@ -48,6 +48,18 @@ describe('TopStats', () => {
       .to.equal('3.43')
   })
 
+  it('show paused/unpaused agents for one queue', () => {
+    Fixtures.oneQueueWithThreeMembers.forEach(msg => store.dispatch('newMessage', msg))
+    const comp = mount(TopStats, { store, localVue })
+    expect(comp.contains('.members')).to.equal(true)
+    expect(comp.findAll('.members .total').at(0).text().trim())
+      .to.equal('3')
+    expect(comp.findAll('.members .paused').at(0).text().trim())
+      .to.equal('1')
+    expect(comp.findAll('.members .unpaused').at(0).text().trim())
+      .to.equal('2')
+  })
+
   it('show paused/unpaused agents for one queue and update member status', () => {
     Fixtures.oneQueueWithThreeMembersUpdate.forEach(msg => store.dispatch('newMessage', msg))
     const comp = mount(TopStats, { store, localVue })
