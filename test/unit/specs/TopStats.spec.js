@@ -79,4 +79,62 @@ describe('TopStats', () => {
     expect(comp.findAll('.members .unpaused').at(0).text().trim())
       .to.equal('1')
   })
+
+  it('updates "Waiting" when caller joins the queue and then leaves', done => {
+    Fixtures.newCallersJoins.forEach(msg => store.dispatch('newMessage', msg))
+    const comp = mount(TopStats, { store, localVue })
+    expect(comp.findAll('.active-calls .calls-wait').at(0).text().trim())
+      .to.equal('2')
+    store.dispatch('newMessage', Fixtures.callerLeaves)
+    localVue.nextTick(() => {
+      expect(comp.findAll('.active-calls .calls-wait').at(0).text().trim())
+        .to.equal('1')
+      done()
+    })
+  })
+
+  it('updates queue callers array when caller hangup', done => {
+    Fixtures.oneQueue.forEach(msg => store.dispatch('newMessage', msg))
+    const comp = mount(TopStats, { store, localVue })
+    expect(comp.contains('.active-calls')).to.equal(true)
+    expect(comp.findAll('.active-calls .calls-num').at(0).text().trim())
+      .to.equal('4')
+    store.dispatch('newMessage', Fixtures.callerHangup)
+    localVue.nextTick(() => {
+      expect(comp.findAll('.active-calls .calls-num').at(0).text().trim())
+        .to.equal('3')
+      done()
+    })
+  })
+
+  it('updates queue completed calls when caller hangup', done => {
+    Fixtures.oneQueue.forEach(msg => store.dispatch('newMessage', msg))
+    const comp = mount(TopStats, { store, localVue })
+    expect(comp.findAll('.calls-processed .calls-completed').at(0).text().trim())
+      .to.equal('231')
+    store.dispatch('newMessage', Fixtures.callerHangup)
+    localVue.nextTick(() => {
+      expect(comp.findAll('.calls-processed .calls-completed').at(0).text().trim())
+        .to.equal('232')
+      done()
+    })
+  })
+
+  it('updates queue abandoned calls', done => {
+    Fixtures.oneQueue.forEach(msg => store.dispatch('newMessage', msg))
+    const comp = mount(TopStats, { store, localVue })
+    expect(comp.findAll('.calls-processed .calls-abandoned').at(0).text().trim())
+      .to.equal('120')
+    expect(comp.findAll('.calls-processed .calls-completed').at(0).text().trim())
+      .to.equal('231')
+    store.dispatch('newMessage', Fixtures.callerAbandoned)
+    store.dispatch('newMessage', Fixtures.callerHangup)
+    localVue.nextTick(() => {
+      expect(comp.findAll('.calls-processed .calls-abandoned').at(0).text().trim())
+        .to.equal('121')
+      expect(comp.findAll('.calls-processed .calls-completed').at(0).text().trim())
+        .to.equal('231')
+      done()
+    })
+  })
 })

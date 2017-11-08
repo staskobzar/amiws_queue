@@ -117,7 +117,7 @@ const mutations = {
 
   [mtype.ADD_QUEUE_CALLER] (state, { msg }) {
     const data = msg.data
-    const queue = state.queues.find(q => q.name === data.Queue)
+    const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
     if (!queue) {
       return false // no queue found
     }
@@ -133,6 +133,44 @@ const mutations = {
       wait: +data.Wait
     }
     queue.callers.push(caller)
+  },
+
+  [mtype.UPDATE_QUEUE_CALLER] (state, { msg }) {
+    const data = msg.data
+    const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
+    let i = -1
+    if (!queue) {
+      return false // no queue found
+    }
+    if (data.Event === 'Leave') {
+      if ((i = queue.callers.findIndex(c => c.chan === data.Channel && c.uid === data.Uniqueid)) !== -1) {
+        queue.callers[i].status = cstate.ANSWERED
+      }
+    }
+  },
+
+  [mtype.HANGUP_QUEUE_CALLER] (state, { msg }) {
+    const data = msg.data
+    const queue = state.queues.find(q => q.sid === msg.server_id &&
+      q.callers.find(c => c.chan === data.Channel && c.uid === data.Uniqueid))
+    if (!queue) {
+      return false // no queue found
+    }
+    const idx = queue.callers.findIndex(c => c.chan === data.Channel && c.uid === data.Uniqueid)
+    if (idx !== -1) {
+      queue.callers.splice(idx, 1)
+      queue.completed++
+    }
+  },
+
+  [mtype.ABANDON_QUEUE_CALLER] (state, { msg }) {
+    const data = msg.data
+    const queue = state.queues.find(q => q.name === data.Queue)
+    if (!queue) {
+      return false // no queue found
+    }
+    queue.completed--
+    queue.abandoned++
   },
 
   [mtype.SET_SELECTED_QUEUE] (state, { queueName }) {
@@ -162,6 +200,14 @@ const actions = {
         commit(mtype.ADD_QUEUE_CALLER, { msg })
       } else if (msg.data.Event === 'QueueCallerJoin') {
         commit(mtype.ADD_QUEUE_CALLER, { msg })
+      } else if (msg.data.Event === 'Leave') {
+        commit(mtype.UPDATE_QUEUE_CALLER, { msg })
+      } else if (msg.data.Event === 'Hangup') {
+        commit(mtype.HANGUP_QUEUE_CALLER, { msg })
+      } else if (msg.data.Event === 'SoftHangupRequest') {
+        commit(mtype.HANGUP_QUEUE_CALLER, { msg })
+      } else if (msg.data.Event === 'QueueCallerAbandon') {
+        commit(mtype.ABANDON_QUEUE_CALLER, { msg })
       }
     }
   },

@@ -1,5 +1,6 @@
 const Fixture = {}
 
+// ========================================
 Fixture.oneQueue = [
   `{ "type": 4, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Response": "Success","CoreStartupDate": "2017-11-01","CoreStartupTime": "18:43:57","CoreReloadDate": "2017-11-01","CoreReloadTime": "18:43:57","CoreCurrentCalls": "0"}}`,
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueParams","Queue": "TechSupport","Max": "0","Strategy": "ringall","Calls": "5","Holdtime": "0","TalkTime": "0","Completed": "231","Abandoned": "120","ServiceLevel": "3.43","ServicelevelPerf": "0.0","Weight": "0"}}`,
@@ -9,12 +10,20 @@ Fixture.oneQueue = [
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueEntry","Queue": "TechSupport","Position": "4","Channel": "SIP/router01-0013acae","Uniqueid": "1509490200.3344434","CallerIDNum": "14383964496","CallerIDName": "14383964496","ConnectedLineNum": "unknown","ConnectedLineName": "unknown","Wait": "90"}}`
 ]
 
+Fixture.callerHangup = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "Hangup","Privilege": "call,all","Channel": "SIP/router01-0013acae","Uniqueid": "1509490200.3344434","CallerIDNum": "1000","CallerIDName": "Eric Gingras","ConnectedLineNum": "<unknown>","ConnectedLineName": "<unknown>","AccountCode": "","Cause": "0","Cause-txt": "Unknown"}}`
+Fixture.callerAbandoned = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueCallerAbandon","Privilege": "agent,all","Queue": "TechSupport","Uniqueid": "1509490200.3344434","Position": "1","OriginalPosition": "1","HoldTime": "54"}}`
+// ========================================
+
+// ========================================
 Fixture.newCallersJoins = [
   `{ "type": 4, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Response": "Success","CoreStartupDate": "2017-11-01","CoreStartupTime": "18:43:57","CoreReloadDate": "2017-11-01","CoreReloadTime": "18:43:57","CoreCurrentCalls": "0"}}`,
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueParams","Queue": "TechSupport","Max": "0","Strategy": "ringall","Calls": "5","Holdtime": "0","TalkTime": "0","Completed": "231","Abandoned": "120","ServiceLevel": "3.43","ServicelevelPerf": "0.0","Weight": "0"}}`,
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "Join","Privilege": "call,all","Channel": "SIP/router01-00000039","CallerIDNum": "1000","CallerIDName": "Eric Gin","ConnectedLineNum": "unknown","ConnectedLineName": "unknown","Queue": "TechSupport","Position": "1","Count": "1","Uniqueid": "1510084369.69"}}`,
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "Join","Privilege": "call,all","Channel": "SIP/router01-0000003a","CallerIDNum": "1000","CallerIDName": "John Bar","ConnectedLineNum": "unknown","ConnectedLineName": "unknown","Queue": "TechSupport","Position": "2","Count": "2","Uniqueid": "1510084379.43"}}`
 ]
+
+Fixture.callerLeaves = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "Leave","Privilege": "call,all","Channel": "SIP/router01-0000003a","Queue": "TechSupport","Count": "1","Position": "2","Uniqueid": "1510084379.43"}}`
+// ========================================
 
 Fixture.oneQueueWithThreeMembers = [
   `{ "type": 4, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Response": "Success","CoreStartupDate": "2017-11-01","CoreStartupTime": "18:43:57","CoreReloadDate": "2017-11-01","CoreReloadTime": "18:43:57","CoreCurrentCalls": "0"}}`,
