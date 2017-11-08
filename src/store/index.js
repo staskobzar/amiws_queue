@@ -5,6 +5,14 @@ import * as mtype from './mutation-types'
 
 Vue.use(Vuex)
 
+// caller state
+const cstate = {
+  UNKNOWN: 0,
+  JOINED: 1,
+  ANSWERED: 2,
+  ABANDONED: 3
+}
+
 const state = {
   servers: [],
   queues: [],
@@ -45,7 +53,6 @@ const mutations = {
     let queue = state.queues.find(q => q.name === data.Queue)
     if (srv) {
       if (queue) {
-        queue.calls = +data.Calls
         queue.holdtime = +data.Holdtime
         queue.talktime = +data.TalkTime
         queue.completed = +data.Completed
@@ -59,7 +66,6 @@ const mutations = {
         queue.name = data.Queue
         queue.max = +data.Max
         queue.strategy = data.Strategy
-        queue.calls = +data.Calls
         queue.holdtime = +data.Holdtime
         queue.talktime = +data.TalkTime
         queue.completed = +data.Completed
@@ -117,6 +123,7 @@ const mutations = {
     }
     const caller = {
       position: +data.Position,
+      status: data.Event === 'Join' ? cstate.JOINED : cstate.ANSWERED,
       chan: data.Channel,
       uid: data.Uniqueid,
       clidNum: data.CallerIDNum,
@@ -151,6 +158,10 @@ const actions = {
         commit(mtype.ADD_QUEUE_MEMBER, { msg })
       } else if (msg.data.Event === 'QueueEntry') {
         commit(mtype.ADD_QUEUE_CALLER, { msg })
+      } else if (msg.data.Event === 'Join') {
+        commit(mtype.ADD_QUEUE_CALLER, { msg })
+      } else if (msg.data.Event === 'QueueCallerJoin') {
+        commit(mtype.ADD_QUEUE_CALLER, { msg })
       }
     }
   },
@@ -165,7 +176,14 @@ const getters = {
   getQueuesPerServer: (state, getters) => (sid) => {
     return state.queues.filter(q => q.sid === sid).length
   },
-  getTotalActiveCalls: state => state.queues.reduce((t, q) => t + q.calls, 0),
+  getTotalActiveCalls: state => {
+    return state.queues.map(e => e.callers.filter(m => m.status === cstate.ANSWERED).length)
+      .reduce((t, m) => t + m, 0)
+  },
+  getTotalWaitingCalls: state => {
+    return state.queues.map(e => e.callers.filter(m => m.status === cstate.JOINED).length)
+      .reduce((t, m) => t + m, 0)
+  },
   getTotalCompletedCalls: state => state.queues.reduce((t, q) => t + q.completed, 0),
   getTotalAbandonedCalls: state => state.queues.reduce((t, q) => t + q.abandoned, 0),
   getTotalServiceLevel: state => state.queues.reduce((t, q) => t + q.SL, 0.0),

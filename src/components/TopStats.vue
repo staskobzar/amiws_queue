@@ -1,7 +1,12 @@
 <template>
   <b-card-group deck>
     <b-card class="stats-card active-calls">
-      Active calls: <span class="calls-num">{{ totalActiveCalls }}</span>
+      <div>
+        On call: <span class="calls-num">{{ totalActiveCalls }}</span>
+      </div>
+      <div>
+        Waiting: <span class="calls-wait">{{ totalWaitingCalls }}</span>
+      </div>
     </b-card>
 
     <b-card class="stats-card calls-processed">
@@ -38,6 +43,7 @@ export default {
   computed: {
     ...mapGetters({
       totalActiveCalls: 'getTotalActiveCalls',
+      totalWaitingCalls: 'getTotalWaitingCalls',
       totalCompletedCalls: 'getTotalCompletedCalls',
       totalAbandonedCalls: 'getTotalAbandonedCalls',
       totalServiceLevel: 'getTotalServiceLevel',

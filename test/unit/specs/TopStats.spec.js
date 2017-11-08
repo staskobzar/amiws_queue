@@ -27,7 +27,15 @@ describe('TopStats', () => {
     const comp = mount(TopStats, { store, localVue })
     expect(comp.contains('.active-calls')).to.equal(true)
     expect(comp.findAll('.active-calls .calls-num').at(0).text().trim())
-      .to.equal('5')
+      .to.equal('4')
+  })
+
+  it('show waiting calls from one queue', () => {
+    Fixtures.newCallersJoins.forEach(msg => store.dispatch('newMessage', msg))
+    const comp = mount(TopStats, { store, localVue })
+    expect(comp.contains('.active-calls')).to.equal(true)
+    expect(comp.findAll('.active-calls .calls-wait').at(0).text().trim())
+      .to.equal('2')
   })
 
   it('show Abandoned/Answered calls from one queue', () => {
