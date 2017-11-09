@@ -11,7 +11,7 @@
 
     <b-card class="stats-card calls-processed">
       <div>
-        Comleted calls: <span class="calls-completed">{{ totalCompletedCalls }}</span>
+        Completed calls: <span class="calls-completed">{{ totalCompletedCalls }}</span>
       </div>
       <div>
         Abandoned calls: <span class="calls-abandoned">{{ totalAbandonedCalls }}</span>

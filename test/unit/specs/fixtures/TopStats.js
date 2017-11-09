@@ -25,6 +25,7 @@ Fixture.newCallersJoins = [
 Fixture.callerLeaves = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "Leave","Privilege": "call,all","Channel": "SIP/router01-0000003a","Queue": "TechSupport","Count": "1","Position": "2","Uniqueid": "1510084379.43"}}`
 // ========================================
 
+// ========================================
 Fixture.oneQueueWithThreeMembers = [
   `{ "type": 4, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Response": "Success","CoreStartupDate": "2017-11-01","CoreStartupTime": "18:43:57","CoreReloadDate": "2017-11-01","CoreReloadTime": "18:43:57","CoreCurrentCalls": "0"}}`,
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueParams","Queue": "TechSupport","Max": "0","Strategy": "ringall","Calls": "5","Holdtime": "0","TalkTime": "0","Completed": "231","Abandoned": "120","ServiceLevel": "3.43","ServicelevelPerf": "0.0","Weight": "0"}}`,
@@ -32,6 +33,10 @@ Fixture.oneQueueWithThreeMembers = [
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueMember","Queue": "TechSupport","Name": "1005@sc360.modulis.clusterpbx.ca","Location": "Local/1005@from-queue/n","StateInterface": "Local/1005@from-queue/n","Membership": "static","Penalty": "0","CallsTaken": "0","LastCall": "0","InCall": "0","Status": "4","Paused": "0","PausedReason": ""}}`,
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueMember","Queue": "TechSupport","Name": "1006@sc360.modulis.clusterpbx.ca","Location": "Local/1006@from-queue/n","StateInterface": "Local/1006@from-queue/n","Membership": "static","Penalty": "0","CallsTaken": "0","LastCall": "0","InCall": "0","Status": "4","Paused": "0","PausedReason": ""}}`
 ]
+
+Fixture.addMember = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueMemberAdded","Privilege": "agent,all","MemberName": "5555@sc360.modulis.clusterpbx.ca","Interface": "Local/1800@from-queue/n","Membership": "dynamic","Queue": "TechSupport","StateInterface": "Local/1800@from-queue/n","Penalty": "0","CallsTaken": "0","InCall": "0","LastCall": "0","Status": "4","Ringinuse": "1","Paused": "0","PausedReason": ""}}`
+Fixture.removeMember = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueMemberRemoved","Privilege": "agent,all","MemberName": "1006@sc360.modulis.clusterpbx.ca","Interface": "Local/1006@from-queue/n","Membership": "dynamic","Queue": "TechSupport","StateInterface": "Local/1006@from-queue/n","Penalty": "0","CallsTaken": "0","InCall": "0","LastCall": "0","Status": "4","Ringinuse": "1","Paused": "0","PausedReason": ""}}`
+// ========================================
 
 Fixture.oneQueueWithThreeMembersUpdate = [
   `{ "type": 4, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Response": "Success","CoreStartupDate": "2017-11-01","CoreStartupTime": "18:43:57","CoreReloadDate": "2017-11-01","CoreReloadTime": "18:43:57","CoreCurrentCalls": "0"}}`,

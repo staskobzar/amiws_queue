@@ -10,6 +10,12 @@ WS.install = function (Vue, store) {
   this.store = store
 
   this.sock.onopen = () => {
+    /*
+     * We need Action: Queue here because it helps to load realtime
+     * queues. Otherwise, Asterisk will not get realtime queues after
+     * restart with Action: QueueStatus only.
+     */
+    this.sock.send(JSON.stringify({ Action: 'Queues' }))
     this.sock.send(JSON.stringify({ Action: 'CoreStatus' }))
     this.sock.send(JSON.stringify({ Action: 'QueueStatus' }))
   }

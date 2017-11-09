@@ -82,7 +82,7 @@ const mutations = {
 
   [mtype.ADD_QUEUE_MEMBER] (state, { msg }) {
     const data = msg.data
-    const queue = state.queues.find(q => q.name === data.Queue)
+    const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
     if (!queue) {
       return false // no queue found
     }
@@ -100,7 +100,7 @@ const mutations = {
       member.pausedReason = data.PausedReason
     } else {
       member = {}
-      member.name = data.Name
+      member.name = data.Name || data.MemberName
       member.location = data.Location
       member.interface = data.StateInterface
       member.membership = data.Membership
@@ -112,6 +112,18 @@ const mutations = {
       member.paused = (+data.Paused) === 1
       member.pausedReason = data.PausedReason
       queue.members.push(member)
+    }
+  },
+
+  [mtype.REMOVE_QUEUE_MEMBER] (state, { msg }) {
+    const data = msg.data
+    const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
+    if (!queue) {
+      return false // no queue found
+    }
+    const idx = queue.members.findIndex(m => m.name === data.MemberName && m.interface === data.StateInterface)
+    if (idx !== -1) {
+      queue.members.splice(idx, 1)
     }
   },
 
@@ -192,8 +204,14 @@ const actions = {
       // event
       if (msg.data.Event === 'QueueParams') {
         commit(mtype.ADD_QUEUE, { msg })
+      // members
       } else if (msg.data.Event === 'QueueMember') {
         commit(mtype.ADD_QUEUE_MEMBER, { msg })
+      } else if (msg.data.Event === 'QueueMemberAdded') {
+        commit(mtype.ADD_QUEUE_MEMBER, { msg })
+      } else if (msg.data.Event === 'QueueMemberRemoved') {
+        commit(mtype.REMOVE_QUEUE_MEMBER, { msg })
+      // callers
       } else if (msg.data.Event === 'QueueEntry') {
         commit(mtype.ADD_QUEUE_CALLER, { msg })
       } else if (msg.data.Event === 'Join') {

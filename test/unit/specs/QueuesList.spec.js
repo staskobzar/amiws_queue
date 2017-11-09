@@ -37,10 +37,19 @@ describe('QueuesList', () => {
     expect(comp.findAll('.queue-card').length).to.equal(2)
   })
 
-  it('create server with two queues and update one queue', () => {
-    Fixtures.twoQueuesAndUpdateQueue.forEach(msg => store.dispatch('newMessage', msg))
+  it('create queue with two members and three callers', () => {
+    Fixtures.oneQueueWithTwoMembersThreeCallers.forEach(msg => store.dispatch('newMessage', msg))
     const comp = mount(QueuesList, { store, localVue })
     expect(comp.contains('.queue-card')).to.equal(true)
-    expect(comp.findAll('.queue-card').length).to.equal(2)
+    expect(comp.find('.queue-card .members').text().trim()).to.equal('2')
+    expect(comp.find('.queue-card .callers').text().trim()).to.equal('3')
+  })
+
+  it('create queue with one paused and one unpaused members ', () => {
+    Fixtures.oneQueueWithTwoMembersThreeCallers.forEach(msg => store.dispatch('newMessage', msg))
+    const comp = mount(QueuesList, { store, localVue })
+    expect(comp.contains('.queue-card')).to.equal(true)
+    expect(comp.find('.queue-card .members-paused').text().trim()).to.equal('1')
+    expect(comp.find('.queue-card .members-unpaused').text().trim()).to.equal('1')
   })
 })
