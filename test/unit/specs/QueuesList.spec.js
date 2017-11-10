@@ -61,4 +61,18 @@ describe('QueuesList', () => {
     expect(comp.find('.queue-card .callers-waiting').text().trim()).to.equal('1')
     expect(comp.find('.queue-card .callers-oncall').text().trim()).to.equal('3')
   })
+
+  it('update queue stats on summary message packet', done => {
+    Fixtures.oneEmptyQueue.forEach(msg => store.dispatch('newMessage', msg))
+    const comp = mount(QueuesList, { store, localVue })
+    expect(comp.contains('.queue-card')).to.equal(true)
+    expect(comp.find('.queue-card .holdtime').text().trim()).to.equal('10')
+    expect(comp.find('.queue-card .talktime').text().trim()).to.equal('100')
+    store.dispatch('newMessage', Fixtures.queueSummaryResp)
+    localVue.nextTick(() => {
+      expect(comp.find('.queue-card .holdtime').text().trim()).to.equal('345')
+      expect(comp.find('.queue-card .talktime').text().trim()).to.equal('987')
+      done()
+    })
+  })
 })

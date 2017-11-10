@@ -74,6 +74,15 @@ const mutations = {
     }
   },
 
+  [mtype.UPDATE_QUEUE_SUMMARY] (state, { msg }) {
+    const data = msg.data
+    const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
+    if (queue) {
+      queue.holdtime = +data.HoldTime
+      queue.talktime = +data.TalkTime
+    }
+  },
+
   [mtype.ADD_QUEUE_MEMBER] (state, { msg }) {
     const data = msg.data
     const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
@@ -166,6 +175,9 @@ const mutations = {
     if (idx !== -1) {
       queue.callers.splice(idx, 1)
       queue.completed++
+      if (process.env.NODE_ENV !== 'testing') {
+        Vue.websockSend(JSON.stringify({Action: 'QueueSummary', Queue: queue.name}))
+      }
     }
   },
 
@@ -220,6 +232,8 @@ const actions = {
         commit(mtype.HANGUP_QUEUE_CALLER, { msg })
       } else if (msg.data.Event === 'QueueCallerAbandon') {
         commit(mtype.ABANDON_QUEUE_CALLER, { msg })
+      } else if (msg.data.Event === 'QueueSummary') {
+        commit(mtype.UPDATE_QUEUE_SUMMARY, { msg })
       }
     }
   },

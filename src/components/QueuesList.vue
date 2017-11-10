@@ -36,7 +36,8 @@
       <b-row>
         <b-col>
           <div>
-            Hold Time: {{ queue.holdtime }} / Talk Time: {{ queue.talktime }}
+            Hold Time: <span class="holdtime">{{ queue.holdtime }}</span> /
+            Talk Time: <span class="talktime">{{ queue.talktime }}</span>
           </div>
           <div>
             Completed: {{ queue.completed }} / Abandoned: {{ queue.abandoned }}
