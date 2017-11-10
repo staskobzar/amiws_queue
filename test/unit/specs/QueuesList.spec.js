@@ -52,4 +52,13 @@ describe('QueuesList', () => {
     expect(comp.find('.queue-card .members-paused').text().trim()).to.equal('1')
     expect(comp.find('.queue-card .members-unpaused').text().trim()).to.equal('1')
   })
+
+  it('create queue with three callers on call and one waiting', () => {
+    Fixtures.oneQueueWithTwoMembersThreeCallers.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('newMessage', Fixtures.joinCaller)
+    const comp = mount(QueuesList, { store, localVue })
+    expect(comp.contains('.queue-card')).to.equal(true)
+    expect(comp.find('.queue-card .callers-waiting').text().trim()).to.equal('1')
+    expect(comp.find('.queue-card .callers-oncall').text().trim()).to.equal('3')
+  })
 })

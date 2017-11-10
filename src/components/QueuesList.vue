@@ -50,6 +50,8 @@
           </div>
           <div>
             Callers: <span class="callers">{{ queue.callers.length }}</span>
+            wait <span class="callers-waiting">{{ queue | callersWaiting }}</span>
+            on call <span class="callers-oncall">{{ queue | callersOncall }}</span>
           </div>
         </b-col>
       </b-row>
@@ -78,6 +80,8 @@ import { mapGetters } from 'vuex'
 
 import 'vue-awesome/icons'
 
+import * as cstate from '../store/caller-state'
+
 export default {
   name: 'QueuesList',
   data () {
@@ -96,6 +100,12 @@ export default {
     },
     membersUnpaused (queue) {
       return queue.members.filter(m => !m.paused).length
+    },
+    callersWaiting (queue) {
+      return queue.callers.filter(c => c.status === cstate.JOINED).length
+    },
+    callersOncall (queue) {
+      return queue.callers.filter(c => c.status === cstate.ANSWERED).length
     },
     maxCalls (queue) {
       return queue.max > 0 ? queue.max : 'unlimited'

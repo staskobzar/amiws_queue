@@ -25,7 +25,8 @@ WS.install = function (Vue, store) {
   }
 
 // public method
-  Vue.wsBar = () => {
+  Vue.websockSend = (jsonMsg) => {
+    this.sock.send(jsonMsg)
   }
 
 // instance methods

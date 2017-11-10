@@ -2,16 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import * as mtype from './mutation-types'
+// caller state
+import * as cstate from './caller-state'
 
 Vue.use(Vuex)
-
-// caller state
-const cstate = {
-  UNKNOWN: 0,
-  JOINED: 1,
-  ANSWERED: 2,
-  ABANDONED: 3
-}
 
 const state = {
   servers: [],
@@ -250,7 +244,6 @@ const getters = {
   },
   getTotalCompletedCalls: state => state.queues.reduce((t, q) => t + q.completed, 0),
   getTotalAbandonedCalls: state => state.queues.reduce((t, q) => t + q.abandoned, 0),
-  getTotalServiceLevel: state => state.queues.reduce((t, q) => t + q.SL, 0.0),
   getTotalPausedMembers: state => {
     return state.queues.map(e => e.members.filter(m => m.paused).length)
       .reduce((t, m) => t + m, 0)

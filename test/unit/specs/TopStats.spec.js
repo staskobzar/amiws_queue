@@ -17,9 +17,9 @@ describe('TopStats', () => {
     store.commit(mtype.CLEAR_QUEUES_LIST)
   })
 
-  it('has 4 main cards', () => {
+  it('has 3 main cards', () => {
     const comp = mount(TopStats, { store, localVue })
-    expect(comp.findAll('.stats-card').length).to.equal(4)
+    expect(comp.findAll('.stats-card').length).to.equal(3)
   })
 
   it('show acive calls from one queue', () => {
@@ -46,14 +46,6 @@ describe('TopStats', () => {
       .to.equal('231')
     expect(comp.findAll('.calls-processed .calls-abandoned').at(0).text().trim())
       .to.equal('120')
-  })
-
-  it('show service level for one queue', () => {
-    Fixtures.oneQueue.forEach(msg => store.dispatch('newMessage', msg))
-    const comp = mount(TopStats, { store, localVue })
-    expect(comp.contains('.service-level')).to.equal(true)
-    expect(comp.findAll('.service-level .level').at(0).text().trim())
-      .to.equal('3.43')
   })
 
   it('show paused/unpaused agents for one queue', () => {

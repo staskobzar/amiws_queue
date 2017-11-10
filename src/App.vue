@@ -1,7 +1,7 @@
 <template>
   <b-container fluid id="app">
 
-    <b-row>
+    <b-row class="top-line">
       <b-col>
         <b-navbar variant="light" type="light">
           Asterisk Queues Realtime Dashboard
@@ -9,26 +9,28 @@
       </b-col>
     </b-row>
 
-    <b-row class="top-stats">
-      <b-col>
-        <TopStats/>
-      </b-col>
-    </b-row>
-
     <b-row>
       <transition>
-        <b-col cols="2">
+        <b-col cols="2" class="ami-servers">
           <AmiServers/>
         </b-col>
       </transition>
       <b-col>
-        <QueuesList/>
+        <b-row class="top-stats">
+          <b-col>
+            <TopStats/>
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col>
+            <QueuesList/>
+          </b-col>
+          <b-col cols="3">
+            <QueueData/>
+          </b-col>
+        </b-row>
       </b-col>
-      <transition>
-        <b-col cols="3">
-          <QueueData/>
-        </b-col>
-      </transition>
     </b-row>
 
   </b-container>
@@ -53,5 +55,7 @@ export default {
 
 <style>
 #app {}
-.top-stats {margin: 15px 0}
+.top-line {}
+.top-stats {margin: 15px 0; margin-left: -15px}
+.ami-servers { padding-top: 10px; background-color: #f8f9fa}
 </style>

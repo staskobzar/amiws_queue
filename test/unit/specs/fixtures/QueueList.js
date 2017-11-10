@@ -28,4 +28,6 @@ Fixture.oneQueueWithTwoMembersThreeCallers = [
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueMember","Queue": "TechSupport","Name": "1005@sc360.modulis.clusterpbx.ca","Location": "Local/1005@from-queue/n","StateInterface": "Local/1005@from-queue/n","Membership": "static","Penalty": "0","CallsTaken": "0","LastCall": "0","InCall": "0","Status": "4","Paused": "0","PausedReason": ""}}`
 ]
 
+Fixture.joinCaller = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "Join","Privilege": "call,all","Channel": "SIP/router01-00000050","CallerIDNum": "1000","CallerIDName": "Eric Gingras","ConnectedLineNum": "unknown","ConnectedLineName": "unknown","Queue": "TechSupport","Position": "4","Count": "3","Uniqueid": "1510322646.118"}}`
+
 export default Fixture

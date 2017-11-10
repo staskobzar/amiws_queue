@@ -18,10 +18,6 @@
       </div>
     </b-card>
 
-    <b-card class="stats-card service-level">
-      Service Level <span class="level">{{ totalServiceLevel }}</span>%
-    </b-card>
-
     <b-card class="stats-card members">
       <div>Total: <span class="total">{{ totalMembers }}</span></div>
       <div>Paused: <span class="paused">{{ totalPausedMembers }}</span></div>
@@ -46,7 +42,6 @@ export default {
       totalWaitingCalls: 'getTotalWaitingCalls',
       totalCompletedCalls: 'getTotalCompletedCalls',
       totalAbandonedCalls: 'getTotalAbandonedCalls',
-      totalServiceLevel: 'getTotalServiceLevel',
       totalPausedMembers: 'getTotalPausedMembers',
       totalUnpausedMembers: 'getTotalUnpausedMembers'
     }),
