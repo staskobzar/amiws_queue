@@ -2,9 +2,10 @@
   <div class="ami-servers-list">
     <b-card v-for="server in amiServers"
       :key="server.id"
-      :header="server.name"
+      header-tag="header"
       class="ami-server">
-      <div class="queues-num"> {{ getQueuesPerServer(server.id) }}</div>
+      <h5 slot="header">{{ server.name }}</h5>
+      <div class="queues-num"> Queues: {{ getQueuesPerServer(server.id) }}</div>
     </b-card>
   </div>
 </template>

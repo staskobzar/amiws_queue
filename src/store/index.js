@@ -130,6 +130,29 @@ const mutations = {
     }
   },
 
+  [mtype.UPDATE_QUEUE_MEMBER_PAUSE] (state, { msg }) {
+    const data = msg.data
+    const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
+    let i = -1
+    if (!queue) {
+      return false // no queue found
+    }
+    if ((i = queue.members.findIndex(m => m.interface === data.StateInterface)) !== -1) {
+      queue.members[i].paused = data.Paused === '1'
+    }
+  },
+
+  [mtype.PAUSE_QUEUE_MEMBER] (state, { queue, memberInf, sid, pause }) {
+    if (process.env.NODE_ENV !== 'testing') {
+      Vue.websockSend(JSON.stringify({
+        Action: 'QueuePause',
+        Interface: memberInf,
+        Paused: pause ? 'true' : 'false',
+        Queue: queue
+      }))
+    }
+  },
+
   [mtype.ADD_QUEUE_CALLER] (state, { msg }) {
     const data = msg.data
     const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
@@ -234,11 +257,21 @@ const actions = {
         commit(mtype.ABANDON_QUEUE_CALLER, { msg })
       } else if (msg.data.Event === 'QueueSummary') {
         commit(mtype.UPDATE_QUEUE_SUMMARY, { msg })
+      } else if (msg.data.Event === 'QueueMemberPause') {
+        commit(mtype.UPDATE_QUEUE_MEMBER_PAUSE, { msg })
       }
     }
   },
   selectedQueue ({ commit }, queueName) {
     commit(mtype.SET_SELECTED_QUEUE, { queueName })
+  },
+  pauseAllAgents ({ commit, state }, {name, sid, pause}) {
+    const queue = state.queues.find(q => q.sid === sid && q.name === name)
+    if (queue) {
+      queue.members.forEach(m => {
+        commit(mtype.PAUSE_QUEUE_MEMBER, { queue: queue.name, memberInf: m.interface, sid: queue.sid, pause: pause })
+      })
+    }
   }
 }
 
@@ -277,7 +310,8 @@ const getters = {
     if (queue) {
       return queue.callers
     }
-  }
+  },
+  getSelectedQueue: state => state.selectedQueue
 }
 
 export default new Vuex.Store({
