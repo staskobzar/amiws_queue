@@ -115,12 +115,18 @@ export default {
       curPage: 'getCurPage'
     }),
     queues: function () {
-      return this.allQueues.slice(
+      let queues = this.allQueues
+      const filter = this.getQnameFilter()
+      if (filter) {
+        queues = queues.filter(q => q.name.toLowerCase().includes(filter.toLowerCase()))
+      }
+      return queues.slice(
         (this.curPage - 1) * this.perPage, // begin
         this.curPage * this.perPage)       // end
     }
   },
   methods: {
+    ...mapGetters([ 'getQnameFilter' ]),
     ...mapActions([ 'selectedQueue', 'pauseAllAgents' ]),
     isActive: function (name) {
       return this.getSelectedQueue === name

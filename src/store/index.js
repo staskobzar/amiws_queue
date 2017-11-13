@@ -11,6 +11,7 @@ const state = {
   servers: [],
   queues: [],
   selectedQueue: '',
+  qnameFilter: '',
   pagination: {
     perPage: 10,
     currentPage: 1
@@ -141,7 +142,7 @@ const mutations = {
     if (!queue) {
       return false // no queue found
     }
-    if ((i = queue.members.findIndex(m => m.interface === data.StateInterface)) !== -1) {
+    if ((i = queue.members.findIndex(m => (m.interface === data.StateInterface || m.location === data.Location))) !== -1) {
       queue.members[i].paused = data.Paused === '1'
     }
   },
@@ -263,6 +264,8 @@ const actions = {
         commit(mtype.UPDATE_QUEUE_SUMMARY, { msg })
       } else if (msg.data.Event === 'QueueMemberPause') {
         commit(mtype.UPDATE_QUEUE_MEMBER_PAUSE, { msg })
+      } else if (msg.data.Event === 'QueueMemberPaused') {
+        commit(mtype.UPDATE_QUEUE_MEMBER_PAUSE, { msg })
       }
     }
   },
@@ -276,6 +279,9 @@ const actions = {
         commit(mtype.PAUSE_QUEUE_MEMBER, { queue: queue.name, memberInf: m.interface, sid: queue.sid, pause: pause })
       })
     }
+  },
+  setQueuesFilter ({ commit, state }, filter) {
+    state.qnameFilter = filter
   },
   setPerPage ({ commit, state }, perPage) {
     state.pagination.perPage = perPage
@@ -323,6 +329,7 @@ const getters = {
   },
   getSelectedQueue: state => state.selectedQueue,
 
+  getQnameFilter: state => state.qnameFilter,
   getPerPage: state => state.pagination.perPage,
   getCurPage: state => state.pagination.currentPage
 }

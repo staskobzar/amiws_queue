@@ -16,6 +16,8 @@ localVue.use(BootstrapVue)
 describe('QueuesList', () => {
   beforeEach(() => {
     store.commit(mtype.CLEAR_QUEUES_LIST)
+    store.dispatch('setPerPage', 10)
+    store.dispatch('setCurPage', 1)
   })
 
   it('init with empty queues list', () => {
@@ -106,5 +108,13 @@ describe('QueuesList', () => {
     expect(comp.findAll('.queue-card').length).to.equal(3)
     expect(comp.findAll('.queue-card .card-header').at(0).text().trim())
       .to.equal('Reception')
+  })
+
+  it('filter queues list by queue name case insencetive', () => {
+    Fixtures.sixQueues.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('setQueuesFilter', 'sales')
+    const comp = mount(QueuesList, { store, localVue })
+    expect(comp.contains('.queue-card')).to.equal(true)
+    expect(comp.findAll('.queue-card').length).to.equal(2)
   })
 })
