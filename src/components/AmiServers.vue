@@ -4,8 +4,13 @@
       :key="server.id"
       header-tag="header"
       class="ami-server">
-      <h5 slot="header">{{ server.name }}</h5>
-      <div class="queues-num"> Queues: {{ getQueuesPerServer(server.id) }}</div>
+      <div slot="header">
+        <icon name="server" scale="2" class="server-icon"/>
+        {{ server.name }}
+      </div>
+      <div>
+        Queues: <span class="queues-num">{{ getQueuesPerServer(server.id) }}</span>
+      </div>
     </b-card>
   </div>
 </template>
@@ -29,5 +34,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .ami-servers { margin-left: 15px; }
+.server-icon {float: left; margin-right: 10px; color: #007bff}
+.queues-num {font-weight: bold}
 .card { margin-bottom: 10px }
 </style>

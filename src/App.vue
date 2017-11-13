@@ -24,6 +24,7 @@
 
         <b-row>
           <b-col>
+            <MenuPanel/>
             <QueuesList/>
           </b-col>
           <b-col cols="3">
@@ -41,12 +42,14 @@ import TopStats from './components/TopStats'
 import AmiServers from './components/AmiServers'
 import QueuesList from './components/QueuesList'
 import QueueData from './components/QueueData'
+import MenuPanel from './components/MenuPanel'
 
 export default {
   name: 'app',
   components: {
     TopStats,
     AmiServers,
+    MenuPanel,
     QueuesList,
     QueueData
   }

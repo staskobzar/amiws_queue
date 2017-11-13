@@ -10,7 +10,11 @@ Vue.use(Vuex)
 const state = {
   servers: [],
   queues: [],
-  selectedQueue: ''
+  selectedQueue: '',
+  pagination: {
+    perPage: 10,
+    currentPage: 1
+  }
 }
 
 const mutations = {
@@ -272,6 +276,12 @@ const actions = {
         commit(mtype.PAUSE_QUEUE_MEMBER, { queue: queue.name, memberInf: m.interface, sid: queue.sid, pause: pause })
       })
     }
+  },
+  setPerPage ({ commit, state }, perPage) {
+    state.pagination.perPage = perPage
+  },
+  setCurPage ({ commit, state }, page) {
+    state.pagination.currentPage = page
   }
 }
 
@@ -311,7 +321,10 @@ const getters = {
       return queue.callers
     }
   },
-  getSelectedQueue: state => state.selectedQueue
+  getSelectedQueue: state => state.selectedQueue,
+
+  getPerPage: state => state.pagination.perPage,
+  getCurPage: state => state.pagination.currentPage
 }
 
 export default new Vuex.Store({

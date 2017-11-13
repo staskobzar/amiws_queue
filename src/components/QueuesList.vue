@@ -52,9 +52,9 @@
             <icon name="user-circle-o"/>
             Agents: <span class="members">{{ queue | membersTotal }}</span>
             (
-            <icon name="pause-circle-o" v-b-tooltip.hover title="Paused agents"/>
+            <icon name="pause-circle-o" v-b-tooltip.hover title="Paused agents" :class="{'icon-alert': allPaused(queue)}"/>
             <span class="members-paused">{{ queue | membersPaused }}</span> /
-            <icon name="play-circle-o" v-b-tooltip.hover title="Unpaused agents"/>
+            <icon name="play-circle-o" v-b-tooltip.hover title="Unpaused agents" :class="{'icon-good': allUnpaused(queue)}"/>
             <span class="members-unpaused">{{ queue | membersUnpaused }}</span>)
           </div>
         </b-col>
@@ -97,11 +97,7 @@
 </template>
 
 <script>
-import Icon from 'vue-awesome/components/Icon'
 import { mapGetters, mapActions } from 'vuex'
-
-import 'vue-awesome/icons'
-
 import * as cstate from '../store/caller-state'
 
 export default {
@@ -111,12 +107,29 @@ export default {
       title: 'Queues Grid'
     }
   },
-  components: { Icon },
-  computed: mapGetters({ queues: 'getQueues', getSelectedQueue: 'getSelectedQueue' }),
+  computed: {
+    ...mapGetters({
+      allQueues: 'getQueues',
+      getSelectedQueue: 'getSelectedQueue',
+      perPage: 'getPerPage',
+      curPage: 'getCurPage'
+    }),
+    queues: function () {
+      return this.allQueues.slice(
+        (this.curPage - 1) * this.perPage, // begin
+        this.curPage * this.perPage)       // end
+    }
+  },
   methods: {
     ...mapActions([ 'selectedQueue', 'pauseAllAgents' ]),
     isActive: function (name) {
       return this.getSelectedQueue === name
+    },
+    allPaused: function (queue) {
+      return queue.members.length === queue.members.filter(m => m.paused).length
+    },
+    allUnpaused: function (queue) {
+      return queue.members.length === queue.members.filter(m => !m.paused).length
     }
   },
   filters: {
@@ -169,4 +182,6 @@ export default {
 .fa-icon { margin-bottom: -3px; }
 .queue-card { box-shadow: 0 2px 12px 0 rgba(0,0,0,.1); }
 .queue-active { background-color: rgba(0, 0, 0, 0.12); }
+.icon-alert {color: orange}
+.icon-good {color: green}
 </style>

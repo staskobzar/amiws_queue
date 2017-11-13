@@ -60,9 +60,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Icon from 'vue-awesome/components/Icon'
-
-import 'vue-awesome/icons'
 
 export default {
   name: 'TopStats',
@@ -71,7 +68,6 @@ export default {
       title: 'Statistics Boxes'
     }
   },
-  components: { Icon },
   computed: {
     ...mapGetters({
       totalActiveCalls: 'getTotalActiveCalls',

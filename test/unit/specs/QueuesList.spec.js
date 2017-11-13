@@ -88,4 +88,23 @@ describe('QueuesList', () => {
       done()
     })
   })
+
+  it('with pagination perPage equals "3" will display page with three queues', () => {
+    Fixtures.sixQueues.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('setPerPage', 3)
+    const comp = mount(QueuesList, { store, localVue })
+    expect(comp.contains('.queue-card')).to.equal(true)
+    expect(comp.findAll('.queue-card').length).to.equal(3)
+  })
+
+  it('with pagination current page is updates, show next page', () => {
+    Fixtures.sixQueues.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('setPerPage', 3)
+    store.dispatch('setCurPage', 2)
+    const comp = mount(QueuesList, { store, localVue })
+    expect(comp.contains('.queue-card')).to.equal(true)
+    expect(comp.findAll('.queue-card').length).to.equal(3)
+    expect(comp.findAll('.queue-card .card-header').at(0).text().trim())
+      .to.equal('Reception')
+  })
 })
