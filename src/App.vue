@@ -27,7 +27,7 @@
             <MenuPanel/>
             <QueuesList/>
           </b-col>
-          <b-col cols="3">
+          <b-col cols="4">
             <QueueData/>
           </b-col>
         </b-row>
