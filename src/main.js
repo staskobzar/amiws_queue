@@ -25,8 +25,5 @@ new Vue({
   el: '#app',
   template: '<App/>',
   store,
-  components: { App },
-  mounted () {
-    console.log('===> Created App')
-  }
+  components: { App }
 })

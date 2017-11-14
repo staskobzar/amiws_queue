@@ -112,13 +112,15 @@ const mutations = {
       member.location = data.Location
       member.interface = data.StateInterface
       member.membership = data.Membership
-      member.penalty = data.Penalty
+      member.penalty = +(data.Penalty)
       member.callsTaken = +data.CallsTaken
       member.lastCall = data.LastCall
       member.incall = (+data.InCall) === 1
       member.status = +data.Status
       member.paused = (+data.Paused) === 1
       member.pausedReason = data.PausedReason
+      member.lastHoldtime = 0
+      member.lastTalktime = 0
       queue.members.push(member)
     }
   },
@@ -132,6 +134,49 @@ const mutations = {
     const idx = queue.members.findIndex(m => m.name === data.MemberName && m.interface === data.StateInterface)
     if (idx !== -1) {
       queue.members.splice(idx, 1)
+    }
+  },
+
+  [mtype.UPDATE_QUEUE_MEMBER_STATUS] (state, { msg }) {
+    const data = msg.data
+    const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
+    if (!queue) {
+      return false // no queue found
+    }
+    const idx = queue.members.findIndex(m => m.name === data.MemberName && m.interface === data.StateInterface)
+    if (idx !== -1) {
+      queue.members[idx].paused = +(data.Paused) === 1
+      queue.members[idx].status = +(data.Status)
+      queue.members[idx].callsTaken = +(data.CallsTaken)
+      queue.members[idx].lastCall = +(data.LastCall)
+      queue.members[idx].penalty = +(data.Penalty)
+    }
+  },
+
+  [mtype.QUEUE_MEMBER_CONNECTED] (state, { msg }) {
+    const data = msg.data
+    const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
+    if (!queue) {
+      return false // no queue found
+    }
+    const idx = queue.members.findIndex(m => m.name === data.MemberName && m.interface === data.Member)
+    if (idx !== -1) {
+      queue.members[idx].lastHoldtime = +(data.HoldTime)
+      queue.members[idx].incall = true
+    }
+  },
+
+  [mtype.QUEUE_MEMBER_COMPLETE] (state, { msg }) {
+    const data = msg.data
+    const queue = state.queues.find(q => q.name === data.Queue && q.sid === msg.server_id)
+    if (!queue) {
+      return false // no queue found
+    }
+    const idx = queue.members.findIndex(m => m.name === data.MemberName && m.interface === data.Member)
+    if (idx !== -1) {
+      queue.members[idx].lastHoldtime = +(data.HoldTime)
+      queue.members[idx].lastTalktime = +(data.TalkTime)
+      queue.members[idx].incall = false
     }
   },
 
@@ -266,6 +311,12 @@ const actions = {
         commit(mtype.UPDATE_QUEUE_MEMBER_PAUSE, { msg })
       } else if (msg.data.Event === 'QueueMemberPaused') {
         commit(mtype.UPDATE_QUEUE_MEMBER_PAUSE, { msg })
+      } else if (msg.data.Event === 'QueueMemberStatus') {
+        commit(mtype.UPDATE_QUEUE_MEMBER_STATUS, { msg })
+      } else if (msg.data.Event === 'AgentConnect') {
+        commit(mtype.QUEUE_MEMBER_CONNECTED, { msg })
+      } else if (msg.data.Event === 'AgentComplete') {
+        commit(mtype.QUEUE_MEMBER_COMPLETE, { msg })
       }
     }
   },

@@ -13,14 +13,14 @@
         <b-card no-body v-for="(member, i) in members" :key="i" class="member-card">
           <div>
             <b-button-group size="sm">
-              <b-btn v-b-tooltip.hover
+              <b-btn v-b-tooltip
                 :disabled="!member.paused"
                 :variant="member.paused ? 'outline-secondary' : 'secondary'"
                 @click="pauseAgentInSelectedQueue({member: member, pause: false})"
                 title="UnPause agent" >
                 <icon name="play-circle" class="icon-unpaused"/>
               </b-btn>
-              <b-btn v-b-tooltip.hover
+              <b-btn v-b-tooltip
                 :disabled="member.paused"
                 :variant="member.paused ? 'secondary' : 'outline-secondary'"
                 @click="pauseAgentInSelectedQueue({member: member, pause: true})"
@@ -38,6 +38,8 @@
           last call: {{ member.lastCall }}
           in call: {{ member.incall }}
           status: {{ member.status }}
+          last Hold time: {{ member.lastHoldtime }}
+          last Talk time: {{ member.lastTalktime }}
         </b-card>
       </div>
 

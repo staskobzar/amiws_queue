@@ -19,7 +19,16 @@ describe('QueueData', () => {
     store.commit(mtype.SET_SELECTED_QUEUE, '')
   })
 
+  it('shows message when not selected', () => {
+    const comp = mount(QueueData, { store, localVue })
+    expect(comp.contains('.members')).to.equal(false)
+    expect(comp.contains('.callers')).to.equal(false)
+    expect(comp.contains('.block-header')).to.equal(false)
+  })
+
   it('has root elements', () => {
+    Fixtures.oneEmptyQueue.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('selectedQueue', 'TechSupport')
     const comp = mount(QueueData, { store, localVue })
     expect(comp.contains('.members')).to.equal(true)
     expect(comp.contains('.callers')).to.equal(true)
@@ -46,5 +55,32 @@ describe('QueueData', () => {
     const comp = mount(QueueData, { store, localVue })
     expect(comp.findAll('.member-card').length).to.equal(1)
     expect(comp.findAll('.caller-card').length).to.equal(1)
+  })
+
+  it('updates queue member status', () => {
+    Fixtures.oneQueueWithOneMemeberOneCaller.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('newMessage', Fixtures.queueMemberStatus)
+    const member = store.state.queues[0].members[0]
+    expect(member.paused).to.equal(false)
+    expect(member.status).to.equal(3)
+    expect(member.callsTaken).to.equal(4)
+    expect(member.penalty).to.equal(2)
+  })
+
+  it('update queue member on AgentConnect', () => {
+    Fixtures.oneQueueWithOneMemeberOneCaller.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('newMessage', Fixtures.agentConnect)
+    const member = store.state.queues[0].members[0]
+    expect(member.lastHoldtime).to.equal(2)
+    expect(member.incall).to.equal(true)
+  })
+
+  it('update queue member on AgentComplete', () => {
+    Fixtures.oneQueueWithOneMemeberOneCaller.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('newMessage', Fixtures.agentComplete)
+    const member = store.state.queues[0].members[0]
+    expect(member.lastHoldtime).to.equal(20)
+    expect(member.lastTalktime).to.equal(120)
+    expect(member.incall).to.equal(false)
   })
 })
