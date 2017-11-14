@@ -280,6 +280,12 @@ const actions = {
       })
     }
   },
+  pauseAgentInSelectedQueue ({ commit, state }, {member, pause}) {
+    const queue = state.queues.find(q => q.name === state.selectedQueue)
+    if (queue) {
+      commit(mtype.PAUSE_QUEUE_MEMBER, { queue: queue.name, memberInf: member.interface, sid: queue.sid, pause: pause })
+    }
+  },
   setQueuesFilter ({ commit, state }, filter) {
     state.qnameFilter = filter
   },
