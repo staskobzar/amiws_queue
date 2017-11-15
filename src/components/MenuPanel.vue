@@ -1,8 +1,14 @@
 <template>
   <b-navbar type="light" variant="light">
     <b-nav-form>
-      <b-form-input class="mr-sm-2" type="text" v-model="qnameFilter" placeholder="Queue name">
+      <b-form-input class="mr-sm-2"
+        type="text" v-model="qnameFilter"
+        placeholder="Queue name">
       </b-form-input>
+      <span v-if="qnameFilter" class="filtered-lebel">
+        <icon name="check" />
+        filtered {{ totalQueues }}
+      </span>
     </b-nav-form>
 
     <b-navbar-nav v-if="totalQueues > perPage">
@@ -36,22 +42,22 @@
 import { mapGetters, mapActions } from 'vuex'
 export default {
   methods: {
-    ...mapGetters(['getQueues', 'getPerPage', 'getCurPage', 'getQnameFilter']),
+    ...mapGetters(['getQueues', 'getQueuesFiltered', 'getPerPage', 'getCurPage', 'getQnameFilter']),
     ...mapActions(['setCurPage', 'setQueuesFilter', 'pauseAllAgents']),
     pauseAll: function () {
-      this.getQueues().forEach(q => {
+      this.getQueuesFiltered().forEach(q => {
         this.pauseAllAgents({name: q.name, sid: q.sid, pause: true})
       })
     },
     unPauseAll: function () {
-      this.getQueues().forEach(q => {
+      this.getQueuesFiltered().forEach(q => {
         this.pauseAllAgents({name: q.name, sid: q.sid, pause: false})
       })
     }
   },
   computed: {
     totalQueues: function () {
-      return this.getQueues().length
+      return this.getQueuesFiltered().length
     },
     perPage: function () {
       return this.getPerPage()
@@ -69,6 +75,7 @@ export default {
         return this.getQnameFilter()
       },
       set: function (filter) {
+        this.setCurPage(1)
         this.setQueuesFilter(filter)
       }
     }
@@ -78,4 +85,5 @@ export default {
 
 <style scoped>
 .navbar {margin-bottom: 10px; border-radius: 0.5rem}
+.filtered-lebel {font-weight: bold; color: green; font-size: 0.9rem}
 </style>

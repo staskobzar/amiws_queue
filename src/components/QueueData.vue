@@ -8,8 +8,7 @@
     </div>
     <div class="queue-data" v-if="selectedQueue">
       <div class="members">
-        <h6><icon name="user-circle-o"/>
-            Queue agents ({{ members.length }})</h6>
+        <h6><icon name="user-circle-o"/>Queue agents ({{ members.length }})</h6>
         <b-card no-body v-for="(member, i) in members" :key="i" class="member-card">
           <div>
             <b-button-group size="sm">
@@ -28,8 +27,8 @@
                 <icon name="pause-circle" class="icon-paused"/>
               </b-btn>
             </b-button-group>
-            <icon name="phone" flip="vertical" v-if="!member.incall"/>
             <icon name="volume-control-phone" style="color: green" v-if="member.incall"/>
+            <icon name="phone" flip="vertical" v-else/>
             <span :class="['member', (member.paused ? 'paused' : 'unpaused')]"
               v-b-tooltip.hover
               :title="member.paused ? 'Paused' : 'Unpaused'">
@@ -38,18 +37,24 @@
           </div>
           <div class="member-stats">
             <div>
-              <icon name="phone-square"/>
-              Calls taken: {{ member.callsTaken}}
-              <icon name="calendar-check-o"/>
-              Last call taken: {{ member.lastCall | formatFromUnixtime }}
-              in call: {{ member.incall }}
-              status: {{ member.status }}
+              <span class="stats-item">
+                <icon name="phone-square"/>
+                Calls taken: {{ member.callsTaken}}
+              </span>
+              <span class="stats-item">
+                <icon name="calendar-check-o"/>
+                Last call taken: {{ member.lastCall | formatFromUnixtime }}
+              </span>
             </div>
             <div>
-              <icon name="clock-o"/>
-              Last Hold time: {{ member.lastHoldtime | formatTime }}
-              <icon name="clock-o"/>
-              Last Talk time: {{ member.lastTalktime | formatTime }}
+              <span class="stats-item">
+                <icon name="clock-o"/>
+                Last Hold time: {{ member.lastHoldtime | formatTime }}
+              </span>
+              <span class="stats-item">
+                <icon name="clock-o"/>
+                Last Talk time: {{ member.lastTalktime | formatTime }}
+              </span>
             </div>
           </div>
         </b-card>
@@ -58,9 +63,19 @@
       <div class="callers">
         <h6> <icon name="user"/>
             Queue callers ({{ callers.length }})</h6>
-        <b-card no-body v-for="(caller, i) in callers" :key="i" class="caller-card">
+          <b-card no-body
+            v-for="(caller, i) in callers"
+            :key="i" class="caller-card">
           <div>
-            {{ caller.clidName }} {{ caller.clidNum }}
+            <span v-if="caller.status === 1" class="waiting">
+              <icon name="hourglass-half"/>
+              [waiting position {{ caller.position }}]
+            </span>
+            <span v-else class="answered">
+              <icon name="volume-control-phone" />
+              [answered]
+            </span>
+            {{ caller.clidName }} &lt;{{ caller.clidNum }}&gt;
           </div>
         </b-card>
       </div>
@@ -111,4 +126,9 @@ export default {
 .member{font-weight: bold}
 .member.paused {color: #797979}
 .member-stats{font-size: 13px; color: #ADADAD}
+.stats-item{margin-left: 10px}
+.caller-card{padding-left: 10px;font-size: 0.9rem}
+.waiting, .answered{font-size: 13px; color: #ADADAD}
+.answered {color: #65ae65; font-weight: bold}
+.waiting {font-weight: bold}
 </style>

@@ -159,6 +159,8 @@ describe('TopStats', () => {
   it('updates queue abandoned calls', done => {
     Fixtures.oneQueue.forEach(msg => store.dispatch('newMessage', msg))
     const comp = mount(TopStats, { store, localVue })
+    console.log(store.state.queues[0])
+    console.log(comp.html())
     expect(comp.findAll('.calls-processed .calls-abandoned').at(0).text().trim())
       .to.equal('120')
     expect(comp.findAll('.calls-processed .calls-completed').at(0).text().trim())

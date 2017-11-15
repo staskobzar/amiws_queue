@@ -17,13 +17,13 @@
         <b-col cols="6" md="4">
           <b-button-group size="sm">
             <b-btn v-b-tooltip.hover
-              title="Pause all agents"
+              title="Pause all agents in queue"
               @click="pauseAllAgents({name: queue.name, sid: queue.sid, pause: true})"
               variant="outline-secondary">
               <icon name="pause-circle-o"/>
             </b-btn>
             <b-btn v-b-tooltip.hover
-              title="Unpause all agents"
+              title="Activate all agents in queue"
               @click="pauseAllAgents({name: queue.name, sid: queue.sid, pause: false})"
               variant="outline-secondary">
               <icon name="play-circle-o"/>
@@ -109,21 +109,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      allQueues: 'getQueues',
+      queues: 'getQueues',
       getSelectedQueue: 'getSelectedQueue',
       perPage: 'getPerPage',
       curPage: 'getCurPage'
-    }),
-    queues: function () {
-      let queues = this.allQueues
-      const filter = this.getQnameFilter()
-      if (filter) {
-        queues = queues.filter(q => q.name.toLowerCase().includes(filter.toLowerCase()))
-      }
-      return queues.slice(
-        (this.curPage - 1) * this.perPage, // begin
-        this.curPage * this.perPage)       // end
-    }
+    })
   },
   methods: {
     ...mapGetters([ 'getQnameFilter' ]),
