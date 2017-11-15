@@ -12,6 +12,7 @@ import 'vue-awesome/icons'
 import App from './App'
 import WebSock from './websock'
 import store from './store'
+import './filters'
 
 Vue.config.productionTip = false
 

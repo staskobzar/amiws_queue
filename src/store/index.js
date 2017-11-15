@@ -99,7 +99,7 @@ const mutations = {
       member.location = data.Location
       member.interface = data.StateInterface
       member.membership = data.Membership
-      member.penalty = data.Penalty
+      member.penalty = +data.Penalty
       member.callsTaken = +data.CallsTaken
       member.lastCall = data.LastCall
       member.incall = (+data.InCall) === 1
@@ -112,7 +112,7 @@ const mutations = {
       member.location = data.Location
       member.interface = data.StateInterface
       member.membership = data.Membership
-      member.penalty = +(data.Penalty)
+      member.penalty = +data.Penalty
       member.callsTaken = +data.CallsTaken
       member.lastCall = data.LastCall
       member.incall = (+data.InCall) === 1

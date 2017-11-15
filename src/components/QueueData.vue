@@ -28,18 +28,30 @@
                 <icon name="pause-circle" class="icon-paused"/>
               </b-btn>
             </b-button-group>
+            <icon name="phone" flip="vertical" v-if="!member.incall"/>
+            <icon name="volume-control-phone" style="color: green" v-if="member.incall"/>
             <span :class="['member', (member.paused ? 'paused' : 'unpaused')]"
               v-b-tooltip.hover
               :title="member.paused ? 'Paused' : 'Unpaused'">
               {{ member.name }}
             </span>
           </div>
-          calls taken: {{ member.callsTaken}}
-          last call: {{ member.lastCall }}
-          in call: {{ member.incall }}
-          status: {{ member.status }}
-          last Hold time: {{ member.lastHoldtime }}
-          last Talk time: {{ member.lastTalktime }}
+          <div class="member-stats">
+            <div>
+              <icon name="phone-square"/>
+              Calls taken: {{ member.callsTaken}}
+              <icon name="calendar-check-o"/>
+              Last call taken: {{ member.lastCall | formatFromUnixtime }}
+              in call: {{ member.incall }}
+              status: {{ member.status }}
+            </div>
+            <div>
+              <icon name="clock-o"/>
+              Last Hold time: {{ member.lastHoldtime | formatTime }}
+              <icon name="clock-o"/>
+              Last Talk time: {{ member.lastTalktime | formatTime }}
+            </div>
+          </div>
         </b-card>
       </div>
 
@@ -76,6 +88,13 @@ export default {
     },
     memberStatusIconClass: function (member) {
       return member.paused ? 'paused-true' : 'paused-false'
+    },
+    formatFromUnixtime: function (val) {
+      if (+val <= 0) {
+        return 'N/A'
+      }
+      const time = new Date(val * 1000)
+      return `${time.toLocaleDateString()} ${time.toLocaleTimeString()}`
     }
   },
   methods: mapActions(['pauseAgentInSelectedQueue'])
@@ -90,5 +109,6 @@ export default {
 .icon-unpaused{ color: green }
 .fa-icon { margin-bottom: -3px; }
 .member{font-weight: bold}
-.member.paused {color: #AAA}
+.member.paused {color: #797979}
+.member-stats{font-size: 13px; color: #ADADAD}
 </style>

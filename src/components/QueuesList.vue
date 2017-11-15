@@ -42,7 +42,7 @@
         <b-col>
           <div>
             <icon name="hourglass-half"/>
-            Hold Time: <span class="holdtime">{{ queue.holdtime | formatTime }}</span>
+            Avg. Hold Time: <span class="holdtime">{{ queue.holdtime | formatTime }}</span>
           </div>
           <div>
             <icon name="chain-broken"/>
@@ -61,7 +61,7 @@
         <b-col>
           <div>
             <icon name="clock-o"/>
-            Talk Time: <span class="talktime">{{ queue.talktime | formatTime }}</span>
+            Avg. Talk Time: <span class="talktime">{{ queue.talktime | formatTime }}</span>
           </div>
           <div>
             <icon name="phone"/>
@@ -156,13 +156,6 @@ export default {
     },
     maxCalls (queue) {
       return queue.max > 0 ? queue.max : 'unlimited'
-    },
-    formatTime (val) {
-      return [
-        Math.floor(val / 3600),    // hours
-        Math.floor(val / 60) % 60, // minutes
-        val % 60                   // seconds
-      ].map(e => e >= 10 ? `${e}` : `0${e}`).join(':')
     }
   }
 }
