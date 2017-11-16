@@ -42,6 +42,19 @@
       ref="loadingModal">
       <p>Loading queues...</p>
     </b-modal>
+    <notifications width="400px" :max="10" group="main" position="top right">
+      <div slot="body" slot-scope="props" class="notification-main">
+        <div class="left-icon">
+          <icon name="check-circle-o" scale="1"/>
+        </div>
+        <div class="body">
+          <div class="notice">
+            {{ props.item.text }}
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </notifications>
   </b-container>
 </template>
 
@@ -72,4 +85,15 @@ export default {
 .top-line {}
 .top-stats {margin: 15px 0; margin-left: -15px}
 .ami-servers { padding-top: 10px; background-color: #f8f9fa}
+.notification-main {
+  margin: 20px 20px 0px 0px;
+  border: 1px solid #866ab3;
+  border-left-size: 10px;
+  border-radius: 4px;
+  padding: 15px;
+  background-color: #EAF4FE;
+  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+}
+.notification-main .left-icon {float: left; margin-right: 10px; color: green;}
+.notification-main .body{font-size: 13px}
 </style>

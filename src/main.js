@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import Icon from 'vue-awesome/components/Icon'
 import 'vue-awesome/icons'
 
+import Notifications from 'vue-notification'
+
 import App from './App'
 import WebSock from './websock'
 import store from './store'
@@ -18,6 +20,7 @@ Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 Vue.use(WebSock, store)
+Vue.use(Notifications)
 
 Vue.component('icon', Icon)
 

@@ -18,13 +18,13 @@
           <b-button-group size="sm">
             <b-btn v-b-tooltip.hover
               title="Pause all agents in queue"
-              @click="pauseAllAgents({name: queue.name, sid: queue.sid, pause: true})"
+              @click="pauseAll(queue.name, queue.sid, true)"
               variant="outline-secondary">
               <icon name="pause-circle-o"/>
             </b-btn>
             <b-btn v-b-tooltip.hover
               title="Activate all agents in queue"
-              @click="pauseAllAgents({name: queue.name, sid: queue.sid, pause: false})"
+              @click="pauseAll(queue.name, queue.sid, false)"
               variant="outline-secondary">
               <icon name="play-circle-o"/>
             </b-btn>
@@ -126,6 +126,12 @@ export default {
     },
     allUnpaused: function (queue) {
       return queue.members.length === queue.members.filter(m => !m.paused).length
+    },
+    pauseAll: function (name, sid, pause) {
+      const pauseStatus = pause ? 'paused' : 'active'
+      this.$notify({group: 'main', text: `Set ${pauseStatus} all agents in queue "${name}"`})
+      this.pauseAllAgents({ name, sid, pause })
+      this.$notify()
     }
   },
   filters: {

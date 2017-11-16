@@ -72,6 +72,9 @@ export default {
       this.$refs.confirmDlg.show()
     },
     doPause: function () {
+      const pause = this.confirm.pause ? 'paused' : 'unpuased'
+      const qnum = this.getQueuesFiltered().length
+      this.$notify({group: 'main', text: `Set ${pause} all agents in ${qnum} queue${qnum > 1 ? 's' : ''}`})
       this.getQueuesFiltered().forEach(q => {
         this.pauseAllAgents({name: q.name, sid: q.sid, pause: this.confirm.pause})
       })
