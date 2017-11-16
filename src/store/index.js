@@ -379,7 +379,9 @@ const getters = {
   getTotalCompletedCalls: (state, getters) => {
     return getters.getQueuesFiltered.reduce((t, q) => t + q.completed, 0)
   },
-  getTotalAbandonedCalls: (state, getters) => getters.getQueuesFiltered.reduce((t, q) => t + q.abandoned, 0),
+  getTotalAbandonedCalls: (state, getters) => {
+    return getters.getQueuesFiltered.reduce((t, q) => t + q.abandoned, 0)
+  },
   getTotalPausedMembers: (state, getters) => {
     return getters.getQueuesFiltered.map(e => e.members.filter(m => m.paused).length)
       .reduce((t, m) => t + m, 0)

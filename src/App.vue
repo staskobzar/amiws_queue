@@ -24,6 +24,9 @@
 
         <b-row>
           <b-col>
+            <b-alert :show="getAllQueues.length === 0">
+              <b>&rArr;</b>LOADING...
+            </b-alert>
             <MenuPanel/>
             <QueuesList/>
           </b-col>
@@ -38,6 +41,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import TopStats from './components/TopStats'
 import AmiServers from './components/AmiServers'
 import QueuesList from './components/QueuesList'
@@ -52,7 +56,8 @@ export default {
     MenuPanel,
     QueuesList,
     QueueData
-  }
+  },
+  computed: mapGetters(['getAllQueues'])
 }
 </script>
 

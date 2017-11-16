@@ -8,21 +8,21 @@
     </div>
     <div class="queue-data" v-if="selectedQueue">
       <div class="members">
-        <h6><icon name="user-circle-o"/>Queue agents ({{ members.length }})</h6>
+        <h6><icon name="user-circle-o"/> Queue agents ({{ members.length }})</h6>
         <b-card no-body v-for="(member, i) in members" :key="i" class="member-card">
           <div>
             <b-button-group size="sm">
               <b-btn v-b-tooltip
                 :disabled="!member.paused"
                 :variant="member.paused ? 'outline-secondary' : 'secondary'"
-                @click="pauseAgentInSelectedQueue({member: member, pause: false})"
+                @click="pauseAgent(member, false)"
                 title="UnPause agent" >
                 <icon name="play-circle" class="icon-unpaused"/>
               </b-btn>
               <b-btn v-b-tooltip
                 :disabled="member.paused"
                 :variant="member.paused ? 'secondary' : 'outline-secondary'"
-                @click="pauseAgentInSelectedQueue({member: member, pause: true})"
+                @click="pauseAgent(member, true)"
                 title="Pause agent" >
                 <icon name="pause-circle" class="icon-paused"/>
               </b-btn>
@@ -61,8 +61,7 @@
       </div>
 
       <div class="callers">
-        <h6> <icon name="user"/>
-            Queue callers ({{ callers.length }})</h6>
+        <h6> <icon name="user"/> Queue callers ({{ callers.length }})</h6>
           <b-card no-body
             v-for="(caller, i) in callers"
             :key="i" class="caller-card">
@@ -93,6 +92,7 @@ export default {
     }
   },
   computed: mapGetters({
+    queues: 'getAllQueues',
     members: 'getSelectedMembers',
     callers: 'getSelectedCallers',
     selectedQueue: 'getSelectedQueue'
@@ -112,7 +112,13 @@ export default {
       return `${time.toLocaleDateString()} ${time.toLocaleTimeString()}`
     }
   },
-  methods: mapActions(['pauseAgentInSelectedQueue'])
+  methods: {
+    ...mapActions(['pauseAgentInSelectedQueue']),
+    pauseAgent: function (member, pause) {
+      this.pauseAgentInSelectedQueue({ member: member, pause: pause })
+      this.$root.$emit('bv::hide::tooltip')
+    }
+  }
 }
 </script>
 

@@ -18,6 +18,7 @@ describe('QueuesList', () => {
     store.commit(mtype.CLEAR_QUEUES_LIST)
     store.dispatch('setPerPage', 10)
     store.dispatch('setCurPage', 1)
+    store.dispatch('setQueuesFilter', '')
   })
 
   it('init with empty queues list', () => {
