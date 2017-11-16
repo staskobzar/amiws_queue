@@ -24,9 +24,6 @@
 
         <b-row>
           <b-col>
-            <b-alert :show="getAllQueues.length === 0">
-              <b>&rArr;</b>LOADING...
-            </b-alert>
             <MenuPanel/>
             <QueuesList/>
           </b-col>
@@ -36,12 +33,19 @@
         </b-row>
       </b-col>
     </b-row>
-
+    <b-modal title="Loading..."
+      centered
+      :hide-footer="true"
+      :hide-header-close="true"
+      :no-close-on-backdrop="true"
+      :no-close-on-esc="true"
+      ref="loadingModal">
+      <p>Loading queues...</p>
+    </b-modal>
   </b-container>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import TopStats from './components/TopStats'
 import AmiServers from './components/AmiServers'
 import QueuesList from './components/QueuesList'
@@ -57,7 +61,9 @@ export default {
     QueuesList,
     QueueData
   },
-  computed: mapGetters(['getAllQueues'])
+  mounted () {
+    // this.$refs.loadingModal.show()
+  }
 }
 </script>
 
