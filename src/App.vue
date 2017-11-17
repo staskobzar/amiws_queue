@@ -33,12 +33,13 @@
         </b-row>
       </b-col>
     </b-row>
-    <b-modal title="Loading..."
+    <b-modal title="Loading..." :data-loading="loading"
       centered
       :hide-footer="true"
       :hide-header-close="true"
       :no-close-on-backdrop="true"
       :no-close-on-esc="true"
+      id="loadingModal"
       ref="loadingModal">
       <p>Loading queues...</p>
     </b-modal>
@@ -59,6 +60,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import TopStats from './components/TopStats'
 import AmiServers from './components/AmiServers'
 import QueuesList from './components/QueuesList'
@@ -74,8 +76,16 @@ export default {
     QueuesList,
     QueueData
   },
+  computed: {
+    ...mapGetters(['getLoading']),
+    loading: function () {
+      if (this.getLoading === 0 && this.$refs.loadingModal) {
+        this.$refs.loadingModal.hide()
+      }
+    }
+  },
   mounted () {
-    // this.$refs.loadingModal.show()
+    this.$refs.loadingModal.show()
   }
 }
 </script>

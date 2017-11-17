@@ -12,6 +12,7 @@ const state = {
   queues: [],
   selectedQueue: '',
   qnameFilter: '',
+  loading: 0,
   pagination: {
     perPage: 10,
     currentPage: 1
@@ -19,6 +20,10 @@ const state = {
 }
 
 const mutations = {
+  [mtype.LOADING_QUEUES] (state, inc) {
+    state.loading += inc
+  },
+
   [mtype.CLEAR_AMISRV_LIST] (state) {
     state.servers.splice(0)
   },
@@ -278,6 +283,8 @@ const actions = {
       if (msg.data.CoreStartupDate) {
         // create or update server
         commit(mtype.NEW_AMI_SERVER, { msg })
+      } else if (msg.data.EventList && msg.data.EventList === 'start') {
+        commit(mtype.LOADING_QUEUES, 1)
       }
     } else if (msg.type === 3) {
       // event
@@ -317,6 +324,8 @@ const actions = {
         commit(mtype.QUEUE_MEMBER_CONNECTED, { msg })
       } else if (msg.data.Event === 'AgentComplete') {
         commit(mtype.QUEUE_MEMBER_COMPLETE, { msg })
+      } else if (msg.data.Event === 'QueueStatusComplete') {
+        commit(mtype.LOADING_QUEUES, -1)
       }
     }
   },
@@ -349,6 +358,7 @@ const actions = {
 }
 
 const getters = {
+  getLoading: state => state.loading,
   getAmiServers: state => state.servers,
   getAllQueues: state => state.queues,
   getQueuesFiltered: state => {
