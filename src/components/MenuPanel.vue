@@ -23,12 +23,14 @@
       <b-navbar-nav>
         <b-button-group size="lg">
           <b-btn v-b-tooltip.hover
+            id="btn-pause-all-agents"
             variant="outline-primary"
             @click="pauseAll"
             title="Pause all agents in all queues">
             <icon name="pause-circle"/>
           </b-btn>
           <b-btn v-b-tooltip.hover
+            id="btn-activate-all-agents"
             variant="outline-primary"
             @click="unPauseAll"
             title="UnPause all agents in all queues">

@@ -43,7 +43,7 @@
               </span>
               <span class="stats-item">
                 <icon name="calendar-check-o"/>
-                Last call taken: {{ member.lastCall | formatFromUnixtime }}
+                Last call taken: <span class="last-call-taken">{{ member.lastCall | formatFromUnixtime }}</span>
               </span>
             </div>
             <div>
@@ -98,18 +98,17 @@ export default {
     selectedQueue: 'getSelectedQueue'
   }),
   filters: {
-    memberStatusIconName: function (member) {
-      return member.paused ? 'pause-circle-o' : 'play-circle-o'
-    },
-    memberStatusIconClass: function (member) {
-      return member.paused ? 'paused-true' : 'paused-false'
-    },
     formatFromUnixtime: function (val) {
       if (+val <= 0) {
         return 'N/A'
       }
-      const time = new Date(val * 1000)
-      return `${time.toLocaleDateString()} ${time.toLocaleTimeString()}`
+      const t = new Date(val * 1000)
+      const pad = (num) => num.toString().padStart(2, '0')
+      const [y, m, d] = [t.getFullYear(), t.getMonth(), t.getDay()]
+      const [hh, mm, ss] = [t.getHours(), t.getMinutes(), t.getSeconds()]
+      const date = `${y}-${pad(m + 1)}-${pad(d)}`
+      const time = `${pad(hh)}:${pad(mm)}:${pad(ss)}`
+      return `${date} ${time}`
     }
   },
   methods: {

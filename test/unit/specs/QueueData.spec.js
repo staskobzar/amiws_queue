@@ -83,4 +83,12 @@ describe('QueueData', () => {
     expect(member.lastTalktime).to.equal(120)
     expect(member.incall).to.equal(false)
   })
+
+  it('test last call taken date/time format', () => {
+    Fixtures.oneQueueWithOneMemeberOneCaller.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('selectedQueue', 'TechSupport')
+    store.dispatch('newMessage', Fixtures.queueMemberStatus)
+    const comp = mount(QueueData, { store, localVue })
+    expect(comp.find('.last-call-taken').text().trim()).to.equal('2017-11-05 02:35:38')
+  })
 })

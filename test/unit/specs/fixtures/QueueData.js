@@ -18,7 +18,7 @@ Fixture.oneQueueWithOneMemeberOneCaller = [
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueEntry","Queue": "TechSupport","Position": "1","Channel": "SIP/router01-0013ab9e","Uniqueid": "1509489741.3343730","CallerIDNum": "14383918247","CallerIDName": "14383918247","ConnectedLineNum": "unknown","ConnectedLineName": "unknown","Wait": "549"}}`
 ]
 
-Fixture.queueMemberStatus = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueMemberStatus","Privilege": "agent,all","Queue": "TechSupport","Location": "Local/1004@from-queue/n","MemberName": "1004@sc360.modulis.clusterpbx.ca","StateInterface": "Local/1004@from-queue/n","Membership": "realtime","Penalty": "2","CallsTaken": "4","LastCall": "0","Status": "3","Paused": "0"}}`
+Fixture.queueMemberStatus = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueMemberStatus","Privilege": "agent,all","Queue": "TechSupport","Location": "Local/1004@from-queue/n","MemberName": "1004@sc360.modulis.clusterpbx.ca","StateInterface": "Local/1004@from-queue/n","Membership": "realtime","Penalty": "2","CallsTaken": "4","LastCall": "1510904138","Status": "3","Paused": "0"}}`
 
 Fixture.agentConnect = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "AgentConnect","Privilege": "agent,all","Queue": "TechSupport","Uniqueid": "1510674700.8","Channel": "Local/1004@from-queue-00000001;1","Member": "Local/1004@from-queue/n","MemberName": "1004@sc360.modulis.clusterpbx.ca","HoldTime": "2","BridgedChannel": "1510674701.9","RingTime": "2"}}`
 

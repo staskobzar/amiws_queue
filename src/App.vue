@@ -85,7 +85,9 @@ export default {
     }
   },
   mounted () {
-    this.$refs.loadingModal.show()
+    if (this.getLoading > 0 && this.$refs.loadingModal) {
+      this.$refs.loadingModal.show()
+    }
   }
 }
 </script>
