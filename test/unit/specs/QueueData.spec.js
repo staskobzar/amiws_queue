@@ -91,4 +91,13 @@ describe('QueueData', () => {
     const comp = mount(QueueData, { store, localVue })
     expect(comp.find('.last-call-taken').text().trim()).to.equal('2017-11-05 02:35:38')
   })
+
+  it('pause/unpause agent in list', () => {
+    Fixtures.oneQueueWithOneMemeberOneCaller.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('selectedQueue', 'TechSupport')
+    const comp = mount(QueueData, { store, localVue })
+    comp.vm.pauseAgentInSelectedQueue = sinon.stub()
+    comp.find('.btn-activate-agent').trigger('click')
+    expect(comp.vm.pauseAgentInSelectedQueue.called).to.equal(true)
+  })
 })

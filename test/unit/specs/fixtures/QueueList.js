@@ -44,4 +44,8 @@ Fixture.sixQueues = [
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueParams","Queue": "Shipping","Max": "0","Strategy": "ringall","Calls": "0","Holdtime": "0","TalkTime": "0","Completed": "0","Abandoned": "0","ServiceLevel": "0","ServicelevelPerf": "0.0","Weight": "0"}}`
 ]
 
+Fixture.startQueuesList = `{ "type": 4, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Response": "Success","EventList": "start","Message": "Queue status will follow"}}`
+
+Fixture.finishQueueList = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueStatusComplete","EventList": "Complete","ListItems": "351"}}`
+
 export default Fixture

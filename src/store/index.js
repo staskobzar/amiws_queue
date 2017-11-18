@@ -198,14 +198,12 @@ const mutations = {
   },
 
   [mtype.PAUSE_QUEUE_MEMBER] (state, { queue, memberInf, sid, pause }) {
-    if (process.env.NODE_ENV !== 'testing') {
-      Vue.websockSend(JSON.stringify({
-        Action: 'QueuePause',
-        Interface: memberInf,
-        Paused: pause ? 'true' : 'false',
-        Queue: queue
-      }))
-    }
+    Vue.websockSend(JSON.stringify({
+      Action: 'QueuePause',
+      Interface: memberInf,
+      Paused: pause ? 'true' : 'false',
+      Queue: queue
+    }))
   },
 
   [mtype.ADD_QUEUE_CALLER] (state, { msg }) {
@@ -253,9 +251,7 @@ const mutations = {
     if (idx !== -1) {
       queue.callers.splice(idx, 1)
       queue.completed++
-      if (process.env.NODE_ENV !== 'testing') {
-        Vue.websockSend(JSON.stringify({Action: 'QueueSummary', Queue: queue.name}))
-      }
+      Vue.websockSend(JSON.stringify({Action: 'QueueSummary', Queue: queue.name}))
     }
   },
 

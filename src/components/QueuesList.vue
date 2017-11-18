@@ -131,7 +131,6 @@ export default {
       const pauseStatus = pause ? 'paused' : 'active'
       this.$notify({group: 'main', text: `Set ${pauseStatus} all agents in queue "${name}"`})
       this.pauseAllAgents({ name, sid, pause })
-      this.$notify()
     }
   },
   filters: {

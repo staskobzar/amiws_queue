@@ -13,6 +13,7 @@
           <div>
             <b-button-group size="sm">
               <b-btn v-b-tooltip
+                class="btn-activate-agent"
                 :disabled="!member.paused"
                 :variant="member.paused ? 'outline-secondary' : 'secondary'"
                 @click="pauseAgent(member, false)"
@@ -20,6 +21,7 @@
                 <icon name="play-circle" class="icon-unpaused"/>
               </b-btn>
               <b-btn v-b-tooltip
+                class="btn-pause-agent"
                 :disabled="member.paused"
                 :variant="member.paused ? 'secondary' : 'outline-secondary'"
                 @click="pauseAgent(member, true)"

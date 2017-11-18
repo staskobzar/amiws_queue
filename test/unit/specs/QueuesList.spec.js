@@ -2,6 +2,7 @@ import 'babel-polyfill'
 import { mount, createLocalVue } from 'vue-test-utils'
 import Vuex from 'vuex'
 import BootstrapVue from 'bootstrap-vue'
+import sinon from 'sinon'
 
 import * as mtype from '@/store/mutation-types'
 import store from '@/store'
@@ -19,6 +20,7 @@ describe('QueuesList', () => {
     store.dispatch('setPerPage', 10)
     store.dispatch('setCurPage', 1)
     store.dispatch('setQueuesFilter', '')
+    store.state.loading = 0
   })
 
   it('init with empty queues list', () => {
@@ -117,5 +119,27 @@ describe('QueuesList', () => {
     const comp = mount(QueuesList, { store, localVue })
     expect(comp.contains('.queue-card')).to.equal(true)
     expect(comp.findAll('.queue-card').length).to.equal(2)
+  })
+
+  it('set all members paused for selected queue', () => {
+    Fixtures.oneQueueWithTwoMembersThreeCallers.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('setQueuesFilter', 'TechSupport')
+    const comp = mount(QueuesList, { store, localVue, methods: { $notify: () => {} } })
+    comp.vm.pauseAllAgents = sinon.stub()
+    comp.vm.pauseAll()
+    expect(comp.vm.pauseAllAgents.callCount).to.equal(1)
+  })
+
+  it('update flag when start loading queues list', () => {
+    store.dispatch('newMessage', Fixtures.startQueuesList)
+    expect(store.state.loading).to.equal(1)
+  })
+
+  it('update flag when finish loading queues list', () => {
+    store.dispatch('newMessage', Fixtures.startQueuesList)
+    store.dispatch('newMessage', Fixtures.startQueuesList)
+    store.dispatch('newMessage', Fixtures.startQueuesList)
+    store.dispatch('newMessage', Fixtures.finishQueueList)
+    expect(store.getters.getLoading).to.equal(2)
   })
 })

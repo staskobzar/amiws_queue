@@ -1,5 +1,6 @@
 import 'babel-polyfill'
 import { mount, createLocalVue } from 'vue-test-utils'
+import Vue from 'vue'
 import Vuex from 'vuex'
 import BootstrapVue from 'bootstrap-vue'
 import TopStats from '@/components/TopStats'
@@ -11,6 +12,7 @@ const localVue = createLocalVue()
 
 localVue.use(Vuex)
 localVue.use(BootstrapVue)
+Vue.websockSend = sinon.stub()
 
 describe('TopStats', () => {
   beforeEach(() => {
