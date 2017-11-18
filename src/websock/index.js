@@ -1,11 +1,8 @@
-import print from '../logger'
-
 const WS = {}
 WS.sock = null
 WS.store = null
 
 WS.install = function (Vue, store) {
-  print.info(`Connecting to ${process.env.WS_URL}`)
   this.sock = new WebSocket(process.env.WS_URL)
   this.store = store
 
@@ -30,8 +27,7 @@ WS.install = function (Vue, store) {
   }
 
 // instance methods
-  Vue.prototype.$wsSend = function (msg) {
-  }
+  Vue.prototype.$wsSend = function (msg) {}
 }
 
 export default WS
