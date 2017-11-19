@@ -6,6 +6,9 @@
         <b-navbar variant="light" type="light">
           Asterisk Queues Realtime Dashboard -
           [{{ version }}]
+          <icon name="dot-circle-o" scale="1.6"
+            v-b-tooltip.hover title="Connected"
+            :class="['dot-circle', wsConnected ? 'connected' : 'disconnected' ]"/>
         </b-navbar>
       </b-col>
     </b-row>
@@ -34,6 +37,26 @@
         </b-row>
       </b-col>
     </b-row>
+    <b-modal title="Connection lost..." centered
+      :hide-footer="true"
+      :hide-header-close="true"
+      :no-close-on-backdrop="true"
+      :no-close-on-esc="true"
+      :visible="!wsConnected"
+      ref="wsconlost">
+      <b-row>
+        <b-col cols="3">
+          <icon name="exclamation-circle" scale="4" class="disconnected"/>
+        </b-col>
+        <b-col>
+          <p>Web-socket connection is lost.</p>
+          <p>
+            Trying to re-connect...
+            <div class="loader"></div>
+          </p>
+        </b-col>
+      </b-row>
+    </b-modal>
     <b-modal title="Loading..." :data-loading="loading"
       centered
       :hide-footer="true"
@@ -78,7 +101,7 @@ export default {
     QueueData
   },
   computed: {
-    ...mapGetters(['getLoading']),
+    ...mapGetters(['getLoading', 'wsConnected']),
     loading: function () {
       if (this.getLoading === 0 && this.$refs.loadingModal) {
         this.$refs.loadingModal.hide()
@@ -110,4 +133,32 @@ export default {
 }
 .notification-main .left-icon {float: left; margin-right: 10px; color: green;}
 .notification-main .body{font-size: 13px}
+.connected{color: green}
+.disconnected{color: red}
+.loader {
+  height: 2px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+}
+.loader:before{
+  display: block;
+  position: absolute;
+  content: "";
+  left: -200px;
+  width: 200px;
+  height: 4px;
+  background-color: #2980b9;
+  animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+    from {left: -200px; width: 30%;}
+    50% {width: 30%;}
+    70% {width: 70%;}
+    80% { left: 50%;}
+    95% {left: 120%;}
+    to {left: 100%;}
+}
 </style>

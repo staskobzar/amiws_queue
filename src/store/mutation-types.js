@@ -1,3 +1,5 @@
+export const WS_CONNECTED = 'WS_CONNECTED'
+
 export const NEW_AMI_SERVER = 'NEW_AMI_SERVER'
 export const CLEAR_AMISRV_LIST = 'CLEAR_AMISRV_LIST'
 

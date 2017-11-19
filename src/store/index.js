@@ -8,6 +8,7 @@ import actions from './actions.js'
 Vue.use(Vuex)
 
 const state = {
+  ws_connected: false,
   servers: [],
   queues: [],
   selectedQueue: '',

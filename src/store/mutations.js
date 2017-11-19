@@ -4,6 +4,10 @@ import Queue from './class.queue'
 import * as mtype from './mutation-types'
 
 export default {
+  [mtype.WS_CONNECTED] (state, status) {
+    state.ws_connected = status
+  },
+
   [mtype.LOADING_QUEUES] (state, inc) {
     state.loading += inc
   },

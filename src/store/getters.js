@@ -1,6 +1,7 @@
 import * as cstate from './caller-state'
 
 export default {
+  wsConnected: state => state.ws_connected,
   getLoading: state => state.loading,
   getAmiServers: state => state.servers,
   getAllQueues: state => state.queues,

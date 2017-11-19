@@ -30,6 +30,8 @@ import 'vue-awesome/icons/level-up'
 import 'vue-awesome/icons/exchange'
 import 'vue-awesome/icons/check-circle-o'
 import 'vue-awesome/icons/chain-broken'
+import 'vue-awesome/icons/exclamation-circle'
+import 'vue-awesome/icons/dot-circle-o'
 
 import Notifications from 'vue-notification'
 

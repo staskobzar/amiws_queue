@@ -7,6 +7,7 @@ WS.install = function (Vue, store) {
   this.store = store
 
   this.sock.onopen = () => {
+    store.commit('WS_CONNECTED', true)
     /*
      * We need Action: Queue here because it helps to load realtime
      * queues. Otherwise, Asterisk will not get realtime queues after
@@ -19,6 +20,17 @@ WS.install = function (Vue, store) {
 
   this.sock.onmessage = (ev) => {
     this.store.dispatch('newMessage', ev.data)
+  }
+
+  this.sock.onclose = (ev) => {
+    console.info('Web-socket connection closed.')
+    store.commit('WS_CONNECTED', false)
+    setTimeout(() => { WS.install(Vue, this.store) }, 3000)
+  }
+
+  this.sock.onerror = (err) => {
+    console.error(`Socket encountered error: ${err.message} Closing socket`)
+    this.sock.close()
   }
 
 // public method

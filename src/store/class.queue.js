@@ -31,7 +31,6 @@ export default class {
     this.weight = +data.Weight
   }
 
-/*
   update (msg) {
     const data = msg.data
     this.holdtime = +data.Holdtime
@@ -42,7 +41,6 @@ export default class {
     this.SLPerf = +data.ServicelevelPerf
     this.weight = +data.Weight
   }
-*/
 
   match (msg) {
     return (msg.server_id === this.sid && msg.data.Queue === this.name)
