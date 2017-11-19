@@ -14,44 +14,54 @@ export default {
       }
     } else if (msg.type === 3) {
       // event
-      if (msg.data.Event === 'QueueParams') {
-        commit(mtype.ADD_QUEUE, { msg })
-      // members
-      } else if (msg.data.Event === 'QueueMember') {
-        commit(mtype.ADD_QUEUE_MEMBER, { msg })
-      } else if (msg.data.Event === 'QueueMemberAdded') {
-        commit(mtype.ADD_QUEUE_MEMBER, { msg })
-      } else if (msg.data.Event === 'QueueMemberRemoved') {
-        commit(mtype.REMOVE_QUEUE_MEMBER, { msg })
-      // callers
-      } else if (msg.data.Event === 'QueueEntry') {
-        commit(mtype.ADD_QUEUE_CALLER, { msg })
-      } else if (msg.data.Event === 'Join') {
-        commit(mtype.ADD_QUEUE_CALLER, { msg })
-      } else if (msg.data.Event === 'QueueCallerJoin') {
-        commit(mtype.ADD_QUEUE_CALLER, { msg })
-      } else if (msg.data.Event === 'Leave') {
-        commit(mtype.UPDATE_QUEUE_CALLER, { msg })
-      } else if (msg.data.Event === 'Hangup') {
-        commit(mtype.HANGUP_QUEUE_CALLER, { msg })
-      } else if (msg.data.Event === 'SoftHangupRequest') {
-        commit(mtype.HANGUP_QUEUE_CALLER, { msg })
-      } else if (msg.data.Event === 'QueueCallerAbandon') {
-        commit(mtype.ABANDON_QUEUE_CALLER, { msg })
-      } else if (msg.data.Event === 'QueueSummary') {
-        commit(mtype.UPDATE_QUEUE_SUMMARY, { msg })
-      } else if (msg.data.Event === 'QueueMemberPause') {
-        commit(mtype.UPDATE_QUEUE_MEMBER_PAUSE, { msg })
-      } else if (msg.data.Event === 'QueueMemberPaused') {
-        commit(mtype.UPDATE_QUEUE_MEMBER_PAUSE, { msg })
-      } else if (msg.data.Event === 'QueueMemberStatus') {
-        commit(mtype.UPDATE_QUEUE_MEMBER_STATUS, { msg })
-      } else if (msg.data.Event === 'AgentConnect') {
-        commit(mtype.QUEUE_MEMBER_CONNECTED, { msg })
-      } else if (msg.data.Event === 'AgentComplete') {
-        commit(mtype.QUEUE_MEMBER_COMPLETE, { msg })
-      } else if (msg.data.Event === 'QueueStatusComplete') {
-        commit(mtype.LOADING_QUEUES, -1)
+      switch (msg.data.Event) {
+        case 'QueueParams':
+          commit(mtype.ADD_QUEUE, { msg })
+          break
+        case 'QueueMember':
+        case 'QueueMemberAdded':
+          commit(mtype.ADD_QUEUE_MEMBER, { msg })
+          break
+        case 'QueueMemberRemoved':
+          commit(mtype.REMOVE_QUEUE_MEMBER, { msg })
+          break
+        case 'QueueEntry':
+        case 'Join':
+        case 'QueueCallerJoin':
+          commit(mtype.ADD_QUEUE_CALLER, { msg })
+          break
+        case 'Leave':
+          commit(mtype.UPDATE_QUEUE_CALLER, { msg })
+          break
+        case 'Hangup':
+        case 'SoftHangupRequest':
+          commit(mtype.HANGUP_QUEUE_CALLER, { msg })
+          break
+        case 'QueueCallerAbandon':
+          commit(mtype.ABANDON_QUEUE_CALLER, { msg })
+          break
+        case 'QueueSummary':
+          commit(mtype.UPDATE_QUEUE_SUMMARY, { msg })
+          break
+        case 'QueueMemberPause':
+        case 'QueueMemberPaused':
+          commit(mtype.UPDATE_QUEUE_MEMBER_PAUSE, { msg })
+          break
+        case 'QueueMemberStatus':
+          commit(mtype.UPDATE_QUEUE_MEMBER_STATUS, { msg })
+          break
+        case 'AgentConnect':
+          commit(mtype.QUEUE_MEMBER_CONNECTED, { msg })
+          break
+        case 'AgentComplete':
+          commit(mtype.QUEUE_MEMBER_COMPLETE, { msg })
+          break
+        case 'QueueStatusComplete':
+          commit(mtype.LOADING_QUEUES, -1)
+          break
+        default:
+          console.error(`Unknown Event: ${msg.data.Event}`)
+          break
       }
     }
   },
