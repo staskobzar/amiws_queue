@@ -92,7 +92,8 @@ export default {
       Action: 'QueuePause',
       Interface: memberInf,
       Paused: pause ? 'true' : 'false',
-      Queue: queue
+      Queue: queue,
+      AMIServerID: sid
     }))
   },
 

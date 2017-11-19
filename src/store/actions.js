@@ -60,7 +60,9 @@ export default {
           commit(mtype.LOADING_QUEUES, -1)
           break
         default:
-          console.error(`Unknown Event: ${msg.data.Event}`)
+          if (process.env.NODE_ENV === 'development') {
+            // console.info(`Unknown Event: ${msg.data.Event}`)
+          }
           break
       }
     }

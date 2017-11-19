@@ -88,13 +88,14 @@ export default class {
     this.callers.push(new Caller(msg))
   }
 
+/*
   updateCaller (msg) {
     const caller = this.findCaller(msg.data)
     if (caller) {
       caller.update(msg.data)
     }
   }
-
+*/
   callerAnswered (msg) {
     const data = msg.data
     const caller = this.findCaller(data)
