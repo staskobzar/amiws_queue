@@ -95,7 +95,7 @@ describe('QueueData', () => {
   it('pause/unpause agent in list', () => {
     Fixtures.oneQueueWithOneMemeberOneCaller.forEach(msg => store.dispatch('newMessage', msg))
     store.dispatch('selectedQueue', 'TechSupport')
-    const comp = mount(QueueData, { store, localVue })
+    const comp = mount(QueueData, { store, localVue, methods: { $notify: () => {} } })
     comp.vm.pauseAgentInSelectedQueue = sinon.stub()
     comp.find('.btn-activate-agent').trigger('click')
     expect(comp.vm.pauseAgentInSelectedQueue.called).to.equal(true)

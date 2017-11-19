@@ -4,7 +4,8 @@
     <b-row class="top-line">
       <b-col>
         <b-navbar variant="light" type="light">
-          Asterisk Queues Realtime Dashboard
+          Asterisk Queues Realtime Dashboard -
+          [{{ version }}]
         </b-navbar>
       </b-col>
     </b-row>
@@ -82,7 +83,8 @@ export default {
       if (this.getLoading === 0 && this.$refs.loadingModal) {
         this.$refs.loadingModal.hide()
       }
-    }
+    },
+    version: () => process.env.VER
   },
   mounted () {
     if (this.getLoading > 0 && this.$refs.loadingModal) {

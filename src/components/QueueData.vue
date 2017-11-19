@@ -117,6 +117,7 @@ export default {
     ...mapActions(['pauseAgentInSelectedQueue']),
     pauseAgent: function (member, pause) {
       this.pauseAgentInSelectedQueue({ member: member, pause: pause })
+      this.$notify({group: 'main', text: `${pause ? 'Pause' : 'Activate'} agent ${member.name}`})
       this.$root.$emit('bv::hide::tooltip')
     }
   }
