@@ -1,49 +1,6 @@
 <template>
-  <div>
-    <b-navbar type="light" variant="light">
-      <b-nav-form>
-        <b-form-input class="mr-sm-2"
-          type="text" v-model="qnameFilter"
-          placeholder="Queue name">
-        </b-form-input>
-        <span v-if="qnameFilter" class="filtered-lebel">
-          <icon name="check" />
-          filtered {{ totalQueues }}
-        </span>
-      </b-nav-form>
-
-      <b-navbar-nav v-if="totalQueues > perPage">
-        <b-pagination
-          :total-rows="totalQueues"
-          v-model="currentPage"
-          :per-page="perPage">
-        </b-pagination>
-      </b-navbar-nav>
-
-      <b-navbar-nav>
-        <b-button-group size="lg">
-          <b-btn v-b-tooltip.hover
-            id="btn-pause-all-agents"
-            variant="outline-primary"
-            @click="pauseAll"
-            title="Pause all agents in all queues">
-            <icon name="pause-circle"/>
-          </b-btn>
-          <b-btn v-b-tooltip.hover
-            id="btn-activate-all-agents"
-            variant="outline-primary"
-            @click="unPauseAll"
-            title="UnPause all agents in all queues">
-            <icon name="play-circle"/>
-          </b-btn>
-        </b-button-group>
-      </b-navbar-nav>
-    </b-navbar>
-
-    <b-modal ref="confirmDlg" @ok="doPause" :title="confirm.title">
-      {{ confirm.body }}
-    </b-modal>
-  </div>
+  <v-toolbar color="white" light dense>
+  </v-toolbar>
 </template>
 
 <script>

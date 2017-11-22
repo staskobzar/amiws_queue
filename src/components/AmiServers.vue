@@ -1,29 +1,35 @@
 <template>
-  <div class="ami-servers-list">
-    <b-card v-for="server in amiServers"
-      :key="server.id"
-      header-tag="header"
-      class="ami-server">
-      <div slot="header">
-        <icon name="server" scale="2" class="server-icon"/>
-        {{ server.name }}
-      </div>
-      <div>
-        Queues: <span class="queues-num">{{ getQueuesPerServer(server.id) }}</span>
-      </div>
-    </b-card>
-  </div>
+  <v-container fluid grid-list-lg>
+    <v-toolbar>
+      <v-icon>storage</v-icon>
+      <v-toolbar-title>
+        Servers
+      </v-toolbar-title>
+    </v-toolbar>
+    <v-layout row wrap>
+      <v-flex v-for="server in amiServers"
+        :key="server.id" class="ami-server" xs12>
+        <v-card color="grey lighten-2">
+          <v-card-title primary-title>
+            <v-icon>{{ server.ssl ? 'lock_outline' : 'lock_open' }}</v-icon>
+            <div class="headline">{{ server.name }}</div>
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text>
+            <div>Queues: <span class="queues-num">{{ getQueuesPerServer(server.id) }}</span></div>
+            <div>Uptime since: {{ server.started.getTime() / 1000 | formatFromUnixtime }} </div>
+            <div>Reloaded: {{ server.reloaded.getTime() / 1000 | formatFromUnixtime }} </div>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 export default {
   name: 'AmiServers',
-  data () {
-    return {
-      title: 'List of AMI servers'
-    }
-  },
   computed: mapGetters({
     amiServers: 'getAmiServers',
     getQueuesPerServer: 'getQueuesPerServer'
@@ -33,8 +39,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.ami-servers { margin-left: 15px; }
-.server-icon {float: left; margin-right: 10px; color: #007bff}
 .queues-num {font-weight: bold}
-.card { margin-bottom: 10px }
 </style>

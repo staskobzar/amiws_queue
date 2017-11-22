@@ -99,20 +99,6 @@ export default {
     callers: 'getSelectedCallers',
     selectedQueue: 'getSelectedQueue'
   }),
-  filters: {
-    formatFromUnixtime: function (val) {
-      if (+val <= 0) {
-        return 'N/A'
-      }
-      const t = new Date(val * 1000)
-      const pad = (num) => num < 10 ? `0${num}` : `${num}`
-      const [y, m, d] = [t.getFullYear(), t.getMonth(), t.getDay()]
-      const [hh, mm, ss] = [t.getHours(), t.getMinutes(), t.getSeconds()]
-      const date = `${y}-${pad(m + 1)}-${pad(d)}`
-      const time = `${pad(hh)}:${pad(mm)}:${pad(ss)}`
-      return `${date} ${time}`
-    }
-  },
   methods: {
     ...mapActions(['pauseAgentInSelectedQueue']),
     pauseAgent: function (member, pause) {

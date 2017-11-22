@@ -1,14 +1,22 @@
 <template>
   <v-app>
     <v-navigation-drawer app fixed>
+      <AmiServers/>
     </v-navigation-drawer>
 
-    <v-toolbar color="indigo" clipped-left dark fixed app>
+    <v-toolbar app>
       <v-toolbar-title>Asterisk Queues Realtime Dashboard</v-toolbar-title>
     </v-toolbar>
 
     <v-content>
       <v-container fluid>
+        <v-layout row wrap>
+          <TopStats/>
+          <v-spacer></v-spacer>
+        </v-layout>
+        <v-layout row wrap>
+          <MenuPanel/>
+        </v-layout>
       </v-container>
     </v-content>
 

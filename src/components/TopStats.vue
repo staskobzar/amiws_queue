@@ -1,61 +1,23 @@
 <template>
-  <b-card-group deck>
-    <b-card class="stats-card active-calls">
-      <b-row>
-        <b-col md="2">
-          <icon name="clock-o" scale="4"/>
-        </b-col>
-        <b-col class="stats-data">
-          <div class="label">On call</div>
-          <div class="calls-num data">{{ totalActiveCalls }}</div>
-        </b-col>
-        <b-col class="stats-data">
-          <div class="label">Waiting</div>
-          <div class="calls-wait data">{{ totalWaitingCalls }}</div>
-        </b-col>
-      </b-row>
-      <b-progress height="2px" :value="totalActiveCalls" :max="totalActiveCalls + totalWaitingCalls"></b-progress>
-    </b-card>
-
-    <b-card class="stats-card calls-processed">
-      <b-row>
-        <b-col md="2">
-          <icon name="phone-square" scale="4"/>
-        </b-col>
-        <b-col class="stats-data">
-          <div class="label">Completed calls</div>
-          <div class="calls-completed data">{{ totalCompletedCalls }}</div>
-        </b-col>
-        <b-col class="stats-data">
-          <div class="label">Abandoned calls</div>
-          <div class="calls-abandoned data">{{ totalAbandonedCalls }}</div>
-        </b-col>
-      </b-row>
-      <b-progress height="2px" :value="totalCompletedCalls" :max="totalCompletedCalls + totalAbandonedCalls"></b-progress>
-    </b-card>
-
-    <b-card class="stats-card members">
-      <b-row>
-        <b-col md="2">
-          <icon name="user-circle" scale="4"/>
-        </b-col>
-        <b-col class="stats-data">
-          <div class="label">Total</div>
-          <div class="total data">{{ totalMembers }}</div>
-        </b-col>
-        <b-col class="stats-data">
-          <div class="label">Paused</div>
-          <div class="paused data">{{ totalPausedMembers }}</div>
-        </b-col>
-        <b-col class="stats-data">
-          <div class="label">Unpaused</div>
-          <div class="unpaused data">{{ totalUnpausedMembers }}</div>
-        </b-col>
-      </b-row>
-      <b-progress height="2px" :value="totalUnpausedMembers" :max="totalMembers"></b-progress>
-    </b-card>
-
-  </b-card-group>
+  <v-flex xs4>
+    <v-card>
+      <v-container fluid grid-list-lg>
+        <v-layout row>
+          <v-flex xs3>
+            <v-avatar tile size="68px">
+              <v-icon x-large>timelapse</v-icon>
+            </v-avatar>
+          </v-flex>
+          <v-flex xs9>
+            <div class="label">On call</div>
+            <div class="calls-num data">{{ totalActiveCalls }}</div>
+            <div class="label">Waiting</div>
+            <div class="calls-wait data">{{ totalWaitingCalls }}</div>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-card>
+  </v-flex>
 </template>
 
 <script>

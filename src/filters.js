@@ -9,3 +9,16 @@ Vue.filter('formatTime', (val) => {
     val % 60                   // seconds
   ].map(e => e >= 10 ? `${e}` : `0${e}`).join(':')
 })
+
+Vue.filter('formatFromUnixtime', (val) => {
+  if (+val <= 0) {
+    return 'N/A'
+  }
+  const t = new Date(val * 1000)
+  const pad = (num) => num < 10 ? `0${num}` : `${num}`
+  const [y, m, d] = [t.getFullYear(), t.getMonth(), t.getDay()]
+  const [hh, mm, ss] = [t.getHours(), t.getMinutes(), t.getSeconds()]
+  const date = `${y}-${pad(m + 1)}-${pad(d)}`
+  const time = `${pad(hh)}:${pad(mm)}:${pad(ss)}`
+  return `${date} ${time}`
+})
