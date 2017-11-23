@@ -1,6 +1,16 @@
 <template>
-  <v-toolbar color="white" light dense>
-  </v-toolbar>
+  <v-card color="grey lighten-4" flat>
+    <v-toolbar class="elevation-0">
+      <v-text-field prepend-icon="search" hide-details single-line label="Queue name"></v-text-field>
+      <v-pagination :length="6" v-model="currentPage"></v-pagination>
+      <v-btn round color="primary" dark>
+        <v-icon>pause_circle_outline</v-icon>
+      </v-btn>
+      <v-btn round color="primary" dark>
+        <v-icon>play_circle_outline</v-icon>
+      </v-btn>
+    </v-toolbar>
+  </v-card>
 </template>
 
 <script>

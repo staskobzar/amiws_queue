@@ -17,6 +17,9 @@
         <v-layout row wrap>
           <MenuPanel/>
         </v-layout>
+        <v-layout row wrap>
+          <QueuesList/>
+        </v-layout>
       </v-container>
     </v-content>
 
