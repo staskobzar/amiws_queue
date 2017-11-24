@@ -2,48 +2,98 @@
   <v-container fluid grid-list-md class="grey lighten-4">
     <v-layout row wrap>
       <v-flex xs6 v-for="(queue, index) in queues" :key="index">
-        <v-card>
+        <v-card hover>
           <v-card-title primary-title class="grey lighten-3">
             <h3><v-icon>people</v-icon>
             {{ queue.name }}</h3>
           </v-card-title>
-          <v-chip outline color="secondary">
-            Weight
-            <v-icon class="title-icon">timelapse</v-icon>
-            <strong>{{ queue.weight }}</strong>
-          </v-chip>
-          <v-chip outline color="secondary">
-            Max calls
-            <v-icon class="title-icon">vertical_align_top</v-icon>
-            <strong>{{ queue | maxCalls }}</strong>
-          </v-chip>
-          <v-chip outline color="secondary">
-            Strategy
-            <v-icon class="title-icon">build</v-icon>
-            <strong>{{ queue.strategy }}</strong>
-          </v-chip>
+          <v-tooltip top>
+            <v-chip outline color="secondary" slot="activator">
+              W <v-icon class="title-icon">timelapse</v-icon>
+              <strong>{{ queue.weight }}</strong>
+            </v-chip>
+            <span>Queue Weight</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-chip outline color="secondary" slot="activator">
+              M <v-icon class="title-icon">vertical_align_top</v-icon>
+              <strong>{{ queue | maxCalls }}</strong>
+            </v-chip>
+            <span>Max calls limit for the queue</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-chip outline color="secondary" slot="activator">
+              S <v-icon class="title-icon">build</v-icon>
+              <strong>{{ queue.strategy }}</strong>
+            </v-chip>
+            <span>A strategy for how to handle the queue</span>
+          </v-tooltip>
           <v-divider></v-divider>
           <v-card-text>
-            <div class="grey--text">
-              <v-icon>timer</v-icon>
-              Avg. Hold Time: <span class="holdtime">{{ queue.holdtime | formatTime }}</span>
-            </div>
-            <div class="grey--text">
-              <v-icon>history</v-icon>
-              Abandoned calls: {{ queue.abandoned }}
-            </div>
-            <div class="grey--text">
-              <v-icon>headset_mic</v-icon>
-              Agents: <span class="members">{{ queue | membersTotal }}</span>
-              (
-              <v-icon color="grey" style="font-size: 16px">pause_circle_outline</v-icon>
-              <span>{{ queue | membersPaused }}</span> /
-              <v-icon color="grey">play_circle_outline</v-icon>
-              <span>{{ queue | membersUnpaused }}</span>)
-            </div>
+            <v-layout row wrap class="grey--text">
+              <v-flex>
+                <div>
+                  <v-icon>timer</v-icon>
+                  Avg. Hold Time: <span class="holdtime">{{ queue.holdtime | formatTime }}</span>
+                </div>
+                <div>
+                  <v-icon>history</v-icon>
+                  Abandoned calls: {{ queue.abandoned }}
+                </div>
+                <div>
+                  <v-icon>headset_mic</v-icon>
+                  Agents: <span class="members">{{ queue | membersTotal }}</span>
+                  (
+                  <v-tooltip left>
+                    <span slot="activator">
+                      <v-icon class="qdata-icon">pause_circle_outline</v-icon>
+                      {{ queue | membersPaused }}
+                    </span>
+                    <span>Paused agents</span>
+                  </v-tooltip> /
+                  <v-tooltip left>
+                    <span slot="activator">
+                      <v-icon class="qdata-icon">play_circle_outline</v-icon>
+                      {{ queue | membersUnpaused }}
+                    </span>
+                    <span>Active agents</span>
+                  </v-tooltip>)
+                </div>
+              </v-flex>
+              <v-flex>
+                <div>
+                  <v-icon>schedule</v-icon>
+                  Avg. Talk Time: <span class="talktime">{{ queue.talktime | formatTime }}</span>
+                </div>
+                <div>
+                  <v-icon>check_circle</v-icon>
+                  Completed calls: {{ queue.completed }}
+                </div>
+                <div>
+                  <v-icon>account_circle</v-icon>
+                  Callers: <span class="callers">{{ queue.callers.length }}</span>
+                  (
+                  <v-tooltip left>
+                    <span slot="activator">
+                      <v-icon class="qdata-icon">hourglass_full</v-icon>
+                      <span class="callers-waiting">{{ queue | callersWaiting }}</span>
+                    </span>
+                    <span>Callers waiting</span>
+                  </v-tooltip> /
+                  <v-tooltip left>
+                    <span slot="activator">
+                      <v-icon class="qdata-icon">call</v-icon>
+                      <span class="callers-oncall">{{ queue | callersOncall }}</span>)
+                    </span>
+                    <span>On call callers</span>
+                  </v-tooltip>)
+                </div>
+              </v-flex>
+            </v-layout>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions class="grey lighten-4">
+            <v-spacer></v-spacer>
             <v-tooltip top>
               <v-btn icon slot="activator"><v-icon>pause</v-icon></v-btn>
               <span>Pause all agents in the queue</span>
@@ -52,9 +102,8 @@
               <v-btn icon slot="activator"><v-icon>play_arrow</v-icon></v-btn>
               <span>Activate all agents in the queue</span>
             </v-tooltip>
-            <v-spacer></v-spacer>
             <v-tooltip top>
-              <v-btn icon slot="activator"><v-icon>people_outline</v-icon></v-btn>
+              <v-btn icon slot="activator" @click="selectedQueue(queue.name)"><v-icon>list</v-icon></v-btn>
               <span>Show agents/callers list</span>
             </v-tooltip>
           </v-card-actions>
@@ -127,4 +176,5 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .title-icon {font-size: 14px}
+.qdata-icon {font-size: 15px}
 </style>

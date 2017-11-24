@@ -1,11 +1,14 @@
 <template>
   <v-app>
-    <v-navigation-drawer app fixed>
+    <v-navigation-drawer app fixed v-model="drawerLeft">
       <AmiServers/>
     </v-navigation-drawer>
 
     <v-toolbar app>
+      <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
       <v-toolbar-title>Asterisk Queues Realtime Dashboard</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"></v-toolbar-side-icon>
     </v-toolbar>
 
     <v-content>
@@ -23,7 +26,8 @@
       </v-container>
     </v-content>
 
-    <v-navigation-drawer right app fixed>
+    <v-navigation-drawer v-model="drawerRight" right app fixed width="500">
+      <QueueData/>
     </v-navigation-drawer>
 
     <v-footer color="indigo" dark fixed app></v-footer>
@@ -46,6 +50,12 @@ export default {
     MenuPanel,
     QueuesList,
     QueueData
+  },
+  data () {
+    return {
+      drawerLeft: true,
+      drawerRight: true
+    }
   },
   computed: {
     ...mapGetters(['getLoading', 'wsConnected']),
