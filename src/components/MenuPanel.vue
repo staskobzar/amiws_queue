@@ -1,16 +1,53 @@
 <template>
-  <v-card color="grey lighten-4" flat>
-    <v-toolbar class="elevation-0">
-      <v-text-field prepend-icon="search" hide-details single-line label="Queue name"></v-text-field>
-      <v-pagination :length="6" v-model="currentPage"></v-pagination>
-      <v-btn round color="primary" dark>
-        <v-icon>pause_circle_outline</v-icon>
-      </v-btn>
-      <v-btn round color="primary" dark>
-        <v-icon>play_circle_outline</v-icon>
-      </v-btn>
+  <v-container fluid>
+    <v-toolbar>
+      <v-text-field
+        prepend-icon="search"
+        hide-details single-linei
+        :label="qnameFilter ? 'Filtered ' + totalQueues : 'Queue name'"
+        :error="(qnameFilter && totalQueues === 0) || totalQueues === 0"
+        v-model="qnameFilter"></v-text-field>
+
+      <v-spacer></v-spacer>
+
+      <v-pagination total-visible="5" :length="pageLen" v-model="currentPage"></v-pagination>
+
+      <v-spacer></v-spacer>
+
+      <v-tooltip top>
+        <v-btn round dark color="primary" slot="activator"
+          @click.native.stop="pauseAll()">
+          <v-icon>pause_circle_outline</v-icon>
+        </v-btn>
+        <span>Pause all agents in all queues</span>
+      </v-tooltip>
+      <v-tooltip top>
+        <v-btn round dark color="primary" slot="activator"
+          @click.native.stop="unPauseAll()">
+          <v-icon>play_circle_outline</v-icon>
+        </v-btn>
+        <span>Activate all agents in all queues</span>
+      </v-tooltip>
     </v-toolbar>
-  </v-card>
+
+    <v-dialog v-model="confirmDlg" max-width="360">
+      <v-card>
+        <v-card-title class="headline">{{ confirm.title }}</v-card-title>
+        <v-divider></v-divider>
+        <v-card-text>{{ confirm.body }}</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn @click.native="confirmDlg = false">Cancel</v-btn>
+          <v-btn @click.native.stop="doPause()" dark color="green darken-1">Ok</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-snackbar v-model="notify" :timeout="3000" color="info" top right>
+      <v-icon color="white">info_outline</v-icon>
+      {{ notifyText }}
+    </v-snackbar>
+  </v-container>
 </template>
 
 <script>
@@ -18,6 +55,9 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
+      notify: false,
+      notifyText: '',
+      confirmDlg: false,
       confirm: {
         title: 'Confirm title',
         body: 'Confirm body',
@@ -32,21 +72,23 @@ export default {
       this.confirm.title = `Confirm pause all agents`
       this.confirm.body = `Pause all agents in all queues. When filtered will pause agents only in filtered queues.`
       this.confirm.pause = true
-      this.$refs.confirmDlg.show()
+      this.confirmDlg = true
     },
     unPauseAll: function () {
       this.confirm.title = `Confirm un-pause all agents`
       this.confirm.body = `Activate/UnPause all agents in all queues. When filtered will unpause agents only in filtered queues.`
       this.confirm.pause = false
-      this.$refs.confirmDlg.show()
+      this.confirmDlg = true
     },
     doPause: function () {
       const pause = this.confirm.pause ? 'paused' : 'unpuased'
       const qnum = this.getQueuesFiltered().length
-      this.$notify({group: 'main', text: `Set ${pause} all agents in ${qnum} queue${qnum > 1 ? 's' : ''}`})
+      this.notifyText = `Set ${pause} all agents in ${qnum} queue${qnum > 1 ? 's' : ''}`
       this.getQueuesFiltered().forEach(q => {
         this.pauseAllAgents({name: q.name, sid: q.sid, pause: this.confirm.pause})
       })
+      this.confirmDlg = false
+      this.notify = true
     }
   },
   computed: {
@@ -72,6 +114,9 @@ export default {
         this.setCurPage(1)
         this.setQueuesFilter(filter)
       }
+    },
+    pageLen: function () {
+      return Math.ceil(this.totalQueues / this.perPage)
     }
   }
 }

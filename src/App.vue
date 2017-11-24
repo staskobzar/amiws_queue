@@ -4,7 +4,7 @@
       <AmiServers/>
     </v-navigation-drawer>
 
-    <v-toolbar app>
+    <v-toolbar color="indigo" app dark>
       <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
       <v-toolbar-title>Asterisk Queues Realtime Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -30,7 +30,10 @@
       <QueueData/>
     </v-navigation-drawer>
 
-    <v-footer color="indigo" dark fixed app></v-footer>
+    <v-footer color="indigo" dark fixed app>
+      <v-spacer></v-spacer>
+      <span class="white--text">ver. {{version}}</span>
+    </v-footer>
   </v-app>
 </template>
 

@@ -2,32 +2,11 @@
   <v-container fluid grid-list-md class="grey lighten-4">
     <v-layout row wrap>
       <v-flex xs6 v-for="(queue, index) in queues" :key="index">
-        <v-card hover>
+        <v-card hover :class="{'elevation-15': isActive(queue.name)}">
           <v-card-title primary-title class="grey lighten-3">
             <h3><v-icon>people</v-icon>
             {{ queue.name }}</h3>
           </v-card-title>
-          <v-tooltip top>
-            <v-chip outline color="secondary" slot="activator">
-              W <v-icon class="title-icon">timelapse</v-icon>
-              <strong>{{ queue.weight }}</strong>
-            </v-chip>
-            <span>Queue Weight</span>
-          </v-tooltip>
-          <v-tooltip top>
-            <v-chip outline color="secondary" slot="activator">
-              M <v-icon class="title-icon">vertical_align_top</v-icon>
-              <strong>{{ queue | maxCalls }}</strong>
-            </v-chip>
-            <span>Max calls limit for the queue</span>
-          </v-tooltip>
-          <v-tooltip top>
-            <v-chip outline color="secondary" slot="activator">
-              S <v-icon class="title-icon">build</v-icon>
-              <strong>{{ queue.strategy }}</strong>
-            </v-chip>
-            <span>A strategy for how to handle the queue</span>
-          </v-tooltip>
           <v-divider></v-divider>
           <v-card-text>
             <v-layout row wrap class="grey--text">
@@ -46,14 +25,16 @@
                   (
                   <v-tooltip left>
                     <span slot="activator">
-                      <v-icon class="qdata-icon">pause_circle_outline</v-icon>
+                      <v-icon class="qdata-icon" :color="allPaused(queue)">
+                        pause_circle_outline</v-icon>
                       {{ queue | membersPaused }}
                     </span>
                     <span>Paused agents</span>
                   </v-tooltip> /
                   <v-tooltip left>
                     <span slot="activator">
-                      <v-icon class="qdata-icon">play_circle_outline</v-icon>
+                      <v-icon class="qdata-icon" :color="allUnpaused(queue)">
+                        play_circle_outline</v-icon>
                       {{ queue | membersUnpaused }}
                     </span>
                     <span>Active agents</span>
@@ -93,13 +74,36 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions class="grey lighten-4">
+          <v-tooltip top>
+            <v-chip outline color="secondary" slot="activator">
+              W <v-icon class="title-icon">timelapse</v-icon>
+              <strong>{{ queue.weight }}</strong>
+            </v-chip>
+            <span>Queue Weight</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-chip outline color="secondary" slot="activator">
+              M <v-icon class="title-icon">vertical_align_top</v-icon>
+              <strong>{{ queue | maxCalls }}</strong>
+            </v-chip>
+            <span>Max calls limit for the queue</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-chip outline color="secondary" slot="activator">
+              S <v-icon class="title-icon">build</v-icon>
+              <strong>{{ queue.strategy }}</strong>
+            </v-chip>
+            <span>A strategy for how to handle the queue</span>
+          </v-tooltip>
             <v-spacer></v-spacer>
             <v-tooltip top>
-              <v-btn icon slot="activator"><v-icon>pause</v-icon></v-btn>
+              <v-btn icon @click="pauseAll(queue.name, queue.sid, true)" slot="activator">
+                <v-icon>pause</v-icon></v-btn>
               <span>Pause all agents in the queue</span>
             </v-tooltip>
             <v-tooltip top>
-              <v-btn icon slot="activator"><v-icon>play_arrow</v-icon></v-btn>
+              <v-btn icon @click="pauseAll(queue.name, queue.sid, false)" slot="activator">
+                <v-icon>play_arrow</v-icon></v-btn>
               <span>Activate all agents in the queue</span>
             </v-tooltip>
             <v-tooltip top>
@@ -110,6 +114,10 @@
         </v-card>
       </v-flex>
     </v-layout>
+    <v-snackbar v-model="notify" :timeout="3000" color="info" top right>
+      <v-icon color="white">info_outline</v-icon>
+      {{ notifyText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -121,33 +129,32 @@ export default {
   name: 'QueuesList',
   data () {
     return {
-      title: 'Queues Grid'
+      notify: false,
+      notifyText: ''
     }
   },
   computed: {
     ...mapGetters({
       queues: 'getQueues',
-      getSelectedQueue: 'getSelectedQueue',
-      perPage: 'getPerPage',
-      curPage: 'getCurPage'
+      getSelectedQueue: 'getSelectedQueue'
     })
   },
   methods: {
-    ...mapGetters([ 'getQnameFilter' ]),
     ...mapActions([ 'selectedQueue', 'pauseAllAgents' ]),
     isActive: function (name) {
       return this.getSelectedQueue === name
     },
     allPaused: function (queue) {
-      return queue.members.length === queue.members.filter(m => m.paused).length
+      return queue.members.length === queue.members.filter(m => m.paused).length ? 'orange lighten-2' : ''
     },
     allUnpaused: function (queue) {
-      return queue.members.length === queue.members.filter(m => !m.paused).length
+      return queue.members.length === queue.members.filter(m => !m.paused).length ? 'green accent-4' : ''
     },
     pauseAll: function (name, sid, pause) {
       const pauseStatus = pause ? 'paused' : 'active'
-      this.$notify({group: 'main', text: `Set ${pauseStatus} all agents in queue "${name}"`})
+      this.notifyText = `Set ${pauseStatus} all agents in queue "${name}"`
       this.pauseAllAgents({ name, sid, pause })
+      this.notify = true
     }
   },
   filters: {

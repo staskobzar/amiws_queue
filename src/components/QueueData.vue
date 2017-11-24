@@ -1,5 +1,11 @@
 <template>
-  <v-container fluid grid-list-lg>
+  <v-container fluid grid-list-lg v-if="selectedQueue">
+    <v-toolbar card color="white" prominent>
+      <v-toolbar-title>
+        <v-icon>people</v-icon>
+        {{ selectedQueue }}
+      </v-toolbar-title>
+    </v-toolbar>
     <v-list three-line subheader>
       <v-subheader>
         <v-icon>headset_mic</v-icon>Queue agents ({{ members.length }})
@@ -44,14 +50,39 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-btn icon ripple>
-            <v-icon color="grey lighten-1">play_arrow</v-icon>
-          </v-btn>
+          <v-tooltip top>
+            <v-btn slot="activator" icon ripple @click="pauseAgentToggle(member)">
+              <v-icon color="grey lighten-1">
+                {{ member.paused ? 'play_circle_outline' : 'pause_circle_outline' }}
+              </v-icon>
+            </v-btn>
+            <span>{{ member.paused ? 'Activate' : 'Pause'}} agent in queue</span>
+          </v-tooltip>
         </v-list-tile-action>
       </v-list-tile>
     </v-list>
     <v-list two-line>
-      <v-subheader v-text="'Queue callers'"></v-subheader>
+      <v-subheader>
+        <v-icon>account_circle</v-icon>
+        Queue callers ({{ callers.length }})
+      </v-subheader>
+      <v-list-tile avatar v-for="(caller, i) in callers" :key="i" @click="">
+        <v-list-tile-avatar>
+          <v-icon class="grey lighten-1 white--text">
+            {{ caller.statusIcon() }}
+          </v-icon>
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title>{{ caller.clidName }} &lt;{{ caller.clidNum }}&gt;</v-list-tile-title>
+          <v-list-tile-sub-title class="caption">
+            <v-icon>phone_in_talk</v-icon>
+            Talk time: answered {{ caller.answerTime }}
+          </v-list-tile-sub-title>
+          <v-list-tile-sub-title class="caption">
+            Channel: {{ caller.chan }} / agent: ....
+          </v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
     </v-list>
   </v-container>
 </template>
@@ -73,10 +104,10 @@ export default {
   }),
   methods: {
     ...mapActions(['pauseAgentInSelectedQueue']),
-    pauseAgent: function (member, pause) {
-      this.pauseAgentInSelectedQueue({ member: member, pause: pause })
-      this.$notify({group: 'main', text: `${pause ? 'Pause' : 'Activate'} agent ${member.name}`})
-      this.$root.$emit('bv::hide::tooltip')
+    pauseAgentToggle: function (member) {
+      this.pauseAgentInSelectedQueue({ member: member, pause: !member.paused })
+      // this.$notify({group: 'main', text: `${pause ? 'Pause' : 'Activate'} agent ${member.name}`})
+      // this.$root.$emit('bv::hide::tooltip')
     }
   }
 }

@@ -1,16 +1,16 @@
 <template>
   <v-container fluid grid-list-lg>
-    <v-toolbar>
-      <v-icon>storage</v-icon>
+    <v-toolbar card color="white" prominent>
       <v-toolbar-title>
+        <v-icon>storage</v-icon>
         Servers
       </v-toolbar-title>
     </v-toolbar>
     <v-layout row wrap>
       <v-flex v-for="server in amiServers"
         :key="server.id" class="ami-server" xs12>
-        <v-card color="grey lighten-2">
-          <v-card-title primary-title>
+        <v-card>
+          <v-card-title class="grey lighten-2">
             <v-icon>{{ server.ssl ? 'lock_outline' : 'lock_open' }}</v-icon>
             <div class="headline">{{ server.name }}</div>
           </v-card-title>

@@ -10,6 +10,7 @@ export default class {
   lineNum = null
   lineName = null
   wait = null
+  answerTime = null
 
   constructor (msg) {
     const data = msg.data
@@ -37,8 +38,12 @@ export default class {
     if (data.Wait) this.wait = +data.Wait
   }
 */
+  statusIcon () {
+    return this.status === cstate.ANSWERED ? 'phone_in_talk' : 'phone_forwarded'
+  }
 
   setAnswered () {
+    this.answerTime = new Date()
     this.status = cstate.ANSWERED
   }
 }
