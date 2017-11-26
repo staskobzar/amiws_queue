@@ -97,7 +97,7 @@ export default class {
   callerAnswered (msg) {
     const data = msg.data
     const caller = this.findCaller(data)
-    if (caller && data.Event === 'Leave') {
+    if (caller) {
       caller.setAnswered()
     }
   }

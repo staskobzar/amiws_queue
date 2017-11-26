@@ -1,18 +1,28 @@
 <template>
-  <v-container fluid grid-list-lg v-if="selectedQueue">
+  <v-container fluid grid-list-lg v-if="queueSelect">
     <v-toolbar card color="white" prominent>
       <v-toolbar-title>
-        <v-icon>people</v-icon>
-        {{ selectedQueue }}
+        <v-tooltip bottom>
+          <v-btn fab small @click.stop="queueSelect = ''" slot="activator">
+            <v-icon>exit_to_app</v-icon>
+          </v-btn>
+          <span>Close</span>
+        </v-tooltip>
+        {{ queueSelect }}
       </v-toolbar-title>
     </v-toolbar>
-    <v-list three-line subheader>
+    <v-list two-line subheader>
       <v-subheader>
         <v-icon>headset_mic</v-icon>Queue agents ({{ members.length }})
       </v-subheader>
       <v-list-tile avatar v-for="(member, i) in members" :key="i" @click="">
         <v-list-tile-avatar>
-          <v-icon class="grey lighten-1 white--text">contact_phone</v-icon>
+          <v-icon v-if="member.paused"
+            class="orange lighten-2 white--text">phone_paused</v-icon>
+          <v-icon v-else-if="member.incall"
+            class="green darken-2 white--text">phone_in_talk</v-icon>
+          <v-icon v-else
+            class="grey lighten-1 white--text">contact_phone</v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>{{ member.name }}</v-list-tile-title>
@@ -33,6 +43,14 @@
             </v-tooltip>
           </v-list-tile-sub-title>
           <v-list-tile-sub-title class="caption">
+            <v-tooltip v-if="member.incall" left>
+              <span slot="activator" class="green--text darken-2--text">
+                <v-icon
+                  class="data-icon">phone_in_talk</v-icon>
+                <strong>{{ member.incallTime | formatTime }}</strong>
+              </span>
+              <span>Time on call</span>
+            </v-tooltip>
             <v-tooltip left>
               <span slot="activator">
                 <v-icon class="data-icon">alarm</v-icon>
@@ -61,6 +79,7 @@
         </v-list-tile-action>
       </v-list-tile>
     </v-list>
+
     <v-list two-line>
       <v-subheader>
         <v-icon>account_circle</v-icon>
@@ -68,22 +87,48 @@
       </v-subheader>
       <v-list-tile avatar v-for="(caller, i) in callers" :key="i" @click="">
         <v-list-tile-avatar>
-          <v-icon class="grey lighten-1 white--text">
-            {{ caller.statusIcon() }}
+          <v-icon :class="[caller.incall ? 'green darken-2':'grey lighten-1', 'white--text']">
+            {{ caller.incall ? 'phone_in_talk' : 'phone_forwarded' }}
           </v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>{{ caller.clidName }} &lt;{{ caller.clidNum }}&gt;</v-list-tile-title>
           <v-list-tile-sub-title class="caption">
-            <v-icon>phone_in_talk</v-icon>
-            Talk time: answered {{ caller.answerTime }}
+            <v-tooltip v-if="caller.incall" left>
+              <span slot="activator" class="green--text darken-2--text">
+                <v-icon class="data-icon">phone_in_talk</v-icon>
+                <strong>{{ caller.answerTime | formatTime }}</strong>
+              </span>
+              <span>On call time</span>
+            </v-tooltip>
+            <v-tooltip left>
+              <span slot="activator">
+                <v-icon class="data-icon">hourglass_full</v-icon>
+                {{ caller.wait | formatTime }}
+              </span>
+              <span>Wait in queue time</span>
+            </v-tooltip>
           </v-list-tile-sub-title>
           <v-list-tile-sub-title class="caption">
-            Channel: {{ caller.chan }} / agent: ....
+            <v-tooltip v-if="caller.incall" left>
+              <span slot="activator">
+                <v-icon class="data-icon">contact_phone</v-icon>
+                {{ memberChan(caller) }}
+              </span>
+              <span>Agent connected</span>
+            </v-tooltip>
+            <span v-else>
+              <v-icon class="data-icon">watch_later</v-icon>
+              Position in queue: {{ caller.position }}
+            </span>
           </v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
+    <v-snackbar v-model="notify" :timeout="3000" color="info" top right>
+      <v-icon color="white">info_outline</v-icon>
+      {{ notifyText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -93,21 +138,40 @@ export default {
   name: 'QueueData',
   data () {
     return {
-      msg: 'Members and Callers'
+      notify: false,
+      notifyText: ''
     }
   },
-  computed: mapGetters({
-    queues: 'getAllQueues',
-    members: 'getSelectedMembers',
-    callers: 'getSelectedCallers',
-    selectedQueue: 'getSelectedQueue'
-  }),
+  computed: {
+    ...mapGetters({
+      queues: 'getAllQueues',
+      members: 'getSelectedMembers',
+      callers: 'getSelectedCallers',
+      getSelectedQueue: 'getSelectedQueue'
+    }),
+    queueSelect: {
+      get: function () {
+        return this.getSelectedQueue
+      },
+      set: function (val) {
+        this.selectedQueue(val)
+      }
+    }
+  },
   methods: {
-    ...mapActions(['pauseAgentInSelectedQueue']),
+    ...mapActions(['pauseAgentInSelectedQueue', 'selectedQueue']),
     pauseAgentToggle: function (member) {
       this.pauseAgentInSelectedQueue({ member: member, pause: !member.paused })
-      // this.$notify({group: 'main', text: `${pause ? 'Pause' : 'Activate'} agent ${member.name}`})
-      // this.$root.$emit('bv::hide::tooltip')
+      this.notifyText = `${member.paused ? 'Activate' : 'Pause'} agent ${member.name}`
+      this.notify = true
+    },
+    memberChan: function (caller) {
+      const member = this.members.find(m => m.chan === caller.chan)
+      if (member) {
+        return member.name
+      } else {
+        return ''
+      }
     }
   }
 }

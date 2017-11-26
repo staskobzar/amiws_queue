@@ -2,7 +2,7 @@
   <v-container fluid grid-list-lg>
     <v-layout row wrap>
       <v-flex xs4>
-        <v-card>
+        <v-card class="elevation-8">
             <v-layout row>
               <v-flex xs3>
                 <v-card class="stats-card-icon amber darken-2" raised height="100%">
@@ -29,7 +29,7 @@
       </v-flex>
 
       <v-flex xs4>
-        <v-card>
+        <v-card class="elevation-8">
             <v-layout row>
               <v-flex xs3>
                 <v-card class="stats-card-icon blue darken-4" raised height="100%">
@@ -56,7 +56,7 @@
       </v-flex>
 
       <v-flex xs4>
-        <v-card>
+        <v-card class="elevation-8">
             <v-layout row>
               <v-flex xs3>
                 <v-card class="stats-card-icon green darken-3" raised height="100%">

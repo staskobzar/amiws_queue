@@ -1,14 +1,15 @@
 import * as cstate from './caller-state'
 
 export default {
-  wsConnected: state => state.ws_connected,
+  wsDisconnected: state => !state.ws_connected,
   getLoading: state => state.loading,
   getAmiServers: state => state.servers,
   getAllQueues: state => state.queues,
   getQueuesFiltered: state => {
     const filter = state.qnameFilter.toLowerCase()
     if (filter) {
-      return state.queues.filter(q => q.name.toLowerCase().includes(filter))
+      const re = new RegExp(filter, 'i')
+      return state.queues.filter(q => q.name.match(re))
     } else {
       return state.queues
     }

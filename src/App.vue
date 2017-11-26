@@ -8,7 +8,12 @@
       <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
       <v-toolbar-title>Asterisk Queues Realtime Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"></v-toolbar-side-icon>
+      <v-progress-circular
+        indeterminate
+        :width="5"
+        v-if="loading"
+        color="white">
+      </v-progress-circular>
     </v-toolbar>
 
     <v-content>
@@ -34,6 +39,23 @@
       <v-spacer></v-spacer>
       <span class="white--text">ver. {{version}}</span>
     </v-footer>
+    <v-dialog v-model="wsDisconnected" max-width="400" persistent>
+      <v-card>
+        <v-card-title class="headline">Connection lost...</v-card-title>
+        <v-card-text>
+          <v-layout row>
+            <v-flex xs2>
+              <v-icon x-large dark color="red">error_outline</v-icon>
+            </v-flex>
+            <v-flex xs10>
+              <p>Web-socket connection is lost.</p>
+              <p>Trying to re-connect...</p>
+            </v-flex>
+          </v-layout>
+          <v-progress-linear color="error" height="2" :indeterminate="true"></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -56,22 +78,20 @@ export default {
   },
   data () {
     return {
-      drawerLeft: true,
-      drawerRight: true
+      drawerLeft: false
     }
   },
   computed: {
-    ...mapGetters(['getLoading', 'wsConnected']),
+    ...mapGetters(['getLoading', 'wsDisconnected', 'getSelectedQueue']),
     loading: function () {
-      if (this.getLoading === 0 && this.$refs.loadingModal) {
-        this.$refs.loadingModal.hide()
-      }
+      return this.getLoading > 0
     },
-    version: () => process.env.VER
-  },
-  mounted () {
-    if (this.getLoading > 0 && this.$refs.loadingModal) {
-      this.$refs.loadingModal.show()
+    version: () => process.env.VER,
+    drawerRight: {
+      get: function () {
+        return this.getSelectedQueue.length > 0
+      },
+      set: function (val) { }
     }
   }
 }

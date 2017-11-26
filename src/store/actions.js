@@ -30,6 +30,7 @@ export default {
         case 'QueueCallerJoin':
           commit(mtype.ADD_QUEUE_CALLER, { msg })
           break
+        case 'QueueCallerLeave':
         case 'Leave':
           commit(mtype.UPDATE_QUEUE_CALLER, { msg })
           break

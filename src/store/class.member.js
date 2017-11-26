@@ -6,12 +6,15 @@ export default class {
   penalty = 0
   callsTaken = 0
   lastCall = null
-  incall = false
   status = null
   paused = false
   pausedReason = null
   lastHoldtime = 0
   lastTalktime = 0
+  incall = false
+  incallTime = 0
+  chan = null
+  _incallInterval = null
 
   constructor (msg) {
     const data = msg.data
@@ -28,6 +31,18 @@ export default class {
     this.pausedReason = data.PausedReason
   }
 
+  _setMemberInCall (isInCall) {
+    if (!this._incallInterval && isInCall) {
+      this._incallInterval = setInterval(() => this.incallTime++, 1000)
+    }
+    if (this._incallInterval && this.incall && !isInCall) {
+      clearInterval(this._incallInterval)
+      this.incallTime = 0
+      this._incallInterval = null
+    }
+    this.incall = isInCall
+  }
+
   update (data) {
     if (data.Name) this.name = data.Name
     if (data.MemberName) this.name = data.MemberName
@@ -37,12 +52,13 @@ export default class {
     if (data.Penalty) this.penalty = +data.Penalty
     if (data.CallsTaken) this.callsTaken = +data.CallsTaken
     if (data.LastCall) this.lastCall = +data.LastCall
-    if (data.InCall) this.incall = (+data.InCall) === 1
+    if (data.InCall) this._setMemberInCall((+data.InCall) === 1)
     if (data.Status) this.status = +data.Status
     if (data.Paused) this.paused = (+data.Paused) === 1
     if (data.PausedReason) this.pausedReason = data.PausedReason
     if (data.HoldTime) this.lastHoldtime = +data.HoldTime
     if (data.TalkTime) this.lastTalktime = +data.TalkTime
+    if (data.Channel) this.chan = data.Channel
   }
 
   match (name) {

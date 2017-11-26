@@ -9,8 +9,10 @@ export default class {
   clidName = null
   lineNum = null
   lineName = null
-  wait = null
-  answerTime = null
+  wait = 0
+  incall = false
+  _waitInterval = null
+  answerTime = 0
 
   constructor (msg) {
     const data = msg.data
@@ -22,7 +24,8 @@ export default class {
     this.clidName = data.CallerIDName
     this.lineNum = data.ConnectedLineNum
     this.lineName = data.ConnectedLineName
-    this.wait = +data.Wait
+    if (data.Wait) this.wait = +data.Wait
+    this._waitInterval = setInterval(() => this.wait++, 1000)
   }
 
 /*
@@ -38,12 +41,11 @@ export default class {
     if (data.Wait) this.wait = +data.Wait
   }
 */
-  statusIcon () {
-    return this.status === cstate.ANSWERED ? 'phone_in_talk' : 'phone_forwarded'
-  }
 
   setAnswered () {
-    this.answerTime = new Date()
+    clearInterval(this._waitInterval)
+    setInterval(() => this.answerTime++, 1000)
     this.status = cstate.ANSWERED
+    this.incall = true
   }
 }

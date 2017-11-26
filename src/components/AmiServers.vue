@@ -17,8 +17,12 @@
           <v-divider></v-divider>
           <v-card-text>
             <div>Queues: <span class="queues-num">{{ getQueuesPerServer(server.id) }}</span></div>
-            <div>Uptime since: {{ server.started.getTime() / 1000 | formatFromUnixtime }} </div>
-            <div>Reloaded: {{ server.reloaded.getTime() / 1000 | formatFromUnixtime }} </div>
+            <div>Up since:
+              <strong>{{ server.started.getTime() / 1000 | formatFromUnixtime }} </strong>
+            </div>
+            <div>Reloaded:
+              <strong>{{ server.reloaded.getTime() / 1000 | formatFromUnixtime }} </strong>
+            </div>
           </v-card-text>
         </v-card>
       </v-flex>

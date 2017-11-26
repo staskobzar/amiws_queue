@@ -10,7 +10,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-pagination total-visible="5" :length="pageLen" v-model="currentPage"></v-pagination>
+      <v-pagination total-visible="7" :length="pageLen" v-model="currentPage"></v-pagination>
 
       <v-spacer></v-spacer>
 

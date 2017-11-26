@@ -15,7 +15,7 @@ const state = {
   qnameFilter: '',
   loading: 0,
   pagination: {
-    perPage: 10,
+    perPage: 9,
     currentPage: 1
   }
 }

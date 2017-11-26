@@ -1,7 +1,8 @@
 <template>
   <v-container fluid grid-list-md class="grey lighten-4">
     <v-layout row wrap>
-      <v-flex xs6 v-for="(queue, index) in queues" :key="index">
+      <v-flex v-bind="{ [`xs${getSelectedQueue.length > 0 ? '6' : '4'}`]: true }"
+        v-for="(queue, index) in queues" :key="index">
         <v-card hover :class="{'elevation-15': isActive(queue.name)}">
           <v-card-title primary-title class="grey lighten-3">
             <h3><v-icon>people</v-icon>

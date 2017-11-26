@@ -135,5 +135,10 @@ export default {
 
   [mtype.SET_SELECTED_QUEUE] (state, { queueName }) {
     state.selectedQueue = queueName
+    if (queueName.length > 0) {
+      state.pagination.perPage--
+    } else {
+      state.pagination.perPage++
+    }
   }
 }
