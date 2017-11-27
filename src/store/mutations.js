@@ -121,7 +121,11 @@ export default {
       q.callers.find(c => c.chan === data.Channel && c.uid === data.Uniqueid))
     if (queue) {
       queue.removeCaller(msg)
-      Vue.websockSend(JSON.stringify({Action: 'QueueSummary', Queue: queue.name}))
+      Vue.websockSend(JSON.stringify({
+        Action: 'QueueSummary',
+        Queue: queue.name,
+        AMIServerID: queue.sid
+      }))
     }
   },
 
@@ -135,10 +139,5 @@ export default {
 
   [mtype.SET_SELECTED_QUEUE] (state, { queueName }) {
     state.selectedQueue = queueName
-    if (queueName.length > 0) {
-      state.pagination.perPage--
-    } else {
-      state.pagination.perPage++
-    }
   }
 }

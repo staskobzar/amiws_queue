@@ -1,7 +1,7 @@
 <template>
   <v-container fluid grid-list-lg>
     <v-layout row wrap>
-      <v-flex xs4>
+      <v-flex xs4 class="stats-card">
         <v-card class="elevation-8">
             <v-layout row>
               <v-flex xs3>
@@ -11,7 +11,7 @@
               </v-flex>
               <v-flex xs9>
                 <div class="stats-content">
-                  <v-layout row>
+                  <v-layout row class="active-calls">
                     <v-flex class="text-xs-right">
                       <div class="calls-num data">{{ totalActiveCalls }}</div>
                       <div class="label">On call</div>
@@ -28,7 +28,7 @@
         </v-card>
       </v-flex>
 
-      <v-flex xs4>
+      <v-flex xs4 class="stats-card">
         <v-card class="elevation-8">
             <v-layout row>
               <v-flex xs3>
@@ -36,7 +36,7 @@
                   <v-icon class="header-icon" color="white">phone_in_talk</v-icon>
                 </v-card>
               </v-flex>
-              <v-flex xs9>
+              <v-flex xs9 class="calls-processed">
                 <div class="stats-content">
                   <v-layout row>
                     <v-flex class="text-xs-right">
@@ -55,7 +55,7 @@
         </v-card>
       </v-flex>
 
-      <v-flex xs4>
+      <v-flex xs4 class="stats-card">
         <v-card class="elevation-8">
             <v-layout row>
               <v-flex xs3>
@@ -65,7 +65,11 @@
               </v-flex>
               <v-flex xs9>
                 <div class="stats-content">
-                  <v-layout row>
+                  <v-layout row class="members">
+                    <v-flex class="text-xs-right">
+                      <div class="total data">{{ totalPausedMembers + totalUnpausedMembers }}</div>
+                      <div class="label">Total</div>
+                    </v-flex>
                     <v-flex class="text-xs-right">
                       <div class="paused data">{{ totalPausedMembers }}</div>
                       <div class="label">Paused</div>

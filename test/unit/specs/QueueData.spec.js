@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import { mount, createLocalVue } from 'vue-test-utils'
 import Vuex from 'vuex'
-import BootstrapVue from 'bootstrap-vue'
+import Vuetify from 'vuetify'
 
 import QueueData from '@/components/QueueData'
 import * as mtype from '@/store/mutation-types'
@@ -11,7 +11,7 @@ import Fixtures from './fixtures/QueueData'
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
-localVue.use(BootstrapVue)
+localVue.use(Vuetify)
 
 describe('QueueData', () => {
   beforeEach(() => {
@@ -95,9 +95,9 @@ describe('QueueData', () => {
   it('pause/unpause agent in list', () => {
     Fixtures.oneQueueWithOneMemeberOneCaller.forEach(msg => store.dispatch('newMessage', msg))
     store.dispatch('selectedQueue', 'TechSupport')
-    const comp = mount(QueueData, { store, localVue, methods: { $notify: () => {} } })
-    comp.vm.pauseAgentInSelectedQueue = sinon.stub()
-    comp.find('.btn-activate-agent').trigger('click')
-    expect(comp.vm.pauseAgentInSelectedQueue.called).to.equal(true)
+    const comp = mount(QueueData, { store, localVue })
+    comp.vm.pauseAgentToggle = sinon.stub()
+    comp.find('.btn-agent-toggle').trigger('click')
+    expect(comp.vm.pauseAgentToggle.called).to.equal(true)
   })
 })

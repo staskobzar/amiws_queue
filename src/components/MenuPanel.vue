@@ -16,6 +16,7 @@
 
       <v-tooltip top>
         <v-btn round dark color="primary" slot="activator"
+          id="btn-pause-all-agents"
           @click.native.stop="pauseAll()">
           <v-icon>pause_circle_outline</v-icon>
         </v-btn>
@@ -23,6 +24,7 @@
       </v-tooltip>
       <v-tooltip top>
         <v-btn round dark color="primary" slot="activator"
+          id="btn-activate-all-agents"
           @click.native.stop="unPauseAll()">
           <v-icon>play_circle_outline</v-icon>
         </v-btn>
@@ -32,9 +34,9 @@
 
     <v-dialog v-model="confirmDlg" max-width="360">
       <v-card>
-        <v-card-title class="headline">{{ confirm.title }}</v-card-title>
+        <v-card-title class="headline modal-title">{{ confirm.title }}</v-card-title>
         <v-divider></v-divider>
-        <v-card-text>{{ confirm.body }}</v-card-text>
+        <v-card-text class="modal-body">{{ confirm.body }}</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn @click.native="confirmDlg = false">Cancel</v-btn>

@@ -3,10 +3,11 @@
     <v-layout row wrap>
       <v-flex v-bind="{ [`xs${getSelectedQueue.length > 0 ? '6' : '4'}`]: true }"
         v-for="(queue, index) in queues" :key="index">
-        <v-card hover :class="{'elevation-15': isActive(queue.name)}">
+        <v-card hover :class="[{'elevation-15': isActive(queue.name)}, 'queue-card']">
           <v-card-title primary-title class="grey lighten-3">
             <h3><v-icon>people</v-icon>
-            {{ queue.name }}</h3>
+              <span class="card-header">{{ queue.name }}</span>
+            </h3>
           </v-card-title>
           <v-divider></v-divider>
           <v-card-text>
@@ -28,7 +29,7 @@
                     <span slot="activator">
                       <v-icon class="qdata-icon" :color="allPaused(queue)">
                         pause_circle_outline</v-icon>
-                      {{ queue | membersPaused }}
+                      <span class="members-paused">{{ queue | membersPaused }}</span>
                     </span>
                     <span>Paused agents</span>
                   </v-tooltip> /
@@ -36,7 +37,7 @@
                     <span slot="activator">
                       <v-icon class="qdata-icon" :color="allUnpaused(queue)">
                         play_circle_outline</v-icon>
-                      {{ queue | membersUnpaused }}
+                      <span class="members-unpaused">{{ queue | membersUnpaused }}</span>
                     </span>
                     <span>Active agents</span>
                   </v-tooltip>)

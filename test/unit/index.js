@@ -12,3 +12,11 @@ testsContext.keys().forEach(testsContext)
 const srcContext = require.context('../../src', true, /^\.\/(?!(main(\.js)?|websock.*|logger(\.js)?|App(\.vue)?)$)/)
 // console.log(srcContext.keys())
 srcContext.keys().forEach(srcContext)
+
+/*
+ * make Vuetify app element to avoid warnings
+ */
+var app = document.createElement('div')
+app.setAttribute('data-app', true)
+document.body.appendChild(app)
+// -- done

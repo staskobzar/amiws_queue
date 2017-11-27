@@ -6,7 +6,7 @@
 
     <v-toolbar color="indigo" app dark>
       <v-toolbar-side-icon @click.stop="drawerLeft = !drawerLeft"></v-toolbar-side-icon>
-      <v-toolbar-title>Asterisk Queues Realtime Dashboard</v-toolbar-title>
+      <v-toolbar-title>Asterisk Queues Realtime Dashboard ({{ version }})</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-progress-circular
         indeterminate
@@ -38,6 +38,7 @@
     <v-footer color="indigo" dark fixed app>
       <v-spacer></v-spacer>
       <span class="white--text">ver. {{version}}</span>
+      <v-spacer></v-spacer>
     </v-footer>
     <v-dialog v-model="wsDisconnected" max-width="400" persistent>
       <v-card>
@@ -52,7 +53,8 @@
               <p>Trying to re-connect...</p>
             </v-flex>
           </v-layout>
-          <v-progress-linear color="error" height="2" :indeterminate="true"></v-progress-linear>
+          <v-progress-linear color="error" height="2" :indeterminate="true">
+          </v-progress-linear>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -60,7 +62,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import TopStats from './components/TopStats'
 import AmiServers from './components/AmiServers'
 import QueuesList from './components/QueuesList'
@@ -81,6 +83,7 @@ export default {
       drawerLeft: false
     }
   },
+  methods: mapActions(['setPerPage']),
   computed: {
     ...mapGetters(['getLoading', 'wsDisconnected', 'getSelectedQueue']),
     loading: function () {
@@ -89,7 +92,13 @@ export default {
     version: () => process.env.VER,
     drawerRight: {
       get: function () {
-        return this.getSelectedQueue.length > 0
+        if (this.getSelectedQueue.length > 0) {
+          this.setPerPage(8)
+          return true
+        } else {
+          this.setPerPage(9)
+          return false
+        }
       },
       set: function (val) { }
     }

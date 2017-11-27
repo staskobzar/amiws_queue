@@ -11,11 +11,11 @@
         {{ queueSelect }}
       </v-toolbar-title>
     </v-toolbar>
-    <v-list two-line subheader>
+    <v-list two-line subheader class="members">
       <v-subheader>
         <v-icon>headset_mic</v-icon>Queue agents ({{ members.length }})
       </v-subheader>
-      <v-list-tile avatar v-for="(member, i) in members" :key="i" @click="">
+      <v-list-tile avatar v-for="(member, i) in members" :key="i" @click="" class="member-card">
         <v-list-tile-avatar>
           <v-icon v-if="member.paused"
             class="orange lighten-2 white--text">phone_paused</v-icon>
@@ -27,10 +27,11 @@
         <v-list-tile-content>
           <v-list-tile-title>{{ member.name }}</v-list-tile-title>
           <v-list-tile-sub-title class="caption">
+            <span>Penalty: {{ member.penalty }}</span>
             <v-tooltip left>
               <span slot="activator">
                 <v-icon class="data-icon">check_box</v-icon>
-                {{ member.callsTaken}}
+                {{ member.callsTaken}} calls
               </span>
               <span>Calls taken</span>
             </v-tooltip>
@@ -69,7 +70,7 @@
         </v-list-tile-content>
         <v-list-tile-action>
           <v-tooltip top>
-            <v-btn slot="activator" icon ripple @click="pauseAgentToggle(member)">
+            <v-btn slot="activator" icon ripple class="btn-agent-toggle" @click="pauseAgentToggle(member)">
               <v-icon color="grey lighten-1">
                 {{ member.paused ? 'play_circle_outline' : 'pause_circle_outline' }}
               </v-icon>
@@ -80,12 +81,12 @@
       </v-list-tile>
     </v-list>
 
-    <v-list two-line>
+    <v-list two-line class="callers">
       <v-subheader>
         <v-icon>account_circle</v-icon>
         Queue callers ({{ callers.length }})
       </v-subheader>
-      <v-list-tile avatar v-for="(caller, i) in callers" :key="i" @click="">
+      <v-list-tile avatar v-for="(caller, i) in callers" :key="i" @click="" class="caller-card">
         <v-list-tile-avatar>
           <v-icon :class="[caller.incall ? 'green darken-2':'grey lighten-1', 'white--text']">
             {{ caller.incall ? 'phone_in_talk' : 'phone_forwarded' }}

@@ -1,7 +1,7 @@
 import 'babel-polyfill'
 import { mount, createLocalVue } from 'vue-test-utils'
 import Vuex from 'vuex'
-import BootstrapVue from 'bootstrap-vue'
+import Vuetify from 'vuetify'
 import sinon from 'sinon'
 
 import * as mtype from '@/store/mutation-types'
@@ -12,7 +12,7 @@ import QueuesList from '@/components/QueuesList'
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
-localVue.use(BootstrapVue)
+localVue.use(Vuetify)
 
 describe('QueuesList', () => {
   beforeEach(() => {
@@ -54,8 +54,8 @@ describe('QueuesList', () => {
     Fixtures.oneQueueWithTwoMembersThreeCallers.forEach(msg => store.dispatch('newMessage', msg))
     const comp = mount(QueuesList, { store, localVue })
     expect(comp.contains('.queue-card')).to.equal(true)
-    expect(comp.find('.queue-card .members-paused').text().trim()).to.equal('1')
-    expect(comp.find('.queue-card .members-unpaused').text().trim()).to.equal('1')
+    expect(comp.find('.members-paused').text().trim()).to.equal('1')
+    expect(comp.find('.members-unpaused').text().trim()).to.equal('1')
   })
 
   it('create queue with three callers on call and one waiting', () => {
@@ -113,7 +113,7 @@ describe('QueuesList', () => {
       .to.equal('Reception')
   })
 
-  it('filter queues list by queue name case insencetive', () => {
+  it('filter queues list by queue name case insensitive', () => {
     Fixtures.sixQueues.forEach(msg => store.dispatch('newMessage', msg))
     store.dispatch('setQueuesFilter', 'sales')
     const comp = mount(QueuesList, { store, localVue })
@@ -124,7 +124,7 @@ describe('QueuesList', () => {
   it('set all members paused for selected queue', () => {
     Fixtures.oneQueueWithTwoMembersThreeCallers.forEach(msg => store.dispatch('newMessage', msg))
     store.dispatch('setQueuesFilter', 'TechSupport')
-    const comp = mount(QueuesList, { store, localVue, methods: { $notify: () => {} } })
+    const comp = mount(QueuesList, { store, localVue })
     comp.vm.pauseAllAgents = sinon.stub()
     comp.vm.pauseAll()
     expect(comp.vm.pauseAllAgents.callCount).to.equal(1)
