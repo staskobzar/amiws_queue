@@ -72,7 +72,8 @@ export default class {
   }
 
   updateMember (msg) {
-    const member = this.findMember(msg.data.MemberName)
+    const name = msg.data.MemberName || msg.data.AgentName
+    const member = this.findMember(name)
     if (member) {
       member.update(msg.data)
     }

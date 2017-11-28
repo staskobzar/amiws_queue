@@ -25,6 +25,8 @@
             class="orange lighten-2 white--text">phone_paused</v-icon>
           <v-icon v-else-if="member.incall"
             class="green darken-2 white--text">phone_in_talk</v-icon>
+          <v-icon v-else-if="member.ringing"
+            class="cyan lighten-2 white--text">ring_volume</v-icon>
           <v-icon v-else
             class="grey lighten-1 white--text">contact_phone</v-icon>
         </v-list-tile-avatar>

@@ -15,6 +15,10 @@ export default {
     } else if (msg.type === 3) {
       // event
       switch (msg.data.Event) {
+        case 'AgentCalled':
+        case 'AgentRingNoAnswer':
+          commit(mtype.UPDATE_QUEUE_MEMBER_STATUS, { msg })
+          break
         case 'QueueParams':
           commit(mtype.ADD_QUEUE, { msg })
           break
