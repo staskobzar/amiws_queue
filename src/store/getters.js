@@ -2,6 +2,7 @@ import * as cstate from './caller-state'
 
 export default {
   wsDisconnected: state => !state.ws_connected,
+  getDragMember: state => state.dragMember,
   getLoading: state => state.loading,
   getAmiServers: state => state.servers,
   getAllQueues: state => state.queues,

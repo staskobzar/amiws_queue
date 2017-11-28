@@ -15,7 +15,11 @@
       <v-subheader>
         <v-icon>headset_mic</v-icon>Queue agents ({{ members.length }})
       </v-subheader>
-      <v-list-tile avatar v-for="(member, i) in members" :key="i" @click="" class="member-card">
+      <v-list-tile avatar v-for="(member, i) in members" :key="i" @click=""
+        draggable="true"
+        @dragstart="memberDragStart(member)"
+        @dragend="memberDragStop()"
+        class="member-card">
         <v-list-tile-avatar>
           <v-icon v-if="member.paused"
             class="orange lighten-2 white--text">phone_paused</v-icon>
@@ -160,7 +164,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['pauseAgentInSelectedQueue', 'selectedQueue']),
+    ...mapActions(['pauseAgentInSelectedQueue', 'selectedQueue', 'memberDragStart', 'memberDragStop']),
     pauseAgentToggle: function (member) {
       this.pauseAgentInSelectedQueue({ member: member, pause: !member.paused })
       this.notifyText = `${member.paused ? 'Activate' : 'Pause'} agent ${member.name}`

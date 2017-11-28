@@ -101,6 +101,18 @@ export default {
     }))
   },
 
+  [mtype.QUEUE_ADD_MEMBER] (state, { queue, member }) {
+    Vue.websockSend(JSON.stringify({
+      Action: 'QueueAdd',
+      AMIServerID: queue.sid,
+      Queue: queue.name,
+      Interface: member.interface,
+      Penalty: member.penalty,
+      Paused: member.paused,
+      MemberName: member.name
+    }))
+  },
+
   [mtype.ADD_QUEUE_CALLER] (state, { msg }) {
     const queue = state.queues.find(q => q.match(msg))
     if (queue) {

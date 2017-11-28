@@ -3,7 +3,11 @@
     <v-layout row wrap>
       <v-flex v-bind="{ [`xs${getSelectedQueue.length > 0 ? '6' : '4'}`]: true }"
         v-for="(queue, index) in queues" :key="index">
-        <v-card hover :class="[{'elevation-15': isActive(queue.name)}, 'queue-card']">
+        <v-card hover :class="[{'elevation-15': isActive(queue.name)}, 'queue-card']"
+          @dragover.prevent
+          @drop="dragDrop(queue)"
+          @dragleave="dragLeave(index)"
+          @dragenter="dragEnter(index)">
           <v-card-title primary-title class="grey lighten-3">
             <h3><v-icon>people</v-icon>
               <span class="card-header">{{ queue.name }}</span>
@@ -142,7 +146,8 @@ export default {
     })
   },
   methods: {
-    ...mapActions([ 'selectedQueue', 'pauseAllAgents' ]),
+    ...mapActions([ 'selectedQueue', 'pauseAllAgents', 'addQueueMember' ]),
+    ...mapGetters([ 'getDragMember' ]),
     isActive: function (name) {
       return this.getSelectedQueue === name
     },
@@ -156,6 +161,21 @@ export default {
       const pauseStatus = pause ? 'paused' : 'active'
       this.notifyText = `Set ${pauseStatus} all agents in queue "${name}"`
       this.pauseAllAgents({ name, sid, pause })
+      this.notify = true
+    },
+    dragEnter: function (index) {
+      // console.log(`drag enter: ${index}`)
+    },
+    dragLeave: function (index) {
+      // console.log(`drag leave: ${index}`)
+    },
+    dragDrop: function (queue) {
+      const member = this.getDragMember()
+      if (queue.name === this.getSelectedQueue) {
+        return
+      }
+      this.addQueueMember({ queue, member })
+      this.notifyText = `Adding agent "${member.name}" to queue "${queue.name}"`
       this.notify = true
     }
   },

@@ -93,5 +93,14 @@ export default {
   },
   setCurPage ({ commit, state }, page) {
     state.pagination.currentPage = page
+  },
+  memberDragStart ({ commit, state }, member) {
+    state.dragMember = member
+  },
+  memberDragStop ({ commit, state }) {
+    state.dragMember = null
+  },
+  addQueueMember ({ commit, state }, { queue, member }) {
+    commit(mtype.QUEUE_ADD_MEMBER, { queue, member })
   }
 }
