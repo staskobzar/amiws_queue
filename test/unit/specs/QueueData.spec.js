@@ -88,8 +88,12 @@ describe('QueueData', () => {
     Fixtures.oneQueueWithOneMemeberOneCaller.forEach(msg => store.dispatch('newMessage', msg))
     store.dispatch('selectedQueue', 'TechSupport')
     store.dispatch('newMessage', Fixtures.queueMemberStatus)
+    // fix date for Travis CI timezone
+    const d = new Date(1510904138000)
+    const h = d.getHours()
+    const p = h > 9 ? '' : '0'
     const comp = mount(QueueData, { store, localVue })
-    expect(comp.find('.last-call-taken').text().trim()).to.equal('2017-11-05 02:35:38')
+    expect(comp.find('.last-call-taken').text().trim()).to.equal(`2017-11-05 ${p}${h}:35:38`)
   })
 
   it('pause/unpause agent in list', () => {
