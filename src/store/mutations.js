@@ -8,10 +8,6 @@ export default {
     state.ws_connected = status
   },
 
-  [mtype.LOADING_QUEUES] (state, inc) {
-    state.loading += inc
-  },
-
   [mtype.CLEAR_AMISRV_LIST] (state) {
     state.servers.splice(0)
   },

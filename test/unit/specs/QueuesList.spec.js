@@ -129,17 +129,4 @@ describe('QueuesList', () => {
     comp.vm.pauseAll()
     expect(comp.vm.pauseAllAgents.callCount).to.equal(1)
   })
-
-  it('update flag when start loading queues list', () => {
-    store.dispatch('newMessage', Fixtures.startQueuesList)
-    expect(store.state.loading).to.equal(1)
-  })
-
-  it('update flag when finish loading queues list', () => {
-    store.dispatch('newMessage', Fixtures.startQueuesList)
-    store.dispatch('newMessage', Fixtures.startQueuesList)
-    store.dispatch('newMessage', Fixtures.startQueuesList)
-    store.dispatch('newMessage', Fixtures.finishQueueList)
-    expect(store.getters.getLoading).to.equal(2)
-  })
 })

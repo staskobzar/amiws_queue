@@ -8,13 +8,12 @@ import actions from './actions.js'
 Vue.use(Vuex)
 
 const state = {
-  ws_connected: false,
+  ws_connected: true,
   servers: [],
   queues: [],
   selectedQueue: '',
   dragMember: null,
   qnameFilter: '',
-  loading: 0,
   pagination: {
     perPage: 9,
     currentPage: 1

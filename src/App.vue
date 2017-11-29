@@ -85,9 +85,9 @@ export default {
   },
   methods: mapActions(['setPerPage']),
   computed: {
-    ...mapGetters(['getLoading', 'wsDisconnected', 'getSelectedQueue']),
+    ...mapGetters(['getAllQueues', 'wsDisconnected', 'getSelectedQueue']),
     loading: function () {
-      return this.getLoading > 0
+      return this.getAllQueues.length === 0
     },
     version: () => process.env.VER,
     drawerRight: {

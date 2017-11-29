@@ -21,14 +21,17 @@
         @dragend="memberDragStop()"
         class="member-card">
         <v-list-tile-avatar>
-          <v-icon v-if="member.paused"
-            class="orange lighten-2 white--text">phone_paused</v-icon>
-          <v-icon v-else-if="member.incall"
-            class="green darken-2 white--text">phone_in_talk</v-icon>
-          <v-icon v-else-if="member.ringing"
-            class="cyan lighten-2 white--text">ring_volume</v-icon>
-          <v-icon v-else
-            class="grey lighten-1 white--text">contact_phone</v-icon>
+          <v-badge color="grey" overlap>
+            <v-icon slot="badge" v-if="member.chan === callerChanOver">done</v-icon>
+            <v-icon v-if="member.paused"
+              class="orange lighten-2 white--text">phone_paused</v-icon>
+            <v-icon v-else-if="member.incall"
+              class="green darken-2 white--text">phone_in_talk</v-icon>
+            <v-icon v-else-if="member.ringing"
+              class="cyan lighten-2 white--text">ring_volume</v-icon>
+            <v-icon v-else
+              class="grey lighten-1 white--text">contact_phone</v-icon>
+          </v-badge>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>{{ member.name }}</v-list-tile-title>
@@ -92,7 +95,10 @@
         <v-icon>account_circle</v-icon>
         Queue callers ({{ callers.length }})
       </v-subheader>
-      <v-list-tile avatar v-for="(caller, i) in callers" :key="i" @click="" class="caller-card">
+      <v-list-tile avatar v-for="(caller, i) in callers" :key="i"
+        @mouseover="hoverCaller(caller)"
+        @mouseout="mouseoutCaller"
+        @click="" class="caller-card">
         <v-list-tile-avatar>
           <v-icon :class="[caller.incall ? 'green darken-2':'grey lighten-1', 'white--text']">
             {{ caller.incall ? 'phone_in_talk' : 'phone_forwarded' }}
@@ -145,6 +151,7 @@ export default {
   name: 'QueueData',
   data () {
     return {
+      callerChanOver: '',
       notify: false,
       notifyText: ''
     }
@@ -179,6 +186,12 @@ export default {
       } else {
         return ''
       }
+    },
+    hoverCaller: function (caller) {
+      this.callerChanOver = caller.chan
+    },
+    mouseoutCaller: function () {
+      this.callerChanOver = ''
     }
   }
 }

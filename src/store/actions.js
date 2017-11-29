@@ -9,8 +9,6 @@ export default {
       if (msg.data.CoreStartupDate) {
         // create or update server
         commit(mtype.NEW_AMI_SERVER, { msg })
-      } else if (msg.data.EventList && msg.data.EventList === 'start') {
-        commit(mtype.LOADING_QUEUES, 1)
       }
     } else if (msg.type === 3) {
       // event
@@ -60,9 +58,6 @@ export default {
           break
         case 'AgentComplete':
           commit(mtype.QUEUE_MEMBER_COMPLETE, { msg })
-          break
-        case 'QueueStatusComplete':
-          commit(mtype.LOADING_QUEUES, -1)
           break
         default:
           if (process.env.NODE_ENV === 'development') {
