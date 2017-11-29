@@ -1,7 +1,6 @@
 import 'babel-polyfill'
 import { mount, createLocalVue } from 'vue-test-utils'
 import Vuex from 'vuex'
-import BootstrapVue from 'bootstrap-vue'
 import AmiServers from '@/components/AmiServers'
 import * as mtype from '@/store/mutation-types'
 import store from '@/store'
@@ -10,7 +9,6 @@ import Fixtures from './fixtures/AmiServers'
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
-localVue.use(BootstrapVue)
 
 describe('AmiServers', () => {
   afterEach(() => {
