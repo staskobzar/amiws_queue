@@ -5,6 +5,8 @@
   "author": "Stas Kobzar <stas@modulis.ca>",
   "private": true,
   "scripts": {
+    "report-coverage": "codecov",
+    "codecov": "codecov -t 09971104-b84b-4d9a-b612-e3d00db8d549",
     "dev": "node build/dev-server.js",
     "start": "npm run dev",
     "build": "node build/build.js",

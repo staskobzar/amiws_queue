@@ -1,4 +1,6 @@
 # amiws_queue
+[![Build Status](https://travis-ci.org/staskobzar/amiws_queue.svg?branch=master)](https://travis-ci.org/staskobzar/amiws_queue)
+[![codecov](https://codecov.io/gh/staskobzar/amiws_queue/branch/master/graph/badge.svg)](https://codecov.io/gh/staskobzar/amiws_queue)
 
 > Asterisk Queues Realtime Manager
 
