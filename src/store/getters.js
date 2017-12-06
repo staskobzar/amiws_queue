@@ -5,13 +5,18 @@ export default {
   getDragMember: state => state.dragMember,
   getAmiServers: state => state.servers,
   getAllQueues: state => state.queues,
+  getSelectedServers: state => state.selectedServers,
+  getQueueServerName: (state, getters) => (queue) => {
+    return state.servers.find(s => s.id === queue.sid).name
+  },
   getQueuesFiltered: state => {
     const filter = state.qnameFilter.toLowerCase()
+    const queues = state.queues.filter(q => state.selectedServers.includes(q.sid))
     if (filter) {
       const re = new RegExp(filter, 'i')
-      return state.queues.filter(q => q.name.match(re))
+      return queues.filter(q => q.name.match(re))
     } else {
-      return state.queues
+      return queues
     }
   },
   getQueues: (state, getters) => {

@@ -70,6 +70,9 @@ export default {
   selectedQueue ({ commit }, queueName) {
     commit(mtype.SET_SELECTED_QUEUE, { queueName })
   },
+  setSelectedServers ({ commit, state }, ids) {
+    state.selectedServers = ids
+  },
   pauseAllAgents ({ commit, state }, {name, sid, pause}) {
     const queue = state.queues.find(q => q.sid === sid && q.name === name)
     if (queue) {

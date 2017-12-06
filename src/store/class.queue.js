@@ -46,8 +46,8 @@ export default class {
     return (msg.server_id === this.sid && msg.data.Queue === this.name)
   }
 
-  findMember (name) {
-    return this.members.find(m => m.name === name)
+  findMember (iface) {
+    return this.members.find(m => m.interface === iface)
   }
 
   _memberIndex (data) {
@@ -63,7 +63,7 @@ export default class {
   }
 
   addMember (msg) {
-    const member = this.findMember(msg.data.Name)
+    const member = this.findMember(msg.data.StateInterface)
     if (member) {
       member.update(msg.data)
     } else {
@@ -72,8 +72,8 @@ export default class {
   }
 
   updateMember (msg) {
-    const name = msg.data.MemberName || msg.data.AgentName
-    const member = this.findMember(name)
+    const iface = msg.data.Interface || msg.data.StateInterface || msg.data.Member || msg.data.AgentCalled || msg.data.Location
+    const member = this.findMember(iface)
     if (member) {
       member.update(msg.data)
     }

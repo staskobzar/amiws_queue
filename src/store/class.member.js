@@ -27,8 +27,8 @@ export default class {
     this.penalty = +data.Penalty
     this.callsTaken = +data.CallsTaken
     this.lastCall = data.LastCall
-    this.incall = (+data.InCall) === 1
     this.status = +data.Status
+    this.incall = (+data.InCall) === 1
     this.paused = (+data.Paused) === 1
     this.pausedReason = data.PausedReason
   }
@@ -57,17 +57,18 @@ export default class {
     if (data.Penalty) this.penalty = +data.Penalty
     if (data.CallsTaken) this.callsTaken = +data.CallsTaken
     if (data.LastCall) this.lastCall = +data.LastCall
-    if (data.InCall) this._setMemberInCall((+data.InCall) === 1)
     if (data.Status) this.status = +data.Status
     if (data.Paused) this.paused = (+data.Paused) === 1
     if (data.PausedReason) this.pausedReason = data.PausedReason
     if (data.HoldTime) this.lastHoldtime = +data.HoldTime
     if (data.TalkTime) this.lastTalktime = +data.TalkTime
-    if (data.Channel) this.chan = data.Channel
+    if (data.Channel && data.Event !== 'AgentConnect') this.chan = data.Channel
 
     if (data.Event === 'AgentCalled') this.ringing = true
     if (data.DestinationChannel) this.destChan = data.DestinationChannel
     if (data.ChannelCalling) this.chan = data.ChannelCalling
+    if (data.InCall !== undefined) this._setMemberInCall((+data.InCall) === 1)
+
     if (data.Event === 'AgentRingNoAnswer') {
       this.ringing = false
       this.chan = null

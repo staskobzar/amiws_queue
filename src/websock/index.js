@@ -23,7 +23,6 @@ WS.install = function (Vue, store) {
   }
 
   this.sock.onclose = (ev) => {
-    console.info('Web-socket connection closed.')
     store.commit('WS_CONNECTED', false)
     setTimeout(() => { WS.install(Vue, this.store) }, 3000)
   }

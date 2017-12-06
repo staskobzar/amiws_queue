@@ -22,6 +22,7 @@ export default {
       srv.update(msg)
     } else {
       state.servers.push(new AmiServer(msg))
+      state.selectedServers.push(msg.server_id)
     }
   },
 

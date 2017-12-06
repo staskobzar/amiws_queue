@@ -12,6 +12,7 @@ const state = {
   servers: [],
   queues: [],
   selectedQueue: '',
+  selectedServers: [],
   dragMember: null,
   qnameFilter: '',
   pagination: {

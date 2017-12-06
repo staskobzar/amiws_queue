@@ -13,10 +13,35 @@
               <span class="card-header">{{ queue.name }}</span>
             </h3>
           </v-card-title>
+          <v-tooltip top>
+            <v-chip outline color="secondary" slot="activator" disabled>
+              W <v-icon class="title-icon">timelapse</v-icon>
+              <strong>{{ queue.weight }}</strong>
+            </v-chip>
+            <span>Queue Weight</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-chip outline color="secondary" slot="activator" disabled>
+              M <v-icon class="title-icon">vertical_align_top</v-icon>
+              <strong>{{ queue | maxCalls }}</strong>
+            </v-chip>
+            <span>Max calls limit for the queue</span>
+          </v-tooltip>
+          <v-tooltip top>
+            <v-chip outline color="secondary" slot="activator" disabled>
+              S <v-icon class="title-icon">build</v-icon>
+              <strong>{{ queue.strategy }}</strong>
+            </v-chip>
+            <span>A strategy for how to handle the queue</span>
+          </v-tooltip>
           <v-divider></v-divider>
           <v-card-text>
             <v-layout row wrap class="grey--text">
               <v-flex>
+                <div>
+                  <v-icon>storage</v-icon>
+                  <strong>{{ queueSrvName(queue) }}</strong>
+                </div>
                 <div>
                   <v-icon>timer</v-icon>
                   Avg. Hold Time: <span class="holdtime">{{ queue.holdtime | formatTime }}</span>
@@ -80,27 +105,6 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions class="grey lighten-4">
-          <v-tooltip top>
-            <v-chip outline color="secondary" slot="activator">
-              W <v-icon class="title-icon">timelapse</v-icon>
-              <strong>{{ queue.weight }}</strong>
-            </v-chip>
-            <span>Queue Weight</span>
-          </v-tooltip>
-          <v-tooltip top>
-            <v-chip outline color="secondary" slot="activator">
-              M <v-icon class="title-icon">vertical_align_top</v-icon>
-              <strong>{{ queue | maxCalls }}</strong>
-            </v-chip>
-            <span>Max calls limit for the queue</span>
-          </v-tooltip>
-          <v-tooltip top>
-            <v-chip outline color="secondary" slot="activator">
-              S <v-icon class="title-icon">build</v-icon>
-              <strong>{{ queue.strategy }}</strong>
-            </v-chip>
-            <span>A strategy for how to handle the queue</span>
-          </v-tooltip>
             <v-spacer></v-spacer>
             <v-tooltip top>
               <v-btn icon @click="pauseAll(queue.name, queue.sid, true)" slot="activator">
@@ -142,6 +146,7 @@ export default {
   computed: {
     ...mapGetters({
       queues: 'getQueues',
+      queueSrvName: 'getQueueServerName',
       getSelectedQueue: 'getSelectedQueue'
     })
   },
