@@ -51,7 +51,8 @@ export default class {
   }
 
   _memberIndex (data) {
-    const index = this.members.findIndex(m => m.name === data.MemberName && m.interface === data.StateInterface)
+    const iface = data.StateInterface || data.Location
+    const index = this.members.findIndex(m => m.name === data.MemberName && m.interface === iface)
     return index === -1 ? null : index
   }
 

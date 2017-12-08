@@ -9,6 +9,8 @@ Vue.use(Vuex)
 
 const state = {
   ws_connected: true,
+  showError: false,
+  errorResponse: '',
   servers: [],
   queues: [],
   selectedQueue: '',

@@ -1,6 +1,5 @@
 export default class {
   name = null
-  location = null
   interface = null
   membership = null
   penalty = 0
@@ -21,8 +20,7 @@ export default class {
   constructor (msg) {
     const data = msg.data
     this.name = data.Name || data.MemberName
-    this.location = data.Location
-    this.interface = data.StateInterface
+    this.interface = data.StateInterface || data.Location
     this.membership = data.Membership
     this.penalty = +data.Penalty
     this.callsTaken = +data.CallsTaken
@@ -51,7 +49,7 @@ export default class {
   update (data) {
     if (data.Name) this.name = data.Name
     if (data.MemberName) this.name = data.MemberName
-    if (data.Location) this.location = data.Location
+    if (data.Location) this.interface = data.Location
     if (data.StateInterface) this.interface = data.StateInterface
     if (data.Membership) this.membership = data.Membership
     if (data.Penalty) this.penalty = +data.Penalty

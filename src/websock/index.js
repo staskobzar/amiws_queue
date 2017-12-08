@@ -28,7 +28,7 @@ WS.install = function (Vue, store) {
   }
 
   this.sock.onerror = (err) => {
-    console.error(`Socket encountered error: ${err.message} Closing socket`)
+    store.commit('ERROR_MSG', `Socket encountered error: ${err.message}. Closing socket`)
     this.sock.close()
   }
 

@@ -58,6 +58,10 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+    <v-snackbar v-model="errorToast" :timeout="5000" color="error" multi-line top>
+      <v-icon color="white">error_outline</v-icon>
+      {{ errorMessage }}
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -83,11 +87,22 @@ export default {
       drawerLeft: false
     }
   },
-  methods: mapActions(['setPerPage']),
+  methods: mapActions(['setPerPage', 'hideError']),
   computed: {
-    ...mapGetters(['getAllQueues', 'wsDisconnected', 'getSelectedQueue']),
+    ...mapGetters(['showError', 'getErrorResponse', 'getAllQueues', 'wsDisconnected', 'getSelectedQueue']),
     loading: function () {
       return this.getAllQueues.length === 0
+    },
+    errorMessage: function () {
+      return this.getErrorResponse
+    },
+    errorToast: {
+      get: function () {
+        return this.showError
+      },
+      set: function (val) {
+        this.hideError(val)
+      }
     },
     version: () => process.env.VER,
     drawerRight: {

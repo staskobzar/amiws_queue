@@ -9,6 +9,8 @@ export default {
       if (msg.data.CoreStartupDate) {
         // create or update server
         commit(mtype.NEW_AMI_SERVER, { msg })
+      } else if (msg.data.Response === 'Error') {
+        commit(mtype.ERROR_MSG, msg.data.Message)
       }
     } else if (msg.type === 3) {
       // event
@@ -87,6 +89,12 @@ export default {
       commit(mtype.PAUSE_QUEUE_MEMBER, { queue: queue.name, memberInf: member.interface, sid: queue.sid, pause: pause })
     }
   },
+  removeAgentFromQueue ({ commit, state }, {iface, qname}) {
+    const queue = state.queues.find(q => q.name === qname)
+    if (queue) {
+      commit(mtype.QUEUE_REMOVE_MEMBER, { queue: qname, memberInf: iface, sid: queue.sid })
+    }
+  },
   setQueuesFilter ({ commit, state }, filter) {
     state.qnameFilter = filter
   },
@@ -101,6 +109,9 @@ export default {
   },
   memberDragStop ({ commit, state }) {
     state.dragMember = null
+  },
+  hideError ({ commit, state }, status) {
+    state.showError = status
   },
   addQueueMember ({ commit, state }, { queue, member }) {
     commit(mtype.QUEUE_ADD_MEMBER, { queue, member })

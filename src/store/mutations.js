@@ -8,6 +8,11 @@ export default {
     state.ws_connected = status
   },
 
+  [mtype.ERROR_MSG] (state, message) {
+    state.errorResponse = message
+    state.showError = true
+  },
+
   [mtype.CLEAR_AMISRV_LIST] (state) {
     state.servers.splice(0)
   },
@@ -86,6 +91,15 @@ export default {
     if (queue) {
       queue.updateMember(msg)
     }
+  },
+
+  [mtype.QUEUE_REMOVE_MEMBER] (state, { queue, memberInf, sid }) {
+    Vue.websockSend(JSON.stringify({
+      Action: 'QueueRemove',
+      Interface: memberInf,
+      Queue: queue,
+      AMIServerID: sid
+    }))
   },
 
   [mtype.PAUSE_QUEUE_MEMBER] (state, { queue, memberInf, sid, pause }) {
