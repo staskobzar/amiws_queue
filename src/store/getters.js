@@ -31,7 +31,7 @@ export default {
     return state.queues.filter(q => q.sid === sid).length
   },
   getTotalActiveCalls: (state, getters) => {
-    return getters.getQueuesFiltered.map(e => e.callers.filter(m => m.status === cstate.ANSWERED).length)
+    return getters.getQueuesFiltered.map(e => e.members.filter(m => m.incall).length)
       .reduce((t, m) => t + m, 0)
   },
   getTotalWaitingCalls: (state, getters) => {

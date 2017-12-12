@@ -82,6 +82,7 @@ export default {
     const queue = state.queues.find(q => q.match(msg))
     if (queue) {
       msg.data.InCall = 0
+      queue.completed++
       queue.updateMember(msg)
     }
   },
@@ -156,7 +157,6 @@ export default {
   [mtype.ABANDON_QUEUE_CALLER] (state, { msg }) {
     const queue = state.queues.find(q => q.match(msg))
     if (queue) {
-      queue.completed--
       queue.abandoned++
     }
   },

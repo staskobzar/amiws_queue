@@ -198,7 +198,7 @@ export default {
       return queue.callers.filter(c => c.status === cstate.JOINED).length
     },
     callersOncall (queue) {
-      return queue.callers.filter(c => c.status === cstate.ANSWERED).length
+      return queue.members.filter(m => m.incall).length
     },
     maxCalls (queue) {
       return queue.max > 0 ? queue.max : 'unlimited'
