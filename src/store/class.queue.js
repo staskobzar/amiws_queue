@@ -95,7 +95,7 @@ export default class {
       caller.update(msg.data)
     }
   }
-*/
+// ------
   callerAnswered (msg) {
     const data = msg.data
     const caller = this.findCaller(data)
@@ -110,6 +110,14 @@ export default class {
     if (idx !== -1) {
       this.callers.splice(idx, 1)
       this.completed++
+    }
+  }
+*/
+  callerLeavesQueue (msg) {
+    const data = msg.data
+    const idx = this.callers.findIndex(c => c.chan === data.Channel)
+    if (idx !== -1) {
+      this.callers.splice(idx, 1)
     }
   }
 }

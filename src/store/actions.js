@@ -36,11 +36,7 @@ export default {
           break
         case 'QueueCallerLeave':
         case 'Leave':
-          commit(mtype.UPDATE_QUEUE_CALLER, { msg })
-          break
-        case 'Hangup':
-        case 'SoftHangupRequest':
-          commit(mtype.HANGUP_QUEUE_CALLER, { msg })
+          commit(mtype.LEAVE_QUEUE_CALLER, { msg })
           break
         case 'QueueCallerAbandon':
           commit(mtype.ABANDON_QUEUE_CALLER, { msg })
@@ -60,6 +56,9 @@ export default {
           break
         case 'AgentComplete':
           commit(mtype.QUEUE_MEMBER_COMPLETE, { msg })
+          break
+        case 'Masquerade':
+          console.log(msg.data)
           break
         default:
           if (process.env.NODE_ENV === 'development') {

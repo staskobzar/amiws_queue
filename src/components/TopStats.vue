@@ -14,11 +14,11 @@
                   <v-layout row class="active-calls">
                     <v-flex class="text-xs-right">
                       <div class="calls-num data">{{ totalActiveCalls }}</div>
-                      <div class="label">On call</div>
+                      <div class="label">On call callers</div>
                     </v-flex>
                     <v-flex class="text-xs-right">
                       <div class="calls-wait data">{{ totalWaitingCalls }}</div>
-                      <div class="label">Waiting</div>
+                      <div class="label">Waiting callers</div>
                     </v-flex>
                   </v-layout>
                 </div>
@@ -68,7 +68,7 @@
                   <v-layout row class="members">
                     <v-flex class="text-xs-right">
                       <div class="total data">{{ totalPausedMembers + totalUnpausedMembers }}</div>
-                      <div class="label">Total</div>
+                      <div class="label">Total Agents</div>
                     </v-flex>
                     <v-flex class="text-xs-right">
                       <div class="paused data">{{ totalPausedMembers }}</div>
@@ -133,5 +133,5 @@ export default {
 .header-icon { font-size: 48px; padding-top: 18px }
 .stats-content {padding: 0 16px 0 0}
 .stats-content .data {font-size: 28px; font-weight: 300}
-.stats-content .label { color: #9e9e9e!important; }
+.stats-content .label { color: #9e9e9e!important;font-size: 12px }
 </style>

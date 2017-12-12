@@ -14,7 +14,6 @@ export default class {
   incall = false
   incallTime = 0
   chan = null
-  destChan = null
   _incallInterval = null
 
   constructor (msg) {
@@ -33,14 +32,12 @@ export default class {
 
   _setMemberInCall (isInCall) {
     if (!this._incallInterval && isInCall) {
-      this.ringing = false
       this._incallInterval = setInterval(() => this.incallTime++, 1000)
     }
     if (this._incallInterval && this.incall && !isInCall) {
       clearInterval(this._incallInterval)
       this.incallTime = 0
       this.chan = null
-      this.destChan = null
       this._incallInterval = null
     }
     this.incall = isInCall
@@ -62,16 +59,16 @@ export default class {
     if (data.TalkTime) this.lastTalktime = +data.TalkTime
     if (data.Channel && data.Event !== 'AgentConnect') this.chan = data.Channel
 
-    if (data.Event === 'AgentCalled') this.ringing = true
-    if (data.DestinationChannel) this.destChan = data.DestinationChannel
     if (data.ChannelCalling) this.chan = data.ChannelCalling
     if (data.InCall !== undefined) this._setMemberInCall((+data.InCall) === 1)
 
+    this.ringing = this.status === 2
     if (data.Event === 'AgentRingNoAnswer') {
       this.ringing = false
       this.chan = null
-      this.destChan = null
+      this._setMemberInCall(false)
     }
+    if (data.Event === 'AgentCalled') this.ringing = true
   }
 
   match (name) {

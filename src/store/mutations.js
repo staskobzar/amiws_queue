@@ -131,13 +131,14 @@ export default {
     }
   },
 
-  [mtype.UPDATE_QUEUE_CALLER] (state, { msg }) {
+  [mtype.LEAVE_QUEUE_CALLER] (state, { msg }) {
     const queue = state.queues.find(q => q.match(msg))
     if (queue) {
-      queue.callerAnswered(msg)
+      queue.callerLeavesQueue(msg)
     }
   },
 
+/*
   [mtype.HANGUP_QUEUE_CALLER] (state, { msg }) {
     const data = msg.data
     const queue = state.queues.find(q => q.sid === msg.server_id &&
@@ -151,7 +152,7 @@ export default {
       }))
     }
   },
-
+*/
   [mtype.ABANDON_QUEUE_CALLER] (state, { msg }) {
     const queue = state.queues.find(q => q.match(msg))
     if (queue) {

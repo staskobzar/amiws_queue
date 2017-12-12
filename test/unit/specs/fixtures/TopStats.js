@@ -23,6 +23,7 @@ Fixture.newCallersJoins = [
 ]
 
 Fixture.callerLeaves = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "Leave","Privilege": "call,all","Channel": "SIP/router01-0000003a","Queue": "TechSupport","Count": "1","Position": "2","Uniqueid": "1510084379.43"}}`
+Fixture.queueCallerLeave = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueCallerLeave","Privilege": "agent,all","Channel": "SIP/router01-0000003a","ChannelState": "4","ChannelStateDesc": "Ring","CallerIDNum": "5555","CallerIDName": "<unknown>","ConnectedLineNum": "<unknown>","ConnectedLineName": "<unknown>","Language": "en","AccountCode": "","Context": "local-users","Exten": "sales","Priority": "2","Uniqueid": "1510084379.43","Linkedid": "1510613519.66","Queue": "TechSupport","Count": "0","Position": "1"}}`
 // ========================================
 
 // ========================================
