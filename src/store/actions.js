@@ -17,9 +17,6 @@ export default {
       switch (msg.data.Event) {
         case 'AgentCalled':
         case 'AgentRingNoAnswer':
-          if (msg.data.Event === 'AgentCalled') {
-            console.log(msg.data)
-          }
           commit(mtype.UPDATE_QUEUE_MEMBER_STATUS, { msg })
           break
         case 'QueueParams':
@@ -56,7 +53,6 @@ export default {
           break
         case 'AgentConnect':
           commit(mtype.QUEUE_MEMBER_CONNECTED, { msg })
-          console.log(msg.data)
           break
         case 'AgentComplete':
           commit(mtype.QUEUE_MEMBER_COMPLETE, { msg })

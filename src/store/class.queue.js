@@ -88,36 +88,13 @@ export default class {
     this.callers.push(new Caller(msg))
   }
 
-/*
-  updateCaller (msg) {
-    const caller = this.findCaller(msg.data)
-    if (caller) {
-      caller.update(msg.data)
-    }
-  }
-// ------
-  callerAnswered (msg) {
-    const data = msg.data
-    const caller = this.findCaller(data)
-    if (caller) {
-      caller.setAnswered()
-    }
-  }
-
-  removeCaller (msg) {
-    const data = msg.data
-    const idx = this.callers.findIndex(c => c.chan === data.Channel && c.uid === data.Uniqueid)
-    if (idx !== -1) {
-      this.callers.splice(idx, 1)
-      this.completed++
-    }
-  }
-*/
   callerLeavesQueue (msg) {
     const data = msg.data
     const idx = this.callers.findIndex(c => c.chan === data.Channel)
     if (idx !== -1) {
       this.callers.splice(idx, 1)
     }
+    // update position for other callers
+    this.callers.forEach(c => c.position--)
   }
 }
