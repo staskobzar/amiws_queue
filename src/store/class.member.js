@@ -28,6 +28,7 @@ export default class {
     this.lastCall = data.LastCall
     this.status = +data.Status
     this.incall = (+data.InCall) === 1
+    if (data.IsInCall) this.incall = +(data.IsInCall) === 1
     this.paused = (+data.Paused) === 1
     this.pausedReason = data.PausedReason
   }

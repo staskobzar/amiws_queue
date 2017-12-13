@@ -5,29 +5,24 @@
 
 > Asterisk Queues Realtime Manager
 
+Web dashboard for Asterisk Queues. It is using another project, [amiws](https://github.com/staskobzar/amiws), as a Back-End for AMI traffic to web-socket conbvertion.
+![amiws_queue screenshot](https://github.com/staskobzar/amiws_queue/blob/master/screenshot.png)
+
 ## Build Setup
 
-``` bash
-# install dependencies
+Refere to [amiws](https://github.com/staskobzar/amiws) documentation on how to install and setup Back-End.
+
+This project uses VuJS with webpack so it requires NodeJS. Setup and build is as following:
+```bash
+git clone https://github.com/staskobzar/amiws_queue.git
+cd amiws_queue
 npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+WS_URL="'ws://10.20.30.01:8000'" npm run build
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+Use an IP of the server where amiws is running and port when defining shell variable ```WS_URL```.
+Note, when defining WS_URL using double and single quotes : _"'ws://IPADDR:PORT'"_.
+
+After successful build files are stored in "dist" folder. Simply copy files from "dist" folder to the server with "amiws" Back-End,
+to the folder defined in parameter "web_root" of "amiws" config file.
+

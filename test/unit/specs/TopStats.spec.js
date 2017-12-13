@@ -27,7 +27,7 @@ describe('TopStats', () => {
     Fixtures.oneQueue.forEach(msg => store.dispatch('newMessage', msg))
     const comp = mount(TopStats, { store, localVue })
     expect(comp.contains('.active-calls')).to.equal(true)
-    expect(comp.findAll('.active-calls .calls-num').at(0).text().trim())
+    expect(comp.findAll('.active-calls .calls-wait').at(0).text().trim())
       .to.equal('4')
   })
 

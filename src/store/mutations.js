@@ -139,21 +139,6 @@ export default {
     }
   },
 
-/*
-  [mtype.HANGUP_QUEUE_CALLER] (state, { msg }) {
-    const data = msg.data
-    const queue = state.queues.find(q => q.sid === msg.server_id &&
-      q.callers.find(c => c.chan === data.Channel && c.uid === data.Uniqueid))
-    if (queue) {
-      queue.removeCaller(msg)
-      Vue.websockSend(JSON.stringify({
-        Action: 'QueueSummary',
-        Queue: queue.name,
-        AMIServerID: queue.sid
-      }))
-    }
-  },
-*/
   [mtype.ABANDON_QUEUE_CALLER] (state, { msg }) {
     const queue = state.queues.find(q => q.match(msg))
     if (queue) {

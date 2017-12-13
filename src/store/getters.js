@@ -1,5 +1,3 @@
-import * as cstate from './caller-state'
-
 export default {
   wsDisconnected: state => !state.ws_connected,
   showError: state => state.showError,
@@ -35,7 +33,7 @@ export default {
       .reduce((t, m) => t + m, 0)
   },
   getTotalWaitingCalls: (state, getters) => {
-    return getters.getQueuesFiltered.map(e => e.callers.filter(m => m.status === cstate.JOINED).length)
+    return getters.getQueuesFiltered.map(e => e.callers.length)
       .reduce((t, m) => t + m, 0)
   },
   getTotalCompletedCalls: (state, getters) => {
