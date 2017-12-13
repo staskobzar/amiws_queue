@@ -11,7 +11,7 @@
         {{ queueSelect }}
       </v-toolbar-title>
     </v-toolbar>
-    <v-list two-line subheader class="members">
+    <v-list three-line subheader class="members">
       <v-subheader>
         <v-icon>headset_mic</v-icon>Queue agents ({{ members.length }})
       </v-subheader>
@@ -53,15 +53,8 @@
                 <span>Last call taken</span>
               </v-tooltip>
             </v-list-tile-sub-title>
+
             <v-list-tile-sub-title class="caption">
-              <v-tooltip v-if="member.incall" left>
-                <span slot="activator" class="green--text darken-2--text">
-                  <v-icon
-                    class="data-icon">phone_in_talk</v-icon>
-                  <strong>{{ member.incallTime | formatTime }}</strong>
-                </span>
-                <span>Time on call</span>
-              </v-tooltip>
               <v-tooltip left>
                 <span slot="activator">
                   <v-icon class="data-icon">alarm</v-icon>
@@ -77,6 +70,27 @@
                 <span>Last Talk time</span>
               </v-tooltip>
             </v-list-tile-sub-title>
+
+            <v-list-tile-sub-title v-if="member.incall" class="caption">
+              <v-tooltip left>
+                <span slot="activator" class="green--text darken-2--text">
+                  <v-icon
+                    class="data-icon">phone_in_talk</v-icon>
+                  <strong>{{ member.incallTime | formatTime }}</strong>
+                </span>
+                <span>Time on call</span>
+              </v-tooltip>
+              <v-tooltip left>
+                <span slot="activator" class="green--text darken-2--text">
+                  <v-icon
+                    class="data-icon">account_circle</v-icon>
+                  <strong>{{ member.callerName }}
+                  &lt;{{ member.callerNum }}&gt;</strong>
+                </span>
+                <span>Caller name and number</span>
+              </v-tooltip>
+            </v-list-tile-sub-title>
+
           </v-list-tile-content>
           <v-list-tile-action v-show="memberHover === member.interface">
             <v-tooltip top>

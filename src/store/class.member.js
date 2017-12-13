@@ -14,6 +14,8 @@ export default class {
   incall = false
   incallTime = 0
   chan = null
+  callerNum = null
+  callerName = null
   _incallInterval = null
 
   constructor (msg) {
@@ -39,6 +41,8 @@ export default class {
       this.incallTime = 0
       this.chan = null
       this._incallInterval = null
+      this.callerNum = null
+      this.callerName = null
     }
     this.incall = isInCall
   }
@@ -68,7 +72,11 @@ export default class {
       this.chan = null
       this._setMemberInCall(false)
     }
-    if (data.Event === 'AgentCalled') this.ringing = true
+    if (data.Event === 'AgentCalled' && !this.incall) {
+      this.ringing = true
+      this.callerNum = data.CallerIDNum
+      this.callerName = data.CallerIDName
+    }
   }
 
   match (name) {
