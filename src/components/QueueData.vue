@@ -94,7 +94,7 @@
           </v-list-tile-content>
           <v-list-tile-action v-show="memberHover === member.interface">
             <v-tooltip top>
-              <v-btn slot="activator" icon ripple @click="removeAgent(member)">
+              <v-btn slot="activator" icon ripple top @click="removeAgent(member)">
                 <v-icon color="red lighten-1">delete_forever</v-icon>
               </v-btn>
               <span>Remove agent from the queue</span>
