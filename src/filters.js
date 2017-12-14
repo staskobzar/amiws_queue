@@ -16,7 +16,7 @@ Vue.filter('formatFromUnixtime', (val) => {
   }
   const t = new Date(val * 1000)
   const pad = (num) => num < 10 ? `0${num}` : `${num}`
-  const [y, m, d] = [t.getFullYear(), t.getMonth(), t.getDay()]
+  const [y, m, d] = [t.getFullYear(), t.getMonth(), t.getDate()]
   const [hh, mm, ss] = [t.getHours(), t.getMinutes(), t.getSeconds()]
   const date = `${y}-${pad(m + 1)}-${pad(d)}`
   const time = `${pad(hh)}:${pad(mm)}:${pad(ss)}`

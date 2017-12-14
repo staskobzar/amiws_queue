@@ -26,6 +26,19 @@ describe('QueueData', () => {
     expect(comp.contains('.block-header')).to.equal(false)
   })
 
+  it('change store state when close button clicked', done => {
+    Fixtures.oneEmptyQueue.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('selectedQueue', 'TechSupport')
+    const comp = mount(QueueData, { store, localVue })
+    expect(store.state.selectedQueue).to.equal('TechSupport')
+    expect(comp.contains('.btn-close-panel')).to.equal(true)
+    comp.find('.btn-close-panel').trigger('click')
+    localVue.nextTick(() => {
+      expect(store.state.selectedQueue).to.equal('')
+      done()
+    })
+  })
+
   it('has root elements', () => {
     Fixtures.oneEmptyQueue.forEach(msg => store.dispatch('newMessage', msg))
     store.dispatch('selectedQueue', 'TechSupport')
@@ -93,7 +106,7 @@ describe('QueueData', () => {
     const h = d.getHours()
     const p = h > 9 ? '' : '0'
     const comp = mount(QueueData, { store, localVue })
-    expect(comp.find('.last-call-taken').text().trim()).to.equal(`2017-11-05 ${p}${h}:35:38`)
+    expect(comp.find('.last-call-taken').text().trim()).to.equal(`2017-11-17 ${p}${h}:35:38`)
   })
 
   it('pause/unpause agent in list', () => {
@@ -103,5 +116,37 @@ describe('QueueData', () => {
     comp.vm.pauseAgentToggle = sinon.stub()
     comp.find('.btn-agent-toggle').trigger('click')
     expect(comp.vm.pauseAgentToggle.called).to.equal(true)
+  })
+
+  it('toggle agent paused/active', () => {
+    Fixtures.oneQueueWithOneMemeberNoCallers.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('selectedQueue', 'TechSupport')
+    const comp = mount(QueueData, { store, localVue })
+    comp.vm.pauseAgentInSelectedQueue = sinon.stub()
+    comp.find('.btn-agent-toggle').trigger('click')
+    expect(comp.vm.pauseAgentInSelectedQueue.called).to.equal(true)
+    expect(comp.vm.notify).to.equal(true)
+    expect(comp.vm.notifyText).to.equal('Activate agent 1004@sc360.modulis.clusterpbx.ca')
+  })
+
+  it('removes agent from queue dialog', () => {
+    Fixtures.oneQueueWithOneMemeberNoCallers.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('selectedQueue', 'TechSupport')
+    const comp = mount(QueueData, { store, localVue })
+    comp.find('.btn-agent-remove').trigger('click')
+    expect(comp.vm.dlgBody).to.equal('Remove agent 1004@sc360.modulis.clusterpbx.ca?')
+    expect(comp.vm.memberToRemove).to.equal('Local/1004@from-queue/n')
+  })
+
+  it('removes agent from queue dialog', () => {
+    Fixtures.oneQueueWithOneMemeberNoCallers.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('selectedQueue', 'TechSupport')
+    const comp = mount(QueueData, { store, localVue })
+    comp.vm.removeAgentFromQueue = sinon.stub()
+    comp.find('.btn-agent-remove').trigger('click')
+    comp.find('.btn-confirm-remove').trigger('click')
+    expect(comp.vm.removeAgentFromQueue.called).to.equal(true)
+    expect(comp.vm.notifyText).to.equal('Removing agent Local/1004@from-queue/n from queue TechSupport')
+    expect(comp.vm.notify).to.equal(true)
   })
 })

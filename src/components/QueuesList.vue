@@ -106,19 +106,19 @@
           <v-divider></v-divider>
           <v-card-actions class="grey lighten-4">
             <v-tooltip top>
-              <v-progress-circular :size="22" :width="11" color="amber darken-2" slot="activator"
+              <v-progress-circular :size="22" :width="8" color="amber darken-2" slot="activator"
                 :value="queue.callers.length / (queue.callers.length + queue.members.filter(m => m.incall).length) * 100">
               </v-progress-circular>
               <span>Callers on call/waiting</span>
             </v-tooltip>
             <v-tooltip top>
-              <v-progress-circular :size="22" :width="11" color="blue darken-3" slot="activator"
+              <v-progress-circular :size="22" :width="8" color="blue darken-3" slot="activator"
                 :value="queue.completed / (queue.abandoned + queue.completed) * 100">
               </v-progress-circular>
               <span>Calls completed/abandoned</span>
             </v-tooltip>
             <v-tooltip top>
-              <v-progress-circular :size="22" :width="11" color="green darken-3" slot="activator"
+              <v-progress-circular :size="22" :width="8" color="green darken-3" slot="activator"
                 :value="queue.members.filter(m => !m.paused).length / queue.members.length * 100">
               </v-progress-circular>
               <span>Agents active/paused</span>

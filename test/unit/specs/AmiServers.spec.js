@@ -1,6 +1,7 @@
 import 'babel-polyfill'
 import { mount, createLocalVue } from 'vue-test-utils'
 import Vuex from 'vuex'
+import Vuetify from 'vuetify'
 import AmiServers from '@/components/AmiServers'
 import * as mtype from '@/store/mutation-types'
 import store from '@/store'
@@ -9,9 +10,10 @@ import Fixtures from './fixtures/AmiServers'
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
+localVue.use(Vuetify)
 
 describe('AmiServers', () => {
-  afterEach(() => {
+  beforeEach(() => {
     store.commit(mtype.CLEAR_AMISRV_LIST)
   })
 
@@ -46,5 +48,13 @@ describe('AmiServers', () => {
     expect(comp.findAll('.ami-server').length).to.equal(1)
     expect(comp.findAll('.ami-server .queues-num').at(0).text().trim())
       .to.equal('2')
+  })
+
+  it('disables AMI server in list', () => {
+    Fixtures.threeServers.forEach(msg => store.dispatch('newMessage', msg))
+    const comp = mount(AmiServers, {store, localVue})
+    comp.vm.setSelectedServers = sinon.stub()
+    comp.find('.disable-server .input-group--selection-controls__ripple--active').trigger('click')
+    expect(comp.vm.setSelectedServers.called).to.equal(true)
   })
 })

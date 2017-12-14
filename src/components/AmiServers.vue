@@ -25,6 +25,7 @@
             </div>
             <v-divider></v-divider>
             <v-switch
+              class="disable-server"
               :value="server.id"
               :label="switchLabel(server.id)"
               v-model="servers">

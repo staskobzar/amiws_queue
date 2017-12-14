@@ -3,7 +3,7 @@
     <v-toolbar card color="white" prominent>
       <v-toolbar-title>
         <v-tooltip bottom>
-          <v-btn fab small @click.stop="queueSelect = ''" slot="activator">
+          <v-btn fab small class="btn-close-panel" @click.stop="queueSelect = ''" slot="activator">
             <v-icon>exit_to_app</v-icon>
           </v-btn>
           <span>Close</span>
@@ -94,7 +94,8 @@
           </v-list-tile-content>
           <v-list-tile-action v-show="memberHover === member.interface">
             <v-tooltip top>
-              <v-btn slot="activator" icon ripple top @click="removeAgent(member)">
+              <v-btn slot="activator" class="btn-agent-remove"
+                icon ripple top @click="removeAgent(member)">
                 <v-icon color="red lighten-1">delete_forever</v-icon>
               </v-btn>
               <span>Remove agent from the queue</span>
@@ -144,14 +145,7 @@
             </v-tooltip>
           </v-list-tile-sub-title>
           <v-list-tile-sub-title class="caption">
-            <v-tooltip v-if="caller.incall" left>
-              <span slot="activator">
-                <v-icon class="data-icon">contact_phone</v-icon>
-                {{ memberChan(caller) }}
-              </span>
-              <span>Agent connected</span>
-            </v-tooltip>
-            <span v-else>
+            <span>
               <v-icon class="data-icon">watch_later</v-icon>
               Position in queue: {{ caller.position }}
             </span>
@@ -170,7 +164,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn @click.native="confirmDlg = false">Cancel</v-btn>
-          <v-btn @click.native.stop="doRemove()" dark color="green darken-1">Yes</v-btn>
+          <v-btn class="btn-confirm-remove" @click.native.stop="doRemove()" dark color="green darken-1">Yes</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -225,14 +219,6 @@ export default {
       this.notifyText = `Removing agent ${this.memberToRemove} from queue ${this.getSelectedQueue}`
       this.notify = true
       this.confirmDlg = false
-    },
-    memberChan: function (caller) {
-      const member = this.members.find(m => m.chan === caller.chan)
-      if (member) {
-        return member.name
-      } else {
-        return ''
-      }
     }
   }
 }
