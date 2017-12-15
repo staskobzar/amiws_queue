@@ -16,6 +16,7 @@ localVue.use(Vuetify)
 
 describe('QueuesList', () => {
   beforeEach(() => {
+    store.commit(mtype.CLEAR_AMISRV_LIST)
     store.commit(mtype.CLEAR_QUEUES_LIST)
     store.dispatch('setPerPage', 10)
     store.dispatch('setCurPage', 1)
@@ -127,5 +128,27 @@ describe('QueuesList', () => {
     comp.vm.pauseAllAgents = sinon.stub()
     comp.vm.pauseAll()
     expect(comp.vm.pauseAllAgents.callCount).to.equal(1)
+  })
+
+  it('can not drag member to its queue', () => {
+    Fixtures.oneQueueWithTwoMembersThreeCallers.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('setQueuesFilter', 'TechSupport')
+    const comp = mount(QueuesList, { store, localVue })
+    const q = store.state.queues[0]
+    comp.vm.dragDrop(q)
+    expect(comp.vm.notify).to.equal(false)
+  })
+
+  it('drag member from one queue to another', () => {
+    Fixtures.oneQueueWithTwoMembersThreeCallers.forEach(msg => store.dispatch('newMessage', msg))
+    Fixtures.twoQueuesAndUpdateQueue.forEach(msg => store.dispatch('newMessage', msg))
+    store.dispatch('setQueuesFilter', 'TechSupport')
+    const comp = mount(QueuesList, { store, localVue })
+    const q = store.state.queues
+    store.dispatch('memberDragStart', q[0].members[0])
+    comp.vm.addQueueMember = sinon.stub()
+    comp.vm.dragDrop(q[1])
+    expect(comp.vm.addQueueMember.called).to.equal(true)
+    expect(comp.vm.notify).to.equal(true)
   })
 })

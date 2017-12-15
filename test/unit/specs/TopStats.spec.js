@@ -16,6 +16,7 @@ describe('TopStats', () => {
   beforeEach(() => {
     store.dispatch('setQueuesFilter', '')
     store.commit(mtype.CLEAR_QUEUES_LIST)
+    store.commit(mtype.CLEAR_AMISRV_LIST)
   })
 
   it('has 3 main cards', () => {

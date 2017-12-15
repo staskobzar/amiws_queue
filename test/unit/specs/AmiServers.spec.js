@@ -53,8 +53,17 @@ describe('AmiServers', () => {
   it('disables AMI server in list', () => {
     Fixtures.threeServers.forEach(msg => store.dispatch('newMessage', msg))
     const comp = mount(AmiServers, {store, localVue})
-    comp.vm.setSelectedServers = sinon.stub()
+    expect(store.state.selectedServers.length).to.equal(3)
     comp.find('.disable-server .input-group--selection-controls__ripple--active').trigger('click')
-    expect(comp.vm.setSelectedServers.called).to.equal(true)
+    expect(store.state.selectedServers.length).to.equal(2)
+  })
+
+  it('can not disable single AMI server in list', () => {
+    Fixtures.oneServer.forEach(msg => store.dispatch('newMessage', msg))
+    const comp = mount(AmiServers, {store, localVue})
+    expect(store.state.selectedServers.length).to.equal(1)
+    comp.find('.disable-server .input-group--selection-controls__ripple--active').trigger('click')
+    expect(store.state.selectedServers.length).to.equal(1)
+    expect(comp.vm.notify).to.equal(true)
   })
 })

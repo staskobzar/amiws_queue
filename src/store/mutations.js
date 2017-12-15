@@ -15,6 +15,7 @@ export default {
 
   [mtype.CLEAR_AMISRV_LIST] (state) {
     state.servers.splice(0)
+    state.selectedServers = []
   },
 
   [mtype.CLEAR_QUEUES_LIST] (state) {

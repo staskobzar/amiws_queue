@@ -17,6 +17,7 @@ localVue.use(Vuetify)
 describe('MenuPanel', () => {
   beforeEach(() => {
     store.commit(mtype.CLEAR_QUEUES_LIST)
+    store.commit(mtype.CLEAR_AMISRV_LIST)
   })
 
   it('show only one pagination when less queues then perPage param', () => {
