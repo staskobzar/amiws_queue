@@ -10,7 +10,6 @@ Fixture.oneQueue = [
   `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueEntry","Queue": "TechSupport","Position": "4","Channel": "SIP/router01-0013acae","Uniqueid": "1509490200.3344434","CallerIDNum": "14383964496","CallerIDName": "14383964496","ConnectedLineNum": "unknown","ConnectedLineName": "unknown","Wait": "90"}}`
 ]
 
-Fixture.callerHangup = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "Hangup","Privilege": "call,all","Channel": "SIP/router01-0013acae","Uniqueid": "1509490200.3344434","CallerIDNum": "1000","CallerIDName": "Eric Gingras","ConnectedLineNum": "<unknown>","ConnectedLineName": "<unknown>","AccountCode": "","Cause": "0","Cause-txt": "Unknown"}}`
 Fixture.callerAbandoned = `{ "type": 3, "server_id": 1, "server_name": "asterisk01.local", "ssl": false, "data": {"Event": "QueueCallerAbandon","Privilege": "agent,all","Queue": "TechSupport","Uniqueid": "1509490200.3344434","Position": "1","OriginalPosition": "1","HoldTime": "54"}}`
 // ========================================
 

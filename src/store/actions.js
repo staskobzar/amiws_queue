@@ -57,14 +57,8 @@ export default {
         case 'AgentComplete':
           commit(mtype.QUEUE_MEMBER_COMPLETE, { msg })
           break
-        case 'Masquerade':
-          // Event for pre v2.0.0 AMI
-          // console.log(msg.data)
-          break
         default:
-          if (process.env.NODE_ENV === 'development') {
-            // console.info(`Unknown Event: ${msg.data.Event}`)
-          }
+          // console.info(`Unknown Event: ${msg.data.Event}`)
           break
       }
     }

@@ -138,6 +138,20 @@ describe('QueueData', () => {
     expect(comp.vm.memberToRemove).to.equal('Local/1004@from-queue/n')
   })
 
+  it('set member ringing when caller calls queue', () => {
+    Fixtures.oneQueueWithOneMemeberNoCallers.forEach(msg => store.dispatch('newMessage', msg))
+    expect(store.state.queues[0].members[0].ringing).to.equal(false)
+    store.dispatch('newMessage', Fixtures.callerCallsQueue)
+    expect(store.state.queues[0].members[0].ringing).to.equal(true)
+  })
+
+  it('triggers error notify on Response message', () => {
+    expect(store.state.showError).to.equal(false)
+    store.dispatch('newMessage', Fixtures.responseError)
+    expect(store.state.showError).to.equal(true)
+    expect(store.state.errorResponse).to.equal('Member not dynamic')
+  })
+
   it('removes agent from queue dialog', () => {
     Fixtures.oneQueueWithOneMemeberNoCallers.forEach(msg => store.dispatch('newMessage', msg))
     store.dispatch('selectedQueue', 'TechSupport')

@@ -144,22 +144,6 @@ describe('TopStats', () => {
     })
   })
 
-  it('updates queue completed calls when caller hangup')
-  /*
-  it('updates queue completed calls when caller hangup', done => {
-    Fixtures.oneQueue.forEach(msg => store.dispatch('newMessage', msg))
-    const comp = mount(TopStats, { store, localVue })
-    expect(comp.findAll('.calls-processed .calls-completed').at(0).text().trim())
-      .to.equal('231')
-    store.dispatch('newMessage', Fixtures.callerHangup)
-    localVue.nextTick(() => {
-      expect(comp.findAll('.calls-processed .calls-completed').at(0).text().trim())
-        .to.equal('232')
-      done()
-    })
-  })
-  */
-
   it('updates queue abandoned calls', done => {
     Fixtures.oneQueue.forEach(msg => store.dispatch('newMessage', msg))
     const comp = mount(TopStats, { store, localVue })

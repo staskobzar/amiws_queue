@@ -27,25 +27,4 @@ export default class {
     if (data.Wait) this.wait = +data.Wait
     this._waitInterval = setInterval(() => this.wait++, 1000)
   }
-
-/*
-  update (data) {
-    if (data.Position) this.position = +data.Position
-    if (data.Event) this.status = data.Event === 'Join' ? cstate.JOINED : cstate.ANSWERED
-    if (data.Channel) this.chan = data.Channel
-    if (data.Uniqueid) this.uid = data.Uniqueid
-    if (data.CallerIDNum) this.clidNum = data.CallerIDNum
-    if (data.CallerIDName) this.clidName = data.CallerIDName
-    if (data.ConnectedLineNum) this.lineNum = data.ConnectedLineNum
-    if (data.ConnectedLineName) this.lineName = data.ConnectedLineName
-    if (data.Wait) this.wait = +data.Wait
-  }
-*/
-
-  setAnswered () {
-    clearInterval(this._waitInterval)
-    setInterval(() => this.answerTime++, 1000)
-    this.status = cstate.ANSWERED
-    this.incall = true
-  }
 }
