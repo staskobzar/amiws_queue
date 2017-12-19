@@ -5,7 +5,8 @@
 
 > Asterisk Queues Realtime Manager
 
-Web realtime dashboard for Asterisk Queues. It is using another project, [amiws](https://github.com/staskobzar/amiws), as a Back-End for AMI traffic to web-socket conversion.
+Web realtime dashboard for Asterisk Queues. It is using another project, [amiws](https://github.com/staskobzar/amiws), as a Back-End for AMI traffic to web-socket conversion. More [screenshots here](https://staskobzar.blogspot.ca/2017/12/asterisk-queues-realtime-dashboard-with.html).
+
 ![amiws_queue screenshot](https://github.com/staskobzar/amiws_queue/blob/master/screenshot.png)
 
 ## Build Setup
