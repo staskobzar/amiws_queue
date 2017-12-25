@@ -1,6 +1,7 @@
 # amiws_queue
 [![Build Status](https://travis-ci.org/staskobzar/amiws_queue.svg?branch=master)](https://travis-ci.org/staskobzar/amiws_queue)
 [![codecov](https://codecov.io/gh/staskobzar/amiws_queue/branch/master/graph/badge.svg)](https://codecov.io/gh/staskobzar/amiws_queue)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8333ddee50b14cccbc8f56828ccc816a)](https://www.codacy.com/app/staskobzar/amiws_queue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=staskobzar/amiws_queue&amp;utm_campaign=Badge_Grade)
 ![GPL](https://img.shields.io/badge/license-GPL_3-green.svg "License")
 
 > Asterisk Queues Realtime Manager

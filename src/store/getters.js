@@ -23,7 +23,7 @@ export default {
     const per = state.pagination.perPage
     const page = state.pagination.currentPage
     return getters.getQueuesFiltered.slice((page - 1) * per, // begin
-                                            page * per)      // end
+                                            page * per) // end
   },
   getQueuesPerServer: (state, getters) => (sid) => {
     return state.queues.filter(q => q.sid === sid).length

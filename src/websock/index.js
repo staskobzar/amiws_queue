@@ -32,12 +32,12 @@ WS.install = function (Vue, store) {
     this.sock.close()
   }
 
-// public method
+  // public method
   Vue.websockSend = (jsonMsg) => {
     this.sock.send(jsonMsg)
   }
 
-// instance methods
+  // instance methods
   Vue.prototype.$wsSend = function (msg) {}
 }
 
