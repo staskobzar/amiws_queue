@@ -21,7 +21,7 @@ export default class {
   constructor (msg) {
     const data = msg.data
     this.name = data.Name || data.MemberName
-    this.interface = data.StateInterface || data.Location
+    this.interface = data.Location || data.Interface || data.StateInterface
     this.membership = data.Membership
     this.penalty = +data.Penalty
     this.callsTaken = +data.CallsTaken
@@ -52,7 +52,9 @@ export default class {
     if (data.Name) this.name = data.Name
     if (data.MemberName) this.name = data.MemberName
     if (data.Location) this.interface = data.Location
-    if (data.StateInterface) this.interface = data.StateInterface
+    if (data.Location) this.interface = data.Location
+    else if (data.Interface) this.interface = data.Interface
+    else if (data.StateInterface) this.interface = data.StateInterface
     if (data.Membership) this.membership = data.Membership
     if (data.Penalty) this.penalty = +data.Penalty
     if (data.CallsTaken) this.callsTaken = +data.CallsTaken
@@ -73,7 +75,7 @@ export default class {
       this.chan = null
       this._setMemberInCall(false)
     }
-    if (data.Event === 'AgentCalled' && !this.incall) {
+    if (data.Event === 'AgentCalled') {
       this.ringing = true
       this.callerNum = data.CallerIDNum
       this.callerName = data.CallerIDName
