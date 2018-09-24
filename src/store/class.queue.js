@@ -64,7 +64,7 @@ export default class {
   }
 
   addMember (msg) {
-    const member = this.findMember(msg.data.StateInterface)
+    const member = this.findMember(msg.data.StateInterface) || this.findMember(msg.data.Location)
     if (member) {
       member.update(msg.data)
     } else {
