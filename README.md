@@ -33,7 +33,7 @@ to the folder defined in parameter "web_root" of "amiws" config file.
 This dashboard was tested with Asterisk 11 and 13. Should work with other versions too (AMI v2 and before).
 Asterisk queues additional events MUST be enabled per queue.
 
-In configuration file:
+In configuration file (Asterisk version older 12):
 ```
 eventmemberstatus = yes
 eventwhencalled = yes
