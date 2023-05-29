@@ -213,7 +213,7 @@ export default {
       return queue.members.filter(m => !m.paused).length
     },
     callersWaiting (queue) {
-      return queue.callers.filter(c => c.status === cstate.JOINED).length
+      return queue.callers.filter(c => c.status === c.state.JOINED).length
     },
     callersOncall (queue) {
       return queue.members.filter(m => m.incall).length
