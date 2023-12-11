@@ -4,6 +4,10 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8333ddee50b14cccbc8f56828ccc816a)](https://www.codacy.com/app/staskobzar/amiws_queue?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=staskobzar/amiws_queue&amp;utm_campaign=Badge_Grade)
 ![GPL](https://img.shields.io/badge/license-GPL_3-green.svg "License")
 
+>[!WARNING]
+>This project is outdated and I do not have time to support it so you can use it on your own risk.
+>vuejs used in the project is very old and probably will not work with new node versions
+
 > Asterisk Queues Realtime Manager
 
 Web realtime dashboard for Asterisk Queues. It is using another project, [amiws](https://github.com/staskobzar/amiws), as a Back-End for AMI traffic to web-socket conversion. More [screenshots here](https://staskobzar.blogspot.ca/2017/12/asterisk-queues-realtime-dashboard-with.html).
